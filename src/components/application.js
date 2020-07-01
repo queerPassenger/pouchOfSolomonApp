@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import StatusBar from './statusBar';
 import AppHeader from './appHeader';
 import Tabs from './tabs';
@@ -9,7 +9,7 @@ export default class Application extends Component {
         return (
             <View>
                 <StatusBar />
-                <AppHeader />            
+                <AppHeader />         
             </View>
         )
     }
