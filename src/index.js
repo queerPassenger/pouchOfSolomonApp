@@ -4,12 +4,10 @@ import Login from './components/login';
 
 export default function Index() {
     let [isAuthenticated, setIsAuthenticated] = useState(false);   
-    let [userInfo, updateUserInfo] = useState({});
     return isAuthenticated ? 
-        <Application userInfo={userInfo}/> 
+        <Application /> 
     : 
         <Login 
-            setIsAuthenticated = {(flag) => {console.log(flag);setIsAuthenticated(flag);}}
-            updateUserInfo={updateUserInfo}
+            setIsAuthenticated = {setIsAuthenticated}
         />;
 }
