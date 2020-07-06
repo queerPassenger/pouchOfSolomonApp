@@ -16,7 +16,7 @@ const cacheResourcesAsync = async () => {
     });
     await Font.loadAsync({
         dancingScript: require('./assets/fonts/DancingScript-VariableFont_wght.ttf'),
-    })
+    });
     return Promise.all([...cacheImages]);
 }
 export default function Index() {
@@ -32,7 +32,7 @@ export default function Index() {
             onErrimor={console.warn}
         />
     else if (mode === 'appImage')
-        return <AppImage />
+        return <AppImage />    
     else
         return (
             <GlobalContext>

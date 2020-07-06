@@ -3,6 +3,8 @@ import { UserContext } from '../context/userContext';
 import { View, Text } from 'react-native'
 import StatusBar from './statusBar';
 import AppHeader from './appHeader';
+import AppTab from './appTab';
+import AppTabView from './appTabView';
 
 export default function Application(props) {
     return (
@@ -11,6 +13,8 @@ export default function Application(props) {
                 <View>
                     <StatusBar />
                     <AppHeader />
+                    {/* <AppTab />
+                    <AppTabView /> */}
                 </View>
             )}
         </UserContext.Consumer>

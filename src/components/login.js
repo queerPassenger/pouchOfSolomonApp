@@ -6,15 +6,15 @@ import { styles } from '../style';
 export default function Login(props) {
     const componentName = 'login';
     const onLoginPress = async (type = 'google') => {
+        props.updateLoader(true);            
         try {
             switch (type) {
                 case 'google':
                     const response = await googleLogin();
-                    if (response.status) {
-                        props.handleLogin(response.status, response.userId, response.googleUserInfo);
-                    }
+                    if (response.status)        
+                        props.handleLogin(props.context, response.status, response.userId, response.googleUserInfo);
                     else
-                        props.handleLogin(false, null, null);
+                        props.handleLogin(props.context, false, null, null);
                     break;
                 default:
                     break;
@@ -22,7 +22,7 @@ export default function Login(props) {
         }
         catch (err) {
             console.warn('Failure', err);
-            props.handleLogin(false, null, null);
+            props.handleLogin(props.context, false, null, null);
         }
 
     }
@@ -31,12 +31,11 @@ export default function Login(props) {
             <StatusBar />
             <TouchableOpacity onPress={() => onLoginPress('google')} >
                 <View style={styles[`${componentName}-btn-container`]}>
-                <Image source = {require('../assets/images/googleLogo.png')} style={styles[`${componentName}-glogo`]}/>
-                    <Text style={styles[`${componentName}-gtext`]}>Sign with Google</Text>                    
-                   
-                </View>                
+                    <Image source={require('../assets/images/googleLogo.png')} style={styles[`${componentName}-glogo`]} />
+                    <Text style={styles[`${componentName}-gtext`]}>Sign with Google</Text>
+
+                </View>
             </TouchableOpacity>
-            
         </View>
     )
 }

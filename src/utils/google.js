@@ -43,7 +43,7 @@ const getUserIdFromLogin = async (body) => {
         return false
     }
 }
-export const login = async () => {
+export const login = async (props) => {
     try {
         const response = await googleLogin();
         if (response.status) {

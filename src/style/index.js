@@ -14,7 +14,7 @@ const appHeader = {
         backgroundColor: common.appColorDark,
         paddingTop: 20,
         paddingBottom: 20,
-        paddingLeft: 20 
+        paddingLeft: 20
     },
     'appHeader-appName': {
         color: 'white',
@@ -40,7 +40,7 @@ const appImage = {
 const login = {
     'login-container': {
         flexDirection: 'column',
-        flex: 1,        
+        flex: 1,
         justifyContent: 'center'
     },
     'login-btn-container': {
@@ -64,9 +64,17 @@ const login = {
         paddingLeft: 20
     }
 }
+const loader = {
+    'loader-container': {
+        flexDirection: 'column',
+        flex: 1,
+        justifyContent: 'center'
+    },
+}
 export const styles = StyleSheet.create({
     ...appHeader,
     ...statusBar,
     ...appImage,
-    ...login
+    ...login,
+    ...loader
 });

@@ -1,23 +1,47 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { UserContext } from '../context/userContext';
 import Application from './application';
 import Login from './login';
+import Loader from './loader';
 
-export default class Container extends Component {
-    static contextType = UserContext;
-    handleLogin = (status, userId, googleUserInfo) => {
+export default function Container(props) {
+    const [mode, updateMode] = useState('login');
+    const handleLogin = (context, status, userId, googleUserInfo) => {
         if (status) {
-            this.context.updateUserId(userId);
-            this.context.updateGoogleUserInfo(googleUserInfo);
+            context.updateUserId(userId);
+            context.updateGoogleUserInfo(googleUserInfo);
+            updateMode('application');
+        }
+        else {
+            updateMode('login');
         }
     }
-    render() {
-        if (this.context.userId !== '')
-            return <Application
-            />
-        else
-            return <Login
-                handleLogin={this.handleLogin}
-            />
+    const updateLoader = (flag, mode) => {
+        updateMode(flag? 'loader': mode);
     }
+    const getComponent = () => {
+        switch (mode) {
+            case 'login':
+                return Login;
+            case 'application':
+                return Application;
+            case 'loader':
+                return Loader;
+            default:
+                return Login;
+
+        }
+    }
+    const Component = getComponent();
+    return (
+        <UserContext.Consumer>
+            {userContext => (
+                <Component
+                    context={userContext}
+                    updateLoader={updateLoader}
+                    handleLogin={handleLogin}
+                />
+            )}
+        </UserContext.Consumer>
+    )
 }
