@@ -22,7 +22,51 @@ const appHeader = {
         fontFamily: 'Roboto'
     }
 };
+const appImage = {
+    'appImage-container': {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    'appImage-logo': {
+        width: 150,
+        height: 200
+    },
+    'appImage-appName': {
+        fontSize: 40,
+        fontFamily: 'Roboto'
+    }
+}
+const login = {
+    'login-container': {
+        flexDirection: 'column',
+        flex: 1,        
+        justifyContent: 'center'
+    },
+    'login-btn-container': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        paddingVertical: 5,
+        marginHorizontal: 50,
+        elevation: 3
+    },
+    'login-glogo': {
+        width: 50,
+        height: 45,
+        borderRadius: 0
+    },
+    'login-gtext': {
+        fontSize: 20,
+        fontFamily: 'Roboto',
+        color: 'gray',
+        paddingTop: 7,
+        paddingLeft: 20
+    }
+}
 export const styles = StyleSheet.create({
     ...appHeader,
-    ...statusBar
+    ...statusBar,
+    ...appImage,
+    ...login
 });

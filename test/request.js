@@ -28,7 +28,7 @@ const request = async (url, headers, body) => {
             }
         }
         catch(jsonParseErr){
-            console.log('Error in parsing Json ', jsonParseErr);
+            console.warn('Error in parsing Json ', jsonParseErr);
             const textResponse = await response.text();
             return {
                 status: true,
@@ -39,7 +39,7 @@ const request = async (url, headers, body) => {
         
     }
     catch(err){
-        console.log('Error', err);
+        console.warn('Error', err);
         return {
             status: false,
             type: 'error',

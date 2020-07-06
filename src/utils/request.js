@@ -38,7 +38,7 @@ export const request = {
                 }
             }
             catch(jsonParseErr){
-                console.log('Error in parsing Json ', jsonParseErr);
+                console.warn('Error in parsing Json ', jsonParseErr);
                 const textResponse = await response.text();
                 return {
                     status: true,
@@ -49,7 +49,7 @@ export const request = {
             
         }
         catch(err){
-            console.log('Error', err);
+            console.warn('Error', err);
             return {
                 status: false,
                 type: 'error',

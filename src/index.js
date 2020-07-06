@@ -1,13 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import Application from './components/application';
-import Login from './components/login';
+import { Asset } from 'expo-asset';
+import * as Font from 'expo-font';
+import AppImage from './components/appImage';
+import GlobalContext from './context';
+import Container from './components/container';
+import { AppLoading } from 'expo';
 
+const cacheResourcesAsync = async () => {
+    const images = [
+        require('./assets/images/crowncrop.png'),
+        require('./assets/images/googleLogo.png')
+    ];
+    const cacheImages = images.map(image => {
+        return Asset.fromModule(image).downloadAsync();
+    });
+    await Font.loadAsync({
+        dancingScript: require('./assets/fonts/DancingScript-VariableFont_wght.ttf'),
+    })
+    return Promise.all([...cacheImages]);
+}
 export default function Index() {
-    let [isAuthenticated, setIsAuthenticated] = useState(false);   
-    return isAuthenticated ? 
-        <Application /> 
-    : 
-        <Login 
-            setIsAuthenticated = {setIsAuthenticated}
-        />;
+    const [mode, updateMode] = useState('appLoading');
+    const assetsLoaded = () => {
+        updateMode('appImage');
+        setTimeout(() => updateMode('app'), 3000);
+    }
+    if (mode === 'appLoading')
+        return <AppLoading
+            startAsync={cacheResourcesAsync}
+            onFinish={assetsLoaded}
+            onErrimor={console.warn}
+        />
+    else if (mode === 'appImage')
+        return <AppImage />
+    else
+        return (
+            <GlobalContext>
+                <Container />
+            </GlobalContext>
+        )
 }

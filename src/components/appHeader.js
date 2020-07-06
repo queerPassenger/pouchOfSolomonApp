@@ -6,7 +6,6 @@ import { styles } from '../style';
 export default class AppHeader extends Component{
     componentName = 'appHeader';
     render(){
-        console.log('Style', `${this.componentName}-container`);
         return(
             <View style={styles[`${this.componentName}-container`]}>
                 <Text style={styles[`${this.componentName}-appName`]}>

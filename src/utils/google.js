@@ -39,26 +39,34 @@ const getUserIdFromLogin = async (body) => {
         }
     }
     catch (err) {
-        console.log('Error getUserIdFromLogin', err)
+        console.warn('Error getUserIdFromLogin', err)
         return false
     }
 }
 export const login = async () => {
-    try{
+    try {
         const response = await googleLogin();
-        if(response.status){
+        if (response.status) {
             const userId = await getUserIdFromLogin(response.result.user);
-            if(userId){
-                await AsyncStorage.setItem('app-userId', userId);
-                await AsyncStorage.setItem('google-userInfo', JSON.stringify(response.result));
-                return true;
+            if (userId) {
+                AsyncStorage.setItem('app-userId', userId);
+                AsyncStorage.setItem('google-userInfo', JSON.stringify(response.result));
+                return {
+                    status: true,
+                    userId,
+                    googleUserInfo: response.result
+                };
             }
             else
-                return false
+                return {
+                    status: false
+                }
         }
     }
-    catch(err){
-        console.log('Error login', err)
-        return false;
+    catch (err) {
+        console.warn('Error login', err)
+        return {
+            status: false
+        };
     }
 }
