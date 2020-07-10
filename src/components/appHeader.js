@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { APP_NAME } from '../constants/label';
 import { styles } from '../style';
 
-export default class AppHeader extends Component{
+export default class AppHeader extends Component {
     componentName = 'appHeader';
-    render(){
-        return(
+    render() {
+        return (
             <View style={styles[`${this.componentName}-container`]}>
                 <Text style={styles[`${this.componentName}-appName`]}>
                     {APP_NAME}

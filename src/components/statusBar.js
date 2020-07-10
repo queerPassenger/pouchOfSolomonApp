@@ -5,10 +5,9 @@ import {
 import { styles, common } from '../style';
 
 export default class StatusBarComponent extends Component {
-    componentName = 'statusBar';
     render() {
         return (
-            <View style={styles[`${this.componentName}-container`]}>
+            <View >
                 <StatusBar
                     backgroundColor={common.appColorLight}
                     barStyle="dark-content"

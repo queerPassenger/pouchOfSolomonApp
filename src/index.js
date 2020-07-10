@@ -8,8 +8,11 @@ import { AppLoading } from 'expo';
 
 const cacheResourcesAsync = async () => {
     const images = [
-        require('./assets/images/crowncrop.png'),
-        require('./assets/images/googleLogo.png')
+        require('./assets/images/' + 'crowncrop.png'),
+        require('./assets/images/' + 'googleLogo.png'),
+        require('./assets/images/' + 'pos-logo-small.png'),
+        require('./assets/images/' + 'pos-logo-medium.png'),
+        require('./assets/images/' + 'pos-logo-large.png'),
     ];
     const cacheImages = images.map(image => {
         return Asset.fromModule(image).downloadAsync();
@@ -23,7 +26,7 @@ export default function Index() {
     const [mode, updateMode] = useState('appLoading');
     const assetsLoaded = () => {
         updateMode('appImage');
-        setTimeout(() => updateMode('app'), 3000);
+        setTimeout(() => updateMode('app'), 0);
     }
     if (mode === 'appLoading')
         return <AppLoading
@@ -32,7 +35,7 @@ export default function Index() {
             onErrimor={console.warn}
         />
     else if (mode === 'appImage')
-        return <AppImage />    
+        return <AppImage />
     else
         return (
             <GlobalContext>

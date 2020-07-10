@@ -2,24 +2,26 @@ import { StyleSheet } from 'react-native';
 
 export const common = {
     appColorDark: '#88184c',
-    appColorLight: '#e4c3d2'
+    appColorLight: '#ac527c'
 };
-const statusBar = {
-    'statusBar-container': {
+const application = {
+    'application-container': {
+        display: 'flex',
+        flexDirection: 'column',
         flex: 1
     }
-};
+}
 const appHeader = {
     'appHeader-container': {
         backgroundColor: common.appColorDark,
-        paddingTop: 20,
-        paddingBottom: 20,
+        paddingVertical: 15,
         paddingLeft: 20
     },
     'appHeader-appName': {
         color: 'white',
-        fontSize: 20,
-        fontFamily: 'Roboto'
+        fontSize: 16,
+        fontFamily: 'Roboto',
+        fontWeight: 'bold'
     }
 };
 const appImage = {
@@ -66,15 +68,55 @@ const login = {
 }
 const loader = {
     'loader-container': {
-        flexDirection: 'column',
-        flex: 1,
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
         justifyContent: 'center'
     },
 }
+const appTab = {
+    'appTab-container': {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        backgroundColor: common.appColorDark,
+    },
+    'appTab-tab-container': {
+        display: 'flex',
+        flexDirection: 'row',
+        flex: 1,
+        justifyContent: 'center',
+        paddingVertical: 10,
+    },
+    'appTab-tab-container-selected': {
+        display: 'flex',
+        flexDirection: 'row',
+        flex: 1,
+        justifyContent: 'center',
+        paddingVertical: 5,
+        borderBottomColor: 'white',
+        borderBottomWidth: 1,
+        borderStyle: 'solid'
+    },
+
+    'appTab-tab-text': {
+        fontSize: 14,
+        color: 'white'
+    },
+    'appTab-tab-text-selected': {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: 'white',
+    },
+}
 export const styles = StyleSheet.create({
+    ...application,
     ...appHeader,
-    ...statusBar,
     ...appImage,
     ...login,
-    ...loader
+    ...loader,
+    ...appTab
 });

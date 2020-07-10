@@ -1,23 +1,28 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useContext, Fragment } from 'react';
 import { UserContext } from '../context/userContext';
+import { AppContext } from '../context/appContext';
 import Application from './application';
 import Login from './login';
 import Loader from './loader';
+import { render } from 'react-dom';
 
 export default function Container(props) {
-    const [mode, updateMode] = useState('login');
-    const handleLogin = (context, status, userId, googleUserInfo) => {
+    const [mode, updateMode] = useState('application');
+    const [loader, updateLoader] = useState(false);
+    const context = {
+        ...useContext(UserContext),
+        ...useContext(AppContext)
+    };
+    const handleLogin = (status, userId, googleUserInfo) => {
         if (status) {
             context.updateUserId(userId);
             context.updateGoogleUserInfo(googleUserInfo);
             updateMode('application');
+            updateLoader(false);
         }
         else {
             updateMode('login');
         }
-    }
-    const updateLoader = (flag, mode) => {
-        updateMode(flag? 'loader': mode);
     }
     const getComponent = () => {
         switch (mode) {
@@ -25,23 +30,24 @@ export default function Container(props) {
                 return Login;
             case 'application':
                 return Application;
-            case 'loader':
-                return Loader;
             default:
                 return Login;
 
         }
     }
-    const Component = getComponent();
-    return (
-        <UserContext.Consumer>
-            {userContext => (
+    const render = () => {
+        const Component = getComponent();
+        return (
+            <Fragment>
                 <Component
-                    context={userContext}
+                    context={context}
                     updateLoader={updateLoader}
                     handleLogin={handleLogin}
                 />
-            )}
-        </UserContext.Consumer>
-    )
+                {loader && <Loader />}
+            </Fragment>
+
+        )
+    }
+    return render();
 }

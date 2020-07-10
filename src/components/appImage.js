@@ -1,13 +1,12 @@
 import React from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image } from 'react-native';
 import { styles } from '../style';
-import { APP_NAME } from '../constants/label';
 
-export default function AppImage(){
+export default function AppImage() {
     const componentName = 'appImage';
-    return(
+    return (
         <View style={styles[`${componentName}-container`]}>
-            <Image source = {require('../assets/images/crowncrop.png')} style={styles[`${componentName}-logo`]}/>
-        </View>        
+            <Image source={require('../assets/images/pos-logo-large.png')} style={styles[`${componentName}-logo`]} />
+        </View>
     )
 }

@@ -6,15 +6,15 @@ import { styles } from '../style';
 export default function Login(props) {
     const componentName = 'login';
     const onLoginPress = async (type = 'google') => {
-        props.updateLoader(true);            
+        props.updateLoader(true);
         try {
             switch (type) {
                 case 'google':
                     const response = await googleLogin();
-                    if (response.status)        
-                        props.handleLogin(props.context, response.status, response.userId, response.googleUserInfo);
+                    if (response.status)
+                        props.handleLogin(response.status, response.userId, response.googleUserInfo);
                     else
-                        props.handleLogin(props.context, false, null, null);
+                        props.handleLogin(false, null, null);
                     break;
                 default:
                     break;
@@ -22,7 +22,7 @@ export default function Login(props) {
         }
         catch (err) {
             console.warn('Failure', err);
-            props.handleLogin(props.context, false, null, null);
+            props.handleLogin(false, null, null);
         }
 
     }
