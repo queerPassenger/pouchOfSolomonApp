@@ -20,7 +20,7 @@ const appHeader = {
     'appHeader-appName': {
         color: 'white',
         fontSize: 16,
-        fontFamily: 'Roboto',
+       // fontFamily: 'Roboto',
         fontWeight: 'bold'
     }
 };
@@ -98,7 +98,7 @@ const appTab = {
         justifyContent: 'center',
         paddingVertical: 5,
         borderBottomColor: 'white',
-        borderBottomWidth: 1,
+        borderBottomWidth: 2,
         borderStyle: 'solid'
     },
 
@@ -112,11 +112,19 @@ const appTab = {
         color: 'white',
     },
 }
+const appTabView = {
+    'appTabView-container': {
+        display: 'flex',
+        flex: 1,
+        backgroundColor: 'white'
+    }
+}
 export const styles = StyleSheet.create({
     ...application,
     ...appHeader,
     ...appImage,
     ...login,
     ...loader,
-    ...appTab
+    ...appTab,
+    ...appTabView
 });

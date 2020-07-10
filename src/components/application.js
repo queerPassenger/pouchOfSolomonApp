@@ -13,6 +13,7 @@ export default function Application(props) {
             <StatusBar />
             <AppHeader />
             <AppTab />
+            <AppTabView />
         </View>
     )
 }

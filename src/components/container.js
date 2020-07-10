@@ -4,7 +4,6 @@ import { AppContext } from '../context/appContext';
 import Application from './application';
 import Login from './login';
 import Loader from './loader';
-import { render } from 'react-dom';
 
 export default function Container(props) {
     const [mode, updateMode] = useState('application');
