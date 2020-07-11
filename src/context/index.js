@@ -3,7 +3,7 @@ import { UserContext } from './userContext';
 import { AppContext, getAppContextSchema } from './appContext';
 
 export default function Context(props) {
-    const [userId, updateUserId] = useState('');
+    const [userId, updateUserId] = useState(props.userId);
     const [googleUserInfo, updateGoogleUserInfo] = useState({});
     const [tabs, updateTabs] = useState([]);
     const [selectedTab, updateSelectedTab] = useState('')

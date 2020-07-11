@@ -15,7 +15,9 @@ export const appContextSchema = {
     ],
     selectedTab: '',
     updateTabs: tabs => { },
-    updateSelectedTab: tabKey => {}
+    updateSelectedTab: tabKey => {},
+    transactionTypeList: [],
+    amountTypeList: [],
 };
 export const getAppContextSchema = () => { return { ...appContextSchema } };
 export const AppContext = React.createContext(getAppContextSchema());

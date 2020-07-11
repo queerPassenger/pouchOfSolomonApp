@@ -6,7 +6,7 @@ import Login from './login';
 import Loader from './loader';
 
 export default function Container(props) {
-    const [mode, updateMode] = useState('application');
+    const [mode, updateMode] = useState(props.mode);
     const [loader, updateLoader] = useState(false);
     const context = {
         ...useContext(UserContext),

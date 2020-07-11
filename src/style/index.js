@@ -2,7 +2,8 @@ import { StyleSheet } from 'react-native';
 
 export const common = {
     appColorDark: '#88184c',
-    appColorLight: '#ac527c'
+    appColorLight: '#ac527c',
+    appColorLightest: '#fbe9f1'
 };
 const application = {
     'application-container': {
@@ -20,7 +21,7 @@ const appHeader = {
     'appHeader-appName': {
         color: 'white',
         fontSize: 16,
-       // fontFamily: 'Roboto',
+        // fontFamily: 'Roboto',
         fontWeight: 'bold'
     }
 };
@@ -119,6 +120,74 @@ const appTabView = {
         backgroundColor: 'white'
     }
 }
+const viewPage = {
+    'viewPage-container': {
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: common.appColorLightest
+    },
+    'viewPage-panel-container': {
+        height: 100,
+    },
+    'viewPage-list-container': {
+        display: 'flex',
+        flexDirection: 'column',
+        elevation: 1,
+        borderColor: 'gray',
+    },
+    'viewPage-list-item-container': {
+        flex: 1,
+        flexDirection: 'row',
+        //marginVertical: 5,
+        padding: 10,
+        height: 100,
+        borderBottomColor: 'white',
+        borderBottomWidth: 1,
+        borderStyle: 'solid'
+    },
+    'viewPage-list-item-sub-container1': {
+        flex: 1,
+    },
+    'viewPage-list-item-sub-container2': {
+        display: 'flex',
+        flex: 4,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        paddingRight: 10
+    },
+    'viewPage-list-item-sub-container3': {
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center'
+    },
+    'viewPage-list-item-sub-container2-text1': {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: common.appColorDark,
+    },
+    'viewPage-list-item-sub-container2-text2': {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: common.appColorDark,
+    },
+    'viewPage-list-item-sub-container2-text3': {
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: 'gray'
+    },
+    'viewPage-list-item-sub-container2-text4': {
+        fontWeight: 'bold',
+        fontSize: 12,
+        color: 'gray'
+    },
+    'viewPage-list-item-sub-container3-text1': {
+        fontWeight: 'bold',
+        fontSize: 18,
+        color: 'green'
+    },
+}
 export const styles = StyleSheet.create({
     ...application,
     ...appHeader,
@@ -126,5 +195,6 @@ export const styles = StyleSheet.create({
     ...login,
     ...loader,
     ...appTab,
-    ...appTabView
+    ...appTabView,
+    ...viewPage
 });

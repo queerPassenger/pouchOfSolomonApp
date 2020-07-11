@@ -5,6 +5,7 @@ import AppImage from './components/appImage';
 import GlobalContext from './context';
 import Container from './components/container';
 import { AppLoading } from 'expo';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const cacheResourcesAsync = async () => {
     const images = [
@@ -24,9 +25,21 @@ const cacheResourcesAsync = async () => {
 }
 export default function Index() {
     const [mode, updateMode] = useState('appLoading');
+    const [userId, updateUserId] = useState('');
     const assetsLoaded = () => {
         updateMode('appImage');
-        setTimeout(() => updateMode('app'), 0);
+        setTimeout(async () => {
+            try{
+                let userId = await AsyncStorage.getItem('app-userId');
+                updateUserId(userId);            
+            }
+            catch(err){
+                console.log('Failed to load app user details')
+            }   
+            finally{
+                updateMode('app');
+            }  
+        }, 3000) 
     }
     if (mode === 'appLoading')
         return <AppLoading
@@ -38,8 +51,8 @@ export default function Index() {
         return <AppImage />
     else
         return (
-            <GlobalContext>
-                <Container />
+            <GlobalContext userId={userId}>
+                <Container mode={userId? 'application': 'login'}/>
             </GlobalContext>
         )
 }
