@@ -7,7 +7,6 @@ import Loader from './loader';
 
 export default function Container(props) {
     const [mode, updateMode] = useState(props.mode);
-    const [loader, updateLoader] = useState(false);
     const context = {
         ...useContext(UserContext),
         ...useContext(AppContext)
@@ -17,7 +16,7 @@ export default function Container(props) {
             context.updateUserId(userId);
             context.updateGoogleUserInfo(googleUserInfo);
             updateMode('application');
-            updateLoader(false);
+            context.hideLoader();
         }
         else {
             updateMode('login');
@@ -40,10 +39,10 @@ export default function Container(props) {
             <Fragment>
                 <Component
                     context={context}
-                    updateLoader={updateLoader}
+                    showLoader={context.showLoader}
                     handleLogin={handleLogin}
                 />
-                {loader && <Loader />}
+                {context.loader > 0 && <Loader />}
             </Fragment>
 
         )

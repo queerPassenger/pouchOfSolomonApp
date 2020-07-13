@@ -6,7 +6,7 @@ import { styles } from '../style';
 export default function Login(props) {
     const componentName = 'login';
     const onLoginPress = async (type = 'google') => {
-        props.updateLoader(true);
+        props.showLoader();
         try {
             switch (type) {
                 case 'google':

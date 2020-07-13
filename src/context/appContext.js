@@ -1,6 +1,7 @@
 import React from 'react';
 
 export const appContextSchema = {
+    loader: 0,
     tabs: [
         {
             key: 'view',
@@ -14,10 +15,15 @@ export const appContextSchema = {
         }
     ],
     selectedTab: '',
-    updateTabs: tabs => { },
-    updateSelectedTab: tabKey => {},
     transactionTypeList: [],
     amountTypeList: [],
+
+    showLoader: () => {},
+    hideLoader: (boolean) => {},
+    updateTabs: list => { },
+    updateSelectedTab: string => {},
+    updateTransactionTypeList: list => {},
+    updateAmountTypeList: list => {}
 };
 export const getAppContextSchema = () => { return { ...appContextSchema } };
 export const AppContext = React.createContext(getAppContextSchema());

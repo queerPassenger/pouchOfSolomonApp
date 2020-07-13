@@ -125,7 +125,7 @@ const viewPage = {
         display: 'flex',
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: common.appColorLightest
+        backgroundColor: 'white'
     },
     'viewPage-panel-container': {
         height: 100,
@@ -133,8 +133,8 @@ const viewPage = {
     'viewPage-list-container': {
         display: 'flex',
         flexDirection: 'column',
-        elevation: 1,
-        borderColor: 'gray',
+        elevation: 0.5,
+        borderColor: '#cecdd2',
     },
     'viewPage-list-item-container': {
         flex: 1,
@@ -142,8 +142,8 @@ const viewPage = {
         //marginVertical: 5,
         padding: 10,
         height: 100,
-        borderBottomColor: 'white',
-        borderBottomWidth: 1,
+        borderBottomColor: '#cecdd2',
+        borderBottomWidth: 0.25,
         borderStyle: 'solid'
     },
     'viewPage-list-item-sub-container1': {
@@ -151,7 +151,7 @@ const viewPage = {
     },
     'viewPage-list-item-sub-container2': {
         display: 'flex',
-        flex: 4,
+        flex: 6,
         flexDirection: 'column',
         justifyContent: 'center',
         paddingRight: 10
@@ -160,7 +160,7 @@ const viewPage = {
         display: 'flex',
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     'viewPage-list-item-sub-container2-text1': {
         fontWeight: 'bold',
@@ -169,12 +169,12 @@ const viewPage = {
     },
     'viewPage-list-item-sub-container2-text2': {
         fontWeight: 'bold',
-        fontSize: 16,
-        color: common.appColorDark,
+        fontSize: 14,
+        color: 'gray',
     },
     'viewPage-list-item-sub-container2-text3': {
         fontWeight: 'bold',
-        fontSize: 14,
+        fontSize: 12,
         color: 'gray'
     },
     'viewPage-list-item-sub-container2-text4': {
@@ -184,8 +184,23 @@ const viewPage = {
     },
     'viewPage-list-item-sub-container3-text1': {
         fontWeight: 'bold',
-        fontSize: 18,
-        color: 'green'
+        fontSize: 10,
+        color: 'gray',
+        textAlign: 'right',
+        fontStyle: 'italic'
+    },
+    'viewPage-list-item-sub-container3-text2': {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: 'green',
+        textAlign: 'right'
+    },
+    'viewPage-list-item-sub-container3-text3': {
+        fontWeight: 'bold',
+        fontSize: 12,
+        color: 'gray',
+        textAlign: 'right',
+        fontStyle: 'italic'
     },
 }
 export const styles = StyleSheet.create({
