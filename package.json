@@ -21,6 +21,7 @@
     "expo-asset": "^8.1.7",
     "expo-font": "^8.2.1",
     "expo-google-app-auth": "^8.1.2",
+    "expo-linear-gradient": "^8.2.1",
     "expo-splash-screen": "^0.2.3",
     "expo-updates": "~0.2.0",
     "react": "~16.9.0",

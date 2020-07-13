@@ -4,8 +4,8 @@ export const appContextSchema = {
     loader: 0,
     tabs: [
         {
-            key: 'view',
-            name: 'VIEW',
+            key: 'transaction',
+            name: 'TRANSACTION',
             selected: false
         },
         {

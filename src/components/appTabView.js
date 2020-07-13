@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import SwipeWrapper from './swipeWrapper';
 import { AppContext } from '../context/appContext';
 import { styles } from '../style';
-import ViewPage from './viewPage';
+import TransactionPage from './transactionPage';
 import AnalysePage from './analysePage';
 
 export default function appTabView() {
@@ -29,8 +29,8 @@ export default function appTabView() {
     }
     const appRouter = () => {
         switch(context.selectedTab){
-            case 'view':
-                return <ViewPage />;
+            case 'transaction':
+                return <TransactionPage />;
             case 'analyse':
                 return <AnalysePage />;
             default:

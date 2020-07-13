@@ -2,8 +2,11 @@ import { StyleSheet } from 'react-native';
 
 export const common = {
     appColorDark: '#88184c',
+    appColorDarkRgb: 'rgb(136,24,76)',
     appColorLight: '#ac527c',
-    appColorLightest: '#fbe9f1'
+    appColorLightRgb: 'rgb(172,82,124)',
+    appColorLightest: '#fbe9f1',
+    appColorLightestRgb: 'rgb(251,233,241)',
 };
 const application = {
     'application-container': {
@@ -120,85 +123,92 @@ const appTabView = {
         backgroundColor: 'white'
     }
 }
-const viewPage = {
-    'viewPage-container': {
+const transactionPage = {
+    'transactionPage-container': {
         display: 'flex',
         flex: 1,
         flexDirection: 'column',
         backgroundColor: 'white'
     },
-    'viewPage-panel-container': {
+    'transactionPage-panel-container': {
         height: 100,
     },
-    'viewPage-list-container': {
+    'transactionPage-list-container': {
         display: 'flex',
         flexDirection: 'column',
         elevation: 0.5,
         borderColor: '#cecdd2',
     },
-    'viewPage-list-item-container': {
+    'transactionPage-list-item-container': {
         flex: 1,
         flexDirection: 'row',
-        //marginVertical: 5,
+        marginVertical: 10,
+        marginHorizontal: 20,        
         padding: 10,
-        height: 100,
+        height: 80,
         borderBottomColor: '#cecdd2',
         borderBottomWidth: 0.25,
-        borderStyle: 'solid'
+        borderRadius: 5,
+        borderStyle: 'solid',       
+        backgroundColor: 'green'
     },
-    'viewPage-list-item-sub-container1': {
+    'transactionPage-list-item-sub-container1': {
         flex: 1,
     },
-    'viewPage-list-item-sub-container2': {
+    'transactionPage-list-item-sub-container2': {
         display: 'flex',
         flex: 6,
         flexDirection: 'column',
         justifyContent: 'center',
         paddingRight: 10
     },
-    'viewPage-list-item-sub-container3': {
+    'transactionPage-list-item-sub-container3': {
         display: 'flex',
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
     },
-    'viewPage-list-item-sub-container2-text1': {
-        fontWeight: 'bold',
-        fontSize: 16,
-        color: common.appColorDark,
-    },
-    'viewPage-list-item-sub-container2-text2': {
+    'transactionPage-list-item-sub-container2-text1': {
         fontWeight: 'bold',
         fontSize: 14,
-        color: 'gray',
+        color: common.appColorDark,
+        color: 'white',
     },
-    'viewPage-list-item-sub-container2-text3': {
+    'transactionPage-list-item-sub-container2-text2': {
         fontWeight: 'bold',
         fontSize: 12,
-        color: 'gray'
+        color: 'white',
+        fontStyle: 'italic'
     },
-    'viewPage-list-item-sub-container2-text4': {
-        fontWeight: 'bold',
-        fontSize: 12,
-        color: 'gray'
-    },
-    'viewPage-list-item-sub-container3-text1': {
+    'transactionPage-list-item-sub-container2-text3': {
         fontWeight: 'bold',
         fontSize: 10,
-        color: 'gray',
+        color: 'white',
+        fontStyle: 'italic'
+    },
+    'transactionPage-list-item-sub-container2-text4': {
+        fontWeight: 'bold',
+        fontSize: 10,
+        color: 'white',
+        fontStyle: 'italic'
+    },
+    'transactionPage-list-item-sub-container3-text1': {
+        fontWeight: 'bold',
+        fontSize: 10,
+        color: 'white',
         textAlign: 'right',
         fontStyle: 'italic'
     },
-    'viewPage-list-item-sub-container3-text2': {
+    'transactionPage-list-item-sub-container3-text2': {
         fontWeight: 'bold',
         fontSize: 16,
-        color: 'green',
+        color: 'white',
         textAlign: 'right'
     },
-    'viewPage-list-item-sub-container3-text3': {
+    'transactionPage-list-item-sub-container3-text3': {
         fontWeight: 'bold',
-        fontSize: 12,
-        color: 'gray',
+        fontSize: 10,
+        color: 'white',
         textAlign: 'right',
         fontStyle: 'italic'
     },
@@ -211,5 +221,5 @@ export const styles = StyleSheet.create({
     ...loader,
     ...appTab,
     ...appTabView,
-    ...viewPage
+    ...transactionPage
 });

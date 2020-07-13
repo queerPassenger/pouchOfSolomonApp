@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { apiUrl, endpoint } from '../constants/urls';
 import { UserContext } from '../context/userContext';
 import { AppContext } from '../context/appContext';
 import { request } from '../utils/request';
 import { getDate, getTime } from '../utils/calendar';
+import { LinearGradient } from 'expo-linear-gradient';
+import { styles, common } from '../style';
 
-import { styles } from '../style';
-
-export default function ViewPage() {
-    const componentName = 'viewPage';
+export default function TransactionPage() {
+    const componentName = 'transactionPage';
     const [list, updateList] = useState([]);
     const [fromDate, updateFromDate] = useState(new Date(new Date().getFullYear(), 0, 1));
     const [toDate, updateToDate] = useState(new Date());
@@ -57,10 +57,7 @@ export default function ViewPage() {
         const amountType = context.amountTypeList.filter(x => x.amountTypeId === item.amountTypeId)[0] || {};
         const change = (item.amount - Math.floor(item.amount)).toFixed(2).split('.')[1];
         return (
-            <View style={styles[`${componentName}-list-item-container`]}>
-                <View style={styles[`${componentName}-list-item-sub-container1`]}>
-
-                </View>
+            <LinearGradient colors={[common.appColorDark, common.appColorDark, 'rgb(88, 62, 78)']} style={styles[`${componentName}-list-item-container`]}>
                 <View style={styles[`${componentName}-list-item-sub-container2`]}>
                     <Text style={styles[`${componentName}-list-item-sub-container2-text1`]} numberOfLines={1} >
                         {item.comment}
@@ -95,7 +92,7 @@ export default function ViewPage() {
                         </Text>
                     </View>
                 </View>
-            </View>
+            </LinearGradient>
         )
     }
     const renderList = () => {
