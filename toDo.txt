@@ -3,3 +3,8 @@
 2. TransactionTypeList and AmountType List api call with proper loader coming for it - done
 3. Expiry time setting to asyncStorage 
 4. Version controlled api to fetch Items
+
+14072020
+1. Expiry time setting to asyncStorage
+2. Version controlled api to fetch Items
+3. Best Design for the Transaction Screen

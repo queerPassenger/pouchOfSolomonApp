@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext, Fragment } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
 import { apiUrl, endpoint } from '../constants/urls';
 import { UserContext } from '../context/userContext';
 import { AppContext } from '../context/appContext';
@@ -7,10 +7,15 @@ import { request } from '../utils/request';
 import { getDate, getTime } from '../utils/calendar';
 import { LinearGradient } from 'expo-linear-gradient';
 import { styles, common } from '../style';
+import Modal from './modal';
 
 export default function TransactionPage() {
     const componentName = 'transactionPage';
     const [list, updateList] = useState([]);
+    const [modal, updateModal] = useState({
+        flag: false,
+        type: ''
+    })
     const [fromDate, updateFromDate] = useState(new Date(new Date().getFullYear(), 0, 1));
     const [toDate, updateToDate] = useState(new Date());
     const context = {
@@ -44,6 +49,18 @@ export default function TransactionPage() {
             console.warn('Error getTransactions', err)
             return false
         }
+    }
+    const openModal = (type) => {
+        updateModal({
+            flag: true,
+            type
+        });
+    }
+    const closeModal = () => {
+        updateModal({
+            flag: false,
+            type: ''
+        });
     }
     const renderPanel = () => {
         return (
@@ -106,10 +123,56 @@ export default function TransactionPage() {
             </View>
         )
     }
+    const renderFooter = () => {
+        return(
+            <View style={styles[`${componentName}-footer-container`]}>
+                <TouchableOpacity style={styles[`${componentName}-footer-container-sub-container`]} onPress={() => openModal('filter')}>
+                    <Image source={require('../assets/images/filter.png')} style={styles[`${componentName}-footer-container-sub-container-image`]} />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles[`${componentName}-footer-container-sub-container`]} onPress={() => openModal('add')}>
+                    <Image source={require('../assets/images/add.png')} style={styles[`${componentName}-footer-container-sub-container-image`]} />
+                </TouchableOpacity>
+            </View>
+        )
+    }
+    const renderModalComponent = () => {
+        switch(modal.type){
+            case 'filter':
+                return (
+                    <View>
+                        <Text>
+                            I am Filter popUp
+                        </Text>
+                    </View>
+                );
+            case 'add':
+                return (
+                    <View>
+                        <Text>
+                            I am Add popUp
+                        </Text>
+                    </View>
+                );
+            default: 
+                return (null)
+        }
+    }
+    const renderModal = () => {
+        if(!modal.flag)
+            return (null);
+        else
+            return (
+                <Modal>
+                    {renderModalComponent()}
+                </Modal>
+            )
+    }
     return (
         <View style={styles[`${componentName}-container`]}>
-            {renderPanel()}
+            {/* {renderPanel()} */}
             {renderList()}
+            {renderFooter()}
+            {renderModal()}
         </View>
     )
 }

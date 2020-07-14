@@ -135,9 +135,16 @@ const transactionPage = {
     },
     'transactionPage-list-container': {
         display: 'flex',
+        flex: 9,
         flexDirection: 'column',
         elevation: 0.5,
         borderColor: '#cecdd2',
+    },
+    'transactionPage-footer-container': {
+        flexDirection: 'row',
+        backgroundColor: 'white',
+        flex: 1,
+        justifyContent: 'space-evenly'
     },
     'transactionPage-list-item-container': {
         flex: 1,
@@ -212,6 +219,37 @@ const transactionPage = {
         textAlign: 'right',
         fontStyle: 'italic'
     },
+    'transactionPage-footer-container-sub-container': {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',        
+    },
+    'transactionPage-footer-container-sub-container-image': {
+        width: 30,
+        height: 30
+    }
+
+}
+const modalComponent = {
+    'modalComponent-container': {
+        flex:1,
+        justifyContent:'center',
+        padding: 10
+    },
+    'modalComponent-sub-container': {
+        backgroundColor: common.appColorLightest,
+        borderRadius: 3  
+    },
+    'modalComponent-header-container': {
+        flexDirection: 'row',
+        height: 30,
+    },
+    'modalComponent-body-container': {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        paddingVertical: 10
+    }
 }
 export const styles = StyleSheet.create({
     ...application,
@@ -221,5 +259,6 @@ export const styles = StyleSheet.create({
     ...loader,
     ...appTab,
     ...appTabView,
-    ...transactionPage
+    ...transactionPage,
+    ...modalComponent
 });
