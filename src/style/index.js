@@ -130,9 +130,6 @@ const transactionPage = {
         flexDirection: 'column',
         backgroundColor: 'white'
     },
-    'transactionPage-panel-container': {
-        height: 100,
-    },
     'transactionPage-list-container': {
         display: 'flex',
         flex: 9,
@@ -145,6 +142,17 @@ const transactionPage = {
         backgroundColor: 'white',
         flex: 1,
         justifyContent: 'space-evenly'
+    },
+    'transactionPage-norecords-container': {
+        flexDirection: 'column',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    'transactionPage-norecords-container-text': {
+        fontWeight: 'bold',
+        fontSize: 20,
+        color: common.appColorDark
     },
     'transactionPage-list-item-container': {
         flex: 1,
@@ -161,6 +169,7 @@ const transactionPage = {
     },
     'transactionPage-list-item-sub-container1': {
         flex: 1,
+        flexDirection: 'column'
     },
     'transactionPage-list-item-sub-container2': {
         display: 'flex',
@@ -174,6 +183,11 @@ const transactionPage = {
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
+    },
+    'transactionPage-list-item-sub-container1-emptyContainer':{
+        height: 7,
+        marginBottom: 10,
+        backgroundColor: 'lightgray'
     },
     'transactionPage-list-item-sub-container2-text1': {
         fontWeight: 'bold',
@@ -223,7 +237,9 @@ const transactionPage = {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center',        
+        alignItems: 'center',
+        backgroundColor: '#E3E3E3'
+
     },
     'transactionPage-footer-container-sub-container-image': {
         width: 30,
