@@ -16,6 +16,8 @@ const cacheResourcesAsync = async () => {
         require('./assets/images/' + 'pos-logo-large.png'),
         require('./assets/images/' + 'filter.png'),
         require('./assets/images/' + 'add.png'),
+        require('./assets/images/' + 'edit.png'),
+        require('./assets/images/' + 'vertical-dots.png'),
     ];
     const cacheImages = images.map(image => {
         return Asset.fromModule(image).downloadAsync();

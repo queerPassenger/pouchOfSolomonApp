@@ -8,6 +8,8 @@ import { getDate, getTime } from '../utils/calendar';
 import { LinearGradient } from 'expo-linear-gradient';
 import { styles, common } from '../style';
 import Modal from './modal';
+import FilterTransaction from './filterTransaction';
+import AddTransaction from './addTransaction';
 
 export default function TransactionPage() {
     const componentName = 'transactionPage';
@@ -27,10 +29,10 @@ export default function TransactionPage() {
     }, []);
     const loadData = async () => {
         context.showLoader();
-        await getTransactions();
+        await getTransactions(fromDate, toDate);
         context.hideLoader();
     }
-    const getTransactions = async () => {
+    const getTransactions = async (fromDate, toDate) => {
         const body = {
             fromDate,
             toDate
@@ -62,7 +64,15 @@ export default function TransactionPage() {
             type: ''
         });
     }
-    const renderListItem = ({ item }) => {
+    const onFilter = async ({ fromDate, toDate }) => {
+        closeModal();
+        updateFromDate(fromDate);
+        updateToDate(toDate);
+        context.showLoader();
+        await getTransactions(fromDate, toDate);
+        context.hideLoader();        
+    }
+    const ListItem = ({ item }) => {
         if (!item) {
             let totalLayers = 3;
             return (
@@ -125,7 +135,7 @@ export default function TransactionPage() {
             )
         }
     }
-    const emptyList = () => {
+    const EmptyList = () => {
         return (
             <View style={styles[`${componentName}-norecords-container`]}>
                 <Text style={styles[`${componentName}-norecords-container-text`]}>
@@ -134,79 +144,71 @@ export default function TransactionPage() {
             </View>
         )
     }
-    const renderList = () => {
+    const ListContainer = () => {
         return (
             <View style={styles[`${componentName}-list-container`]}>
                 {context.loader || list.length > 0 ?
                     <FlatList
                         data={context.loader ? [...Array(10)] : list}
-                        renderItem={renderListItem}
-                        keyExtractor={(item, ind) => item ? item.transactionId : ind}
+                        renderItem={(props) => <ListItem {...props}/>}
+                        keyExtractor={(item, ind) => item ? ('key' + item.transactionId) : ('key'+ind )}
                     />
                     :
-                    emptyList()
+                    <EmptyList />
                 }
             </View>
         )
     }
-    const renderFooter = () => {
+    const FooterContainer = () => {
         return (
             <View style={styles[`${componentName}-footer-container`]}>
-                <TouchableOpacity style={{
-                        ...styles[`${componentName}-footer-container-sub-container`],
-                        borderRightColor: 'darkgray',
-                        borderRightWidth: 1,
-                        backgroundColor: modal.type === 'filter' ? 'gray': 'lightgray',
-                    }}
+                <TouchableOpacity style={styles[`${componentName}-footer-container-sub-container`]}
                     onPress={() => openModal('filter')}>
                     <Image source={require('../assets/images/filter.png')} style={styles[`${componentName}-footer-container-sub-container-image`]} />
                 </TouchableOpacity>
-                <TouchableOpacity style={{
-                        ...styles[`${componentName}-footer-container-sub-container`],
-                        backgroundColor: modal.type === 'add' ? 'gray': 'lightgray',
-                    }} onPress={() => openModal('add')}>
+                <TouchableOpacity style={styles[`${componentName}-footer-container-sub-container`]} onPress={() => openModal('add')}>
                     <Image source={require('../assets/images/add.png')} style={styles[`${componentName}-footer-container-sub-container-image`]} />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles[`${componentName}-footer-container-sub-container`]} onPress={() => openModal('add')}>
+                    <Image source={require('../assets/images/edit.png')} style={styles[`${componentName}-footer-container-sub-container-image`]} />
                 </TouchableOpacity>
             </View>
         )
     }
-    const renderModalComponent = () => {
+    const ModalComponent = () => {
         switch (modal.type) {
             case 'filter':
                 return (
-                    <View>
-                        <Text>
-                            I am Filter popUp
-                        </Text>
-                    </View>
+                    <FilterTransaction
+                        fromDate={fromDate}
+                        toDate={toDate}
+                        onClose={closeModal}
+                        onFilter={onFilter}
+                    />
                 );
             case 'add':
                 return (
-                    <View>
-                        <Text>
-                            I am Add popUp
-                        </Text>
-                    </View>
+                    <AddTransaction />
                 );
             default:
                 return (null)
         }
     }
-    const renderModal = () => {
+    const ModalContainer = () => {
         if (!modal.flag)
             return (null);
         else
             return (
                 <Modal onClose={closeModal}>
-                    {renderModalComponent()}
+                    <ModalComponent />
                 </Modal>
             )
     }
     return (
         <View style={styles[`${componentName}-container`]}>
-            {renderList()}
-            {renderFooter()}
-            {renderModal()}
+            <ListContainer />
+            <FooterContainer />
+            <ModalContainer />
         </View>
     )
 }

@@ -14,7 +14,7 @@ const application = {
         flexDirection: 'column',
         flex: 1
     }
-}
+};
 const appHeader = {
     'appHeader-container': {
         backgroundColor: common.appColorDark,
@@ -42,7 +42,7 @@ const appImage = {
         fontSize: 40,
         fontFamily: 'Roboto'
     }
-}
+};
 const login = {
     'login-container': {
         flexDirection: 'column',
@@ -69,7 +69,7 @@ const login = {
         paddingTop: 7,
         paddingLeft: 20
     }
-}
+};
 const loader = {
     'loader-container': {
         position: 'absolute',
@@ -80,7 +80,7 @@ const loader = {
         alignItems: 'center',
         justifyContent: 'center'
     },
-}
+};
 const appTab = {
     'appTab-container': {
         display: 'flex',
@@ -115,14 +115,14 @@ const appTab = {
         fontWeight: 'bold',
         color: 'white',
     },
-}
+};
 const appTabView = {
     'appTabView-container': {
         display: 'flex',
         flex: 1,
         backgroundColor: 'white'
     }
-}
+};
 const transactionPage = {
     'transactionPage-container': {
         display: 'flex',
@@ -141,7 +141,8 @@ const transactionPage = {
         flexDirection: 'row',
         backgroundColor: 'white',
         flex: 1,
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
+        backgroundColor: 'white'
     },
     'transactionPage-norecords-container': {
         flexDirection: 'column',
@@ -238,35 +239,64 @@ const transactionPage = {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#E3E3E3'
-
+        elevation: 1   
     },
     'transactionPage-footer-container-sub-container-image': {
         width: 30,
         height: 30
     }
 
-}
+};
 const modalComponent = {
     'modalComponent-container': {
         flex:1,
         justifyContent:'center',
-        padding: 10
+        padding: 20
     },
     'modalComponent-sub-container': {
-        backgroundColor: common.appColorLightest,
+        flex:1,
+        backgroundColor: 'white',
+        borderColor: 'gray',
+        borderWidth: 1,
         borderRadius: 3  
-    },
-    'modalComponent-header-container': {
-        flexDirection: 'row',
-        height: 30,
-    },
-    'modalComponent-body-container': {
+    },  
+};
+const filterTransaction = {
+    'filterTransaction-container': {
         flexDirection: 'column',
+        flex: 1
+    },
+    'filterTransaction-action-container': {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        paddingVertical: 10,
+    },
+    'filterTransaction-btn-container': {
+        flexDirection: 'row',
         justifyContent: 'center',
-        paddingVertical: 10
-    }
-}
+        alignItems: 'center',
+        backgroundColor: common.appColorDark,
+        borderRadius: 3,
+        elevation: 3,
+        width: 250,
+        height: 50
+    },
+    'filterTransaction-btn-text': {
+        color: 'white',
+        fontWeight: 'bold',        
+    },
+    'filterTransaction-date-container': {
+        flexDirection: 'column',
+        paddingVertical: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    'filterTransaction-date-sub-container': {
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginTop: 10
+    },
+};
 export const styles = StyleSheet.create({
     ...application,
     ...appHeader,
@@ -276,5 +306,6 @@ export const styles = StyleSheet.create({
     ...appTab,
     ...appTabView,
     ...transactionPage,
-    ...modalComponent
+    ...modalComponent,
+    ...filterTransaction
 });

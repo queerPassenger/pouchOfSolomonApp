@@ -13,12 +13,7 @@ export default function ModalComponent(props){
         >
             <View style={styles[`${componentName}-container`]}>
                 <View style={styles[`${componentName}-sub-container`]}>
-                    <View style={styles[`${componentName}-header-container`]}>
-
-                    </View>
-                    <View style={styles[`${componentName}-body-container`]}>
-                        {props.children}
-                    </View>                    
+                    {props.children}               
                 </View>
             </View>
         </Modal>
