@@ -41,7 +41,7 @@ export default function TransactionPage() {
             let response = await request.post(apiUrl + endpoint.getTransaction.replace('{id}', context.userId), {}, body)
             if (response && response.status && response.type === 'json' && response.data) {
                 if (response.data.status) {
-                    updateList(response.data.data);
+                    updateList(response.data.data.reverse());
                     return true;
                 }
             }

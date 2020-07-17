@@ -285,16 +285,42 @@ const filterTransaction = {
         color: 'white',
         fontWeight: 'bold',        
     },
-    'filterTransaction-date-container': {
+    'filterTransaction-date-super-container': {
         flexDirection: 'column',
         paddingVertical: 10,
         justifyContent: 'center',
         alignItems: 'center'
     },
-    'filterTransaction-date-sub-container': {
-        flexDirection: 'column',
+    'filterTransaction-date-seaprator-text': {
+        fontStyle: 'italic',
+        marginVertical: 10,
+        fontSize: 18,
+        fontWeight: 'bold'
+    },
+    'filterTransaction-date-container': {
+        flexDirection: 'row',
+        justifyContent: 'center',
         alignItems: 'center',
         marginTop: 10
+    },
+    'filterTransaction-datetime-container': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: common.appColorDark,
+        borderRadius: 3,
+        elevation: 3,
+        width: 150,
+        height: 30
+    },
+    'filterTransaction-datetime-text': {
+        color: 'white',
+        fontWeight: 'bold',        
+    },
+    'filterTransaction-datetime-image': {
+        width: 30,
+        height: 30,
+        marginHorizontal: 10
     },
 };
 export const styles = StyleSheet.create({

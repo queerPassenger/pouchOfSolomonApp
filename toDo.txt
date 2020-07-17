@@ -1,10 +1,10 @@
-13072020
-1. Page Loader to be available through context - done
-2. TransactionTypeList and AmountType List api call with proper loader coming for it - done
-3. Expiry time setting to asyncStorage 
-4. Version controlled api to fetch Items
+To Do 
+ - Expiry time setting to asyncStorage
+ - Version controlled api to fetch Items
+ - Best PopUp design 
 
-14072020
-1. Expiry time setting to asyncStorage
-2. Version controlled api to fetch Items
-3. Best Design for the Transaction Screen
+Done 
+- Page Loader to be available through context
+- TransactionTypeList and AmountType List api call with proper loader coming for it
+- Best Design for the Transaction Screen
+ - DateTimePicker component to make it work properly
