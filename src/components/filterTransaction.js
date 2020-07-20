@@ -13,13 +13,38 @@ export default function FilterTransaction(props) {
         type: '',
         update: () => { }
     });
-
+    const resetStates = (param) => {
+        switch(param){
+            case 'fromDate':
+                updateFromDate(props.fromDate);
+                break;
+            case 'toDate':
+                updateToDate(props.toDate);
+                break;
+            case 'dateTimePickerMode':
+                updateDateTimePickerMode({
+                    mode: '',
+                    type: '',
+                    update: () => { }
+                });
+                break;
+            default: 
+                resetStates('fromDate');
+                resetStates('toDate');
+                resetStates('dateTimePickerMode');
+                break;
+        }
+    }
     const onFilter = () => {
         props.onFilter({ fromDate, toDate });
     }
     const ActionContainer = () => {
         return (
-            <View style={styles[`${componentName}-action-container`]}>
+            <View style={styles[`${componentName}-action-container`]}>                
+                <ButtonContainer
+                    label='CLEAR'
+                    onPress={resetStates}
+                />
                 <ButtonContainer
                     label='FILTER'
                     onPress={onFilter}
@@ -54,7 +79,7 @@ export default function FilterTransaction(props) {
         )
     }
     const getDateTime = (date) => {
-        return `${getDate(date)}  < ${getTime(date)} >`
+        return `${getDate(date)}  ${getTime(date)} `
     }
     const DateSuperContainer = () => {
         return (
@@ -80,11 +105,7 @@ export default function FilterTransaction(props) {
                         display="default"
                         onChange={(e, date) => {
                             const { update } = dateTimePickerMode;
-                            updateDateTimePickerMode({
-                                mode: '',
-                                type: '',
-                                update: () => { }
-                            });
+                            resetStates('dateTimePickerMode');
                             date && update(date);
                         }}
                     />)

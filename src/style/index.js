@@ -270,19 +270,22 @@ const filterTransaction = {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         paddingVertical: 10,
+        marginBottom: 20
     },
     'filterTransaction-btn-container': {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: common.appColorDark,
+        backgroundColor: 'white',
         borderRadius: 3,
+        borderWidth: 0.25,
+        borderColor: common.appColorDark,
         elevation: 3,
-        width: 250,
-        height: 50
+        width: 150,
+        height: 40
     },
     'filterTransaction-btn-text': {
-        color: 'white',
+        color: 'black',
         fontWeight: 'bold',        
     },
     'filterTransaction-date-super-container': {
@@ -294,7 +297,7 @@ const filterTransaction = {
     'filterTransaction-date-seaprator-text': {
         fontStyle: 'italic',
         marginVertical: 10,
-        fontSize: 18,
+        fontSize: 14,
         fontWeight: 'bold'
     },
     'filterTransaction-date-container': {
@@ -307,20 +310,22 @@ const filterTransaction = {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: common.appColorDark,
+        backgroundColor: 'white',
         borderRadius: 3,
+        borderWidth: 0.25,
+        borderColor: common.appColorDark,
         elevation: 3,
-        width: 150,
+        width: 200,
         height: 30
     },
     'filterTransaction-datetime-text': {
-        color: 'white',
+        color: 'black',
         fontWeight: 'bold',        
     },
     'filterTransaction-datetime-image': {
-        width: 30,
-        height: 30,
-        marginHorizontal: 10
+        width: 25,
+        height: 25,
+        marginLeft: 10
     },
 };
 export const styles = StyleSheet.create({
