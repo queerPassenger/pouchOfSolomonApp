@@ -1,20 +1,27 @@
-import React, { Fragment, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
+import React, { Fragment, useState, useContext } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, Image, Picker } from 'react-native';
 import { styles } from '../style';
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { getDate, getTime } from '../utils/calendar';
+import PickerContainer from './pickerContainer';
+import { AppContext } from '../context/appContext';
 
 export default function FilterTransaction(props) {
     const componentName = 'filterTransaction';
     const [fromDate, updateFromDate] = useState(props.fromDate);
     const [toDate, updateToDate] = useState(props.toDate);
+    const [types, updateTypes] = useState([]);
+    const [subTypes, updateSubTypes] = useState([]);
     const [dateTimePickerMode, updateDateTimePickerMode] = useState({
         mode: '',
         type: '',
         update: () => { }
     });
+    const context = {
+        ...useContext(AppContext)
+    };
     const resetStates = (param) => {
-        switch(param){
+        switch (param) {
             case 'fromDate':
                 updateFromDate(props.fromDate);
                 break;
@@ -28,7 +35,7 @@ export default function FilterTransaction(props) {
                     update: () => { }
                 });
                 break;
-            default: 
+            default:
                 resetStates('fromDate');
                 resetStates('toDate');
                 resetStates('dateTimePickerMode');
@@ -40,7 +47,7 @@ export default function FilterTransaction(props) {
     }
     const ActionContainer = () => {
         return (
-            <View style={styles[`${componentName}-action-container`]}>                
+            <View style={styles[`${componentName}-action-container`]}>
                 <ButtonContainer
                     label='CLEAR'
                     onPress={resetStates}
@@ -68,6 +75,9 @@ export default function FilterTransaction(props) {
                     <Text style={styles[`${componentName}-datetime-text`]} >
                         {getDateTime(props.date)}
                     </Text>
+                    <Text style={styles[`${componentName}-text-label`]} >
+                        {props.label}
+                    </Text>
                 </View>
                 <TouchableOpacity onPress={() => props.updater('date')}>
                     <Image style={styles[`${componentName}-datetime-image`]} source={require('../assets/images/calendar.png')} />
@@ -84,22 +94,27 @@ export default function FilterTransaction(props) {
     const DateSuperContainer = () => {
         return (
             <View style={styles[`${componentName}-date-super-container`]}>
-                <DateContainer date={fromDate} updater={(mode) => updateDateTimePickerMode({
-                    mode: mode,
-                    type: 'fromDate',
-                    update: updateFromDate
-                })} />
-                <Text style={styles[`${componentName}-date-seaprator-text`]}>
-                    to
-                </Text>
-                <DateContainer date={toDate} updater={(mode) => updateDateTimePickerMode({
-                    mode: mode,
-                    type: 'toDate',
-                    update: updateToDate
-                })} />
+                <DateContainer
+                    date={fromDate}
+                    label='START'
+                    updater={(mode) => updateDateTimePickerMode({
+                        mode: mode,
+                        type: 'fromDate',
+                        update: updateFromDate
+                    })}
+                />
+                <DateContainer
+                    date={toDate}
+                    label='END'
+                    updater={(mode) => updateDateTimePickerMode({
+                        mode: mode,
+                        type: 'toDate',
+                        update: updateToDate
+                    })}
+                />
                 {dateTimePickerMode.mode ?
                     (<DateTimePicker
-                        value={dateTimePickerMode.type === 'fromDate'? fromDate: toDate}
+                        value={dateTimePickerMode.type === 'fromDate' ? fromDate : toDate}
                         mode={dateTimePickerMode.mode}
                         is24Hour={true}
                         display="default"
@@ -110,7 +125,37 @@ export default function FilterTransaction(props) {
                         }}
                     />)
                     :
-                    null}
+                    null
+                }
+            </View>
+        )
+    }
+    const TransactionType = (props) => {
+        return (
+            <View style={styles[`${componentName}-picker-wrapper`]}>
+                <PickerContainer
+                    label='TYPE'
+                    value={types && types[0] || ''}
+                    options={context.transactionTypes.map(x => {
+                        return { label: x, value: x }
+                    })}
+                    onChange={value => updateTypes([value])}
+                />
+            </View>
+        )
+    }
+    const TransactionSubType = (props) => {
+        return (
+            <View style={styles[`${componentName}-picker-wrapper`]}>
+                <PickerContainer
+                    mode='multi'
+                    label='SUB TYPE'
+                    value={types}
+                    options={context.transactionTypeList.map(x => {
+                        return { label: x.transactionTypeName, value: x.transactionTypeId }
+                    })}
+                    onChange={value => updateTypes(value)}
+                />
             </View>
         )
     }
@@ -119,6 +164,8 @@ export default function FilterTransaction(props) {
             <Fragment>
                 <ScrollView>
                     <DateSuperContainer />
+                    <TransactionType />
+                    <TransactionSubType />
                 </ScrollView>
             </Fragment>
         )

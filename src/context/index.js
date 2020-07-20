@@ -10,6 +10,7 @@ export default function Context(props) {
     const [loader, updateLoader] = useState(0);    
     const [tabs, updateTabs] = useState([]);
     const [selectedTab, updateSelectedTab] = useState('');
+    const [transactionTypes, updateTransactionTypes] = useState([]);
     const [transactionTypeList, updateTransactionTypeList] = useState([]);
     const [amountTypeList, updateAmountTypeList] = useState([]);
     
@@ -45,6 +46,7 @@ export default function Context(props) {
             if (response && response.status && response.type === 'json' && response.data) {
                 if (response.data.status) {
                     updateTransactionTypeList(response.data.data);
+                    updateTransactionTypes([...new Set(response.data.data.map(x => x.transactionClassification))]);
                     return true;
                 }
             }
@@ -97,12 +99,14 @@ export default function Context(props) {
                 loader,
                 tabs,
                 selectedTab,
+                transactionTypes,
                 transactionTypeList,
                 amountTypeList,
                 showLoader,
                 hideLoader,
                 updateTabs,
                 updateSelectedTab: onTabSelect,
+                updateTransactionTypes,
                 updateTransactionTypeList,
                 updateAmountTypeList
             }}>

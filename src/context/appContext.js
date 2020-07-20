@@ -15,6 +15,7 @@ export const appContextSchema = {
         }
     ],
     selectedTab: '',
+    transactionTypes: [],
     transactionTypeList: [],
     amountTypeList: [],
 
@@ -22,6 +23,7 @@ export const appContextSchema = {
     hideLoader: (boolean) => {},
     updateTabs: list => { },
     updateSelectedTab: string => {},
+    updateTransactionTypes: list => {},
     updateTransactionTypeList: list => {},
     updateAmountTypeList: list => {}
 };
