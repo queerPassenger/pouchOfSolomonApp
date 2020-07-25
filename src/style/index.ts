@@ -1,13 +1,6 @@
 import { StyleSheet } from 'react-native';
+import { APP_DEFAULT_COLORS } from '../constants';
 
-export const common = {
-    appColorDark: '#88184c',
-    appColorDarkRgb: 'rgb(136,24,76)',
-    appColorLight: '#ac527c',
-    appColorLightRgb: 'rgb(172,82,124)',
-    appColorLightest: '#fbe9f1',
-    appColorLightestRgb: 'rgb(251,233,241)',
-};
 const application = {
     'application-container': {
         display: 'flex',
@@ -17,14 +10,13 @@ const application = {
 };
 const appHeader = {
     'appHeader-container': {
-        backgroundColor: common.appColorDark,
+        backgroundColor: APP_DEFAULT_COLORS.DARKCOLOR,
         paddingVertical: 15,
         paddingLeft: 20
     },
     'appHeader-appName': {
         color: 'white',
         fontSize: 16,
-        // fontFamily: 'Roboto',
         fontWeight: 'bold'
     }
 };
@@ -86,7 +78,7 @@ const appTab = {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        backgroundColor: common.appColorDark,
+        backgroundColor: APP_DEFAULT_COLORS.DARKCOLOR,
     },
     'appTab-tab-container': {
         display: 'flex',
@@ -153,7 +145,7 @@ const transactionPage = {
     'transactionPage-norecords-container-text': {
         fontWeight: 'bold',
         fontSize: 20,
-        color: common.appColorDark
+        color: APP_DEFAULT_COLORS.DARKCOLOR
     },
     'transactionPage-list-item-container': {
         flex: 1,
@@ -193,7 +185,6 @@ const transactionPage = {
     'transactionPage-list-item-sub-container2-text1': {
         fontWeight: 'bold',
         fontSize: 14,
-        color: common.appColorDark,
         color: 'white',
     },
     'transactionPage-list-item-sub-container2-text2': {
@@ -279,7 +270,7 @@ const filterTransaction = {
         backgroundColor: 'white',
         borderRadius: 3,
         borderWidth: 0.25,
-        borderColor: common.appColorDark,
+        borderColor: APP_DEFAULT_COLORS.DARKCOLOR,
         elevation: 3,
         width: 150,
         height: 40
@@ -307,7 +298,7 @@ const filterTransaction = {
         backgroundColor: 'white',
         borderRadius: 3,
         borderWidth: 0.25,
-        borderColor: common.appColorDark,
+        borderColor: APP_DEFAULT_COLORS.DARKCOLOR,
         elevation: 3,
         width: 180,
         height: 30
@@ -348,7 +339,7 @@ const pickerContainer = {
         backgroundColor: 'white',
         borderRadius: 3,
         borderWidth: 0.25,
-        borderColor: common.appColorDark,
+        borderColor: APP_DEFAULT_COLORS.DARKCOLOR,
         elevation: 3
     },
     'pickerContainer-simplePicker-picker-container': {
@@ -374,7 +365,7 @@ const pickerContainer = {
         fontSize: 16
     }    
 }
-export const styles = StyleSheet.create({
+export const styles = StyleSheet.create<any>({
     ...application,
     ...appHeader,
     ...appImage,

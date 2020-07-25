@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, ReactElement } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Asset } from 'expo-asset';
-import * as Font from 'expo-font';
+import logger from './utils/logger';
 import AppImage from './components/appImage';
 import GlobalContext from './context';
 import Container from './components/container';
 import { AppLoading } from 'expo';
-import AsyncStorage from '@react-native-community/async-storage';
 
-const cacheResourcesAsync = async () => {
-    const images = [
+const cacheResourcesAsync = async (): Promise<void> => {
+    const images: Array<any>  = [
         require('./assets/images/' + 'crowncrop.png'),
         require('./assets/images/' + 'googleLogo.png'),
         require('./assets/images/' + 'pos-logo-small.png'),
@@ -21,26 +21,23 @@ const cacheResourcesAsync = async () => {
         require('./assets/images/' + 'clock.png'),
         require('./assets/images/' + 'calendar.png'),
     ];
-    const cacheImages = images.map(image => {
+    const cacheImages: Array<Promise<void>> = images.map(image => {
         return Asset.fromModule(image).downloadAsync();
     });
-    await Font.loadAsync({
-        dancingScript: require('./assets/fonts/DancingScript-VariableFont_wght.ttf'),
-    });
-    return Promise.all([...cacheImages]);
+    await Promise.all([...cacheImages]);
 }
-export default function Index() {
-    const [mode, updateMode] = useState('appLoading');
-    const [userId, updateUserId] = useState('');
-    const assetsLoaded = () => {
+const Index: React.FC = (): ReactElement => {
+    const [mode, updateMode]= useState<string>('appLoading');
+    const [userId, updateUserId] = useState<string>('');
+    const assetsLoaded = (): void => {
         updateMode('appImage');
-        setTimeout(async () => {
+        setTimeout(async (): Promise<any> => {
             try{
-                let userId = await AsyncStorage.getItem('app-userId');
-                updateUserId(userId);            
+                let resp = await AsyncStorage.getItem('app-userId');
+                updateUserId(resp? resp: '');            
             }
             catch(err){
-                console.log('Failed to load app user details')
+                logger.info('Failed to load app user details')
             }   
             finally{
                 updateMode('app');
@@ -51,7 +48,7 @@ export default function Index() {
         return <AppLoading
             startAsync={cacheResourcesAsync}
             onFinish={assetsLoaded}
-            onErrimor={console.warn}
+            onError={(e) => logger.warn(`AppLoading failed ${e}`)}
         />
     else if (mode === 'appImage')
         return <AppImage />
@@ -62,3 +59,4 @@ export default function Index() {
             </GlobalContext>
         )
 }
+export default Index;

@@ -1,11 +1,14 @@
-import React, { Component, useState, useContext, Fragment } from 'react';
-import { UserContext } from '../context/userContext';
-import { AppContext } from '../context/appContext';
+import React, { Component, useState, useContext, Fragment, ReactElement } from 'react';
+import UserContext from '../context/userContext';
+import AppContext from '../context/appContext';
 import Application from './application';
 import Login from './login';
 import Loader from './loader';
 
-export default function Container(props) {
+interface ContainerProps {
+    mode: ('login' | 'application')
+}
+const Container: React.FC<ContainerProps> = (props): ReactElement  => {
     const [mode, updateMode] = useState(props.mode);
     const context = {
         ...useContext(UserContext),

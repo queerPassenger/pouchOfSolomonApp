@@ -1,30 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { UserContext } from './userContext';
-import { AppContext, getAppContextSchema } from './appContext';
+import React, { useState, useEffect, ReactElement, ReactNode } from 'react';
+import UserContext from './userContext';
+import AppContext, { getAppContextSchema, Tab as TabType } from './appContext';
+import  logger from '../utils/logger';
 import { request } from '../utils/request';
-import { apiUrl, endpoint } from '../constants/urls';
+import { URL, API_PATH } from '../constants';
 
-export default function Context(props) {
-    const [userId, updateUserId] = useState(props.userId);
-    const [googleUserInfo, updateGoogleUserInfo] = useState({});
-    const [loader, updateLoader] = useState(0);    
-    const [tabs, updateTabs] = useState([]);
-    const [selectedTab, updateSelectedTab] = useState('');
-    const [transactionTypes, updateTransactionTypes] = useState([]);
-    const [transactionTypeList, updateTransactionTypeList] = useState([]);
-    const [amountTypeList, updateAmountTypeList] = useState([]);
-    
-    useEffect(() => {
+interface ContextProps {
+    userId: string,
+    children: ReactNode,
+}
+const Context: React.FC<ContextProps> = (props): ReactElement => {
+    const [userId, updateUserId] = useState<string>(props.userId);
+    const [googleUserInfo, updateGoogleUserInfo] = useState<any>({});
+    const [loader, updateLoader] = useState<number>(0);    
+    const [tabs, updateTabs] = useState<Array<TabType>>([]);
+    const [selectedTab, updateSelectedTab] = useState<string>('');
+    const [transactionTypes, updateTransactionTypes] = useState<Array<any>>([]);
+    const [transactionTypeList, updateTransactionTypeList] = useState<Array<any>>([]);
+    const [amountTypeList, updateAmountTypeList] = useState<Array<any>>([]);
+
+    useEffect((): void => {
         loadAppContext();        
     }, []);
-    const loadAppContext = async () => {
+
+    const loadAppContext = async (): Promise<void> => {
         showLoader();
         updateTabsContext(getAppContextSchema().tabs);
         await getTransactionTypeList();
         await getAmountTypeList();
         hideLoader();
     }
-    const updateTabsContext = (updatedTabs) => {
+    const updateTabsContext = (updatedTabs: Array<TabType>): void => {
         let selectedTab = updatedTabs.filter(x => x.selected)[0];
         if (selectedTab && selectedTab.key) {
             updateTabs(updatedTabs)
@@ -40,49 +46,44 @@ export default function Context(props) {
             }
         }
     }
-    const getTransactionTypeList = async () => {
+    const getTransactionTypeList = async (): Promise<void> => {
         try {
-            let response = await request.get(apiUrl + endpoint.getTransactionTypeList.replace('{id}', userId), {});
+            let response = await request.get(URL.API_URL + API_PATH.getTransactionTypeList.replace('{id}', userId), {});
             if (response && response.status && response.type === 'json' && response.data) {
                 if (response.data.status) {
-                    updateTransactionTypeList(response.data.data);
-                    updateTransactionTypes([...new Set(response.data.data.map(x => x.transactionClassification))]);
-                    return true;
+                    let responseData: Array<any> = response.data.data;
+                    updateTransactionTypeList(responseData);
+                    updateTransactionTypes(Array.from(new Set(responseData.map(x => x.transactionClassification))));
                 }
             }
-            return false;
         }
         catch (err) {
-            console.warn('Error getTransactionTypeList', err)
-            return false
+            logger.warn('Error getTransactionTypeList' + err.toString());            
         }
     }
-    const getAmountTypeList = async () => {
+    const getAmountTypeList = async (): Promise<void> => {
         try {
-            let response = await request.get(apiUrl + endpoint.getAmountTypeList.replace('{id}', userId), {});
+            let response = await request.get(URL.API_URL + API_PATH.getAmountTypeList.replace('{id}', userId), {});
             if (response && response.status && response.type === 'json' && response.data) {
                 if (response.data.status) {
                     updateAmountTypeList(response.data.data);
-                    return true;
                 }
             }
-            return false;
         }
         catch (err) {
-            console.warn('Error getAmountTypeList', err)
-            return false
+            logger.warn('Error getAmountTypeList' + err.toString()); 
         }
     }
-    const onTabSelect = (key) => {
+    const onTabSelect = (key: string) => {
         updateTabsContext(tabs.map(x => {
             x.selected = x.key === key;
             return x;
         }));
     }
-    const showLoader = () => {
+    const showLoader = (): void => {
         updateLoader(loader => loader+1);
     }
-    const hideLoader = (all = false) => {
+    const hideLoader = (all = false): void => {
         if(all)
             updateLoader(0);
         else
@@ -115,3 +116,4 @@ export default function Context(props) {
         </UserContext.Provider>
     )
 }
+export default Context;

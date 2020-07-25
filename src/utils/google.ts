@@ -1,7 +1,7 @@
 import * as Google from 'expo-google-app-auth';
 import { androidClientId } from '../../credentials';
 import { request } from '../utils/request';
-import { apiUrl, endpoint } from '../constants/urls';
+import { URL, API_PATH } from '../constants';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const config = {
