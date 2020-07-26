@@ -1,17 +1,22 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { View, Text, StatusBar, Image, TouchableOpacity } from 'react-native';
-import { login as googleLogin } from '../utils/google';
+import googleLogin, { LoginResponse, GoogleResponse } from '../utils/google';
 import { styles } from '../style';
+import logger from '../utils/logger';
 
-export default function Login(props) {
-    const componentName = 'login';
-    const onLoginPress = async (type = 'google') => {
+interface LoginProps {
+    showLoader: () => void,
+    handleLogin: (status: boolean, userId: string | null, googleUserInfo: GoogleResponse | null) => void
+}
+
+export const Login: React.FC<LoginProps> = (props): ReactElement => {
+    const onLoginPress = async (type = 'google'): Promise<void> => {
         props.showLoader();
         try {
             switch (type) {
                 case 'google':
-                    const response = await googleLogin();
-                    if (response.status)
+                    const response: LoginResponse = await googleLogin();
+                    if (response.status && response.userId && response.googleUserInfo)
                         props.handleLogin(response.status, response.userId, response.googleUserInfo);
                     else
                         props.handleLogin(false, null, null);
@@ -21,21 +26,21 @@ export default function Login(props) {
             }
         }
         catch (err) {
-            console.warn('Failure', err);
+            logger.warn('Error onLoginPress' + err.toString());
             props.handleLogin(false, null, null);
         }
-
     }
     return (
-        <View style={styles[`${componentName}-container`]}>
+        <View style={styles[`${Login.displayName}-container`]}>
             <StatusBar />
             <TouchableOpacity onPress={() => onLoginPress('google')} >
-                <View style={styles[`${componentName}-btn-container`]}>
-                    <Image source={require('../assets/images/googleLogo.png')} style={styles[`${componentName}-glogo`]} />
-                    <Text style={styles[`${componentName}-gtext`]}>Sign with Google</Text>
-
+                <View style={styles[`${Login.displayName}-btn-container`]}>
+                    <Image source={require('../../assets/images/googleLogo.png')} style={styles[`${Login.displayName}-glogo`]} />
+                    <Text style={styles[`${Login.displayName}-gtext`]}>Sign with Google</Text>
                 </View>
             </TouchableOpacity>
         </View>
     )
 }
+Login.displayName = 'login';
+export default Login;

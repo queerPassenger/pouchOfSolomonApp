@@ -1,13 +1,12 @@
-import React, { useContext } from 'react';
-import { AppContext } from '../context/appContext';
+import React, { useContext, ReactElement } from 'react';
 import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import AppContext from '../context/appContext';
 import { styles } from '../style';
 
-export default function AppTab() {
-    const componentName = 'appTab';
+const AppTab: React.FC = (): ReactElement => {
     const context = useContext(AppContext);
     return (
-        <View style={styles[`${componentName}-container`]}>
+        <View style={styles[`${AppTab.displayName}-container`]}>
             {context.tabs.map((x, ind) => {
                 return (
                     <TouchableWithoutFeedback
@@ -15,9 +14,9 @@ export default function AppTab() {
                         onPress={() => context.updateSelectedTab(x.key)}
                     >
                         <View
-                            style={styles[`${componentName}-tab-container` + (x.selected ? `-selected` : ``)]}
+                            style={styles[`${AppTab.displayName}-tab-container` + (x.selected ? `-selected` : ``)]}
                         >
-                            <Text style={styles[`${componentName}-tab-text` + (x.selected ? `-selected` : ``)]}>
+                            <Text style={styles[`${AppTab.displayName}-tab-text` + (x.selected ? `-selected` : ``)]}>
                                 {x.name}
                             </Text>
                         </View>
@@ -27,3 +26,5 @@ export default function AppTab() {
         </View>
     )
 }
+AppTab.displayName = 'appTab';
+export default AppTab;

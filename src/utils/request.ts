@@ -15,6 +15,7 @@ interface Response {
 }
 export const request: RequestProps = {
     get: async (url, headers) => {
+        console.log('GET', url, headers);
         try{
             const response  = await fetch(url, {
                 method: 'GET',
@@ -36,6 +37,7 @@ export const request: RequestProps = {
         }    
     },
     post: async (url, body, headers) => {
+        console.log('POST', url, body, headers);
         try{
             const response  = await fetch(url, {
                 method: 'POST',
@@ -68,7 +70,7 @@ export const responseHandler = async (response: FetchResponse): Promise<Response
         }
     }
     catch(jsonParseErr){
-        logger.warn('Error in parsing Json '+ jsonParseErr.toString());
+        logger.warn('Error in parsing Json '+ jsonParseErr.toString()+ JSON.stringify(response));
         const textResponse = await response.text();
         return {
             status: true,

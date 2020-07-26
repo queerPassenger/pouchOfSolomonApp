@@ -4,6 +4,7 @@ import AppContext from '../context/appContext';
 import Application from './application';
 import Login from './login';
 import Loader from './loader';
+import { GoogleResponse } from '../utils/google';
 
 interface ContainerProps {
     mode: ('login' | 'application')
@@ -14,8 +15,8 @@ const Container: React.FC<ContainerProps> = (props): ReactElement  => {
         ...useContext(UserContext),
         ...useContext(AppContext)
     };
-    const handleLogin = (status, userId, googleUserInfo) => {
-        if (status) {
+    const handleLogin = (status: string, userId: string | null, googleUserInfo: GoogleResponse | null): void => {
+        if (status && userId) {
             context.updateUserId(userId);
             context.updateGoogleUserInfo(googleUserInfo);
             updateMode('application');
@@ -25,7 +26,7 @@ const Container: React.FC<ContainerProps> = (props): ReactElement  => {
             updateMode('login');
         }
     }
-    const getComponent = () => {
+    const getComponent = (): React.FC<any> => {
         switch (mode) {
             case 'login':
                 return Login;
@@ -52,3 +53,5 @@ const Container: React.FC<ContainerProps> = (props): ReactElement  => {
     }
     return render();
 }
+Container.displayName = 'container';
+export default Container;

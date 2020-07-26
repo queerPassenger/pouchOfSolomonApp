@@ -13,7 +13,7 @@ export interface AppContextType {
     transactionTypeList: Array<any>,
     amountTypeList: Array<any>,
     showLoader: () => void,
-    hideLoader: (param: boolean) => void,
+    hideLoader: (param?: boolean) => void,
     updateTabs: (param: Array<Tab>) => void,
     updateSelectedTab: (param: any) => void,
     updateTransactionTypes: (param: Array<any>) => void,

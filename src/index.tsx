@@ -9,17 +9,17 @@ import { AppLoading } from 'expo';
 
 const cacheResourcesAsync = async (): Promise<void> => {
     const images: Array<any>  = [
-        require('./assets/images/' + 'crowncrop.png'),
-        require('./assets/images/' + 'googleLogo.png'),
-        require('./assets/images/' + 'pos-logo-small.png'),
-        require('./assets/images/' + 'pos-logo-medium.png'),
-        require('./assets/images/' + 'pos-logo-large.png'),
-        require('./assets/images/' + 'filter.png'),
-        require('./assets/images/' + 'add.png'),
-        require('./assets/images/' + 'edit.png'),
-        require('./assets/images/' + 'vertical-dots.png'),
-        require('./assets/images/' + 'clock.png'),
-        require('./assets/images/' + 'calendar.png'),
+        require('../assets/images/' + 'crowncrop.png'),
+        require('../assets/images/' + 'googleLogo.png'),
+        require('../assets/images/' + 'pos-logo-small.png'),
+        require('../assets/images/' + 'pos-logo-medium.png'),
+        require('../assets/images/' + 'pos-logo-large.png'),
+        require('../assets/images/' + 'filter.png'),
+        require('../assets/images/' + 'add.png'),
+        require('../assets/images/' + 'edit.png'),
+        require('../assets/images/' + 'vertical-dots.png'),
+        require('../assets/images/' + 'clock.png'),
+        require('../assets/images/' + 'calendar.png'),
     ];
     const cacheImages: Array<Promise<void>> = images.map(image => {
         return Asset.fromModule(image).downloadAsync();

@@ -10,7 +10,7 @@ const application = {
 };
 const appHeader = {
     'appHeader-container': {
-        backgroundColor: APP_DEFAULT_COLORS.DARKCOLOR,
+        backgroundColor: APP_DEFAULT_COLORS.DARK_COLOR,
         paddingVertical: 15,
         paddingLeft: 20
     },
@@ -78,7 +78,7 @@ const appTab = {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        backgroundColor: APP_DEFAULT_COLORS.DARKCOLOR,
+        backgroundColor: APP_DEFAULT_COLORS.DARK_COLOR,
     },
     'appTab-tab-container': {
         display: 'flex',
@@ -145,7 +145,7 @@ const transactionPage = {
     'transactionPage-norecords-container-text': {
         fontWeight: 'bold',
         fontSize: 20,
-        color: APP_DEFAULT_COLORS.DARKCOLOR
+        color: APP_DEFAULT_COLORS.DARK_COLOR
     },
     'transactionPage-list-item-container': {
         flex: 1,
@@ -270,7 +270,7 @@ const filterTransaction = {
         backgroundColor: 'white',
         borderRadius: 3,
         borderWidth: 0.25,
-        borderColor: APP_DEFAULT_COLORS.DARKCOLOR,
+        borderColor: APP_DEFAULT_COLORS.DARK_COLOR,
         elevation: 3,
         width: 150,
         height: 40
@@ -298,7 +298,7 @@ const filterTransaction = {
         backgroundColor: 'white',
         borderRadius: 3,
         borderWidth: 0.25,
-        borderColor: APP_DEFAULT_COLORS.DARKCOLOR,
+        borderColor: APP_DEFAULT_COLORS.DARK_COLOR,
         elevation: 3,
         width: 180,
         height: 30
@@ -339,7 +339,7 @@ const pickerContainer = {
         backgroundColor: 'white',
         borderRadius: 3,
         borderWidth: 0.25,
-        borderColor: APP_DEFAULT_COLORS.DARKCOLOR,
+        borderColor: APP_DEFAULT_COLORS.DARK_COLOR,
         elevation: 3
     },
     'pickerContainer-simplePicker-picker-container': {

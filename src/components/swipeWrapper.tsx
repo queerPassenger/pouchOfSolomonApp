@@ -1,16 +1,15 @@
-import React from 'react';
-import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
+import React, { ReactElement, ReactNode } from 'react';
+import GestureRecognizer from 'react-native-swipe-gestures';
 
-export default function swipeWrapper(props) {
-    const swipeDirectionHandler = (direction, state) => {
+interface SwipeWrapperProps {
+    onSwipe: (param: string) => void,
+    children: ReactNode
+}
+const SwipeWrapper: React.FC<SwipeWrapperProps> = (props): ReactElement => {
+    const swipeDirectionHandler = (direction: string, state: any) => {
         props.onSwipe && props.onSwipe(direction);
     }
-    const swipeHandler = (direction, state) => {
-        const { SWIPE_UP, SWIPE_DOWN, SWIPE_LEFT, SWIPE_RIGHT } = swipeDirections;
-        return;
-    }
     return <GestureRecognizer
-        onSwipe={swipeHandler}
         onSwipeUp={(state) => swipeDirectionHandler('up', state)}
         onSwipeDown={(state) => swipeDirectionHandler('down', state)}
         onSwipeLeft={(state) => swipeDirectionHandler('left', state)}
@@ -26,3 +25,5 @@ export default function swipeWrapper(props) {
         {props.children}
     </GestureRecognizer>;
 }
+SwipeWrapper.displayName = 'swipeWrapper';
+export default SwipeWrapper;

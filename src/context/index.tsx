@@ -26,8 +26,8 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
     const loadAppContext = async (): Promise<void> => {
         showLoader();
         updateTabsContext(getAppContextSchema().tabs);
-        await getTransactionTypeList();
-        await getAmountTypeList();
+        await getTransactionType();
+        await getAmounType();
         hideLoader();
     }
     const updateTabsContext = (updatedTabs: Array<TabType>): void => {
@@ -46,9 +46,9 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
             }
         }
     }
-    const getTransactionTypeList = async (): Promise<void> => {
+    const getTransactionType = async (): Promise<void> => {
         try {
-            let response = await request.get(URL.API_URL + API_PATH.getTransactionTypeList.replace('{id}', userId), {});
+            let response = await request.get(URL.API_URL + API_PATH.GET_TRANSACTION_TYPE.replace('{id}', userId), {});
             if (response && response.status && response.type === 'json' && response.data) {
                 if (response.data.status) {
                     let responseData: Array<any> = response.data.data;
@@ -58,12 +58,12 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
             }
         }
         catch (err) {
-            logger.warn('Error getTransactionTypeList' + err.toString());            
+            logger.warn('Error getTransactionType' + err.toString());            
         }
     }
-    const getAmountTypeList = async (): Promise<void> => {
+    const getAmounType = async (): Promise<void> => {
         try {
-            let response = await request.get(URL.API_URL + API_PATH.getAmountTypeList.replace('{id}', userId), {});
+            let response = await request.get(URL.API_URL + API_PATH.GET_AMOUNT_TYPE.replace('{id}', userId), {});
             if (response && response.status && response.type === 'json' && response.data) {
                 if (response.data.status) {
                     updateAmountTypeList(response.data.data);
@@ -71,7 +71,7 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
             }
         }
         catch (err) {
-            logger.warn('Error getAmountTypeList' + err.toString()); 
+            logger.warn('Error getAmounType' + err.toString()); 
         }
     }
     const onTabSelect = (key: string) => {

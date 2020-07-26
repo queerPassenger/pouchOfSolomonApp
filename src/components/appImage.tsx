@@ -5,7 +5,7 @@ import { styles } from '../style';
 const AppImage: React.FC = (): ReactElement => {
     return(
         <View style={styles[`${AppImage.displayName}-container`]}>
-          <Image source={require('../assets/images/pos-logo-large.png')} style={styles[`${AppImage.displayName}-logo`]} />
+          <Image source={require('../../assets/images/pos-logo-large.png')} style={styles[`${AppImage.displayName}-logo`]} />
         </View>
     )
 }
