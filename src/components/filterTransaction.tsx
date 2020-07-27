@@ -1,4 +1,4 @@
-import React, { useState, useContext, ReactElement } from 'react';
+import React, { useState, useContext, ReactElement, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { styles } from '../style';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -6,37 +6,40 @@ import { getDate, getTime } from '../utils/calendar';
 import PickerContainer from './pickerContainer';
 import AppContext from '../context/appContext';
 
-export interface FeedBackProps {
-    fromDate: Date,
-    toDate: Date,
-    types?: Array<any>,
-    subTypes?: Array<any>
-}
 interface FilterTransactionProps {
-    fromDate: Date,
-    toDate: Date,
-    onFilter: (param: FeedBackProps) => void
+    fromDate: Date;
+    toDate: Date;
+    types: Array<any>;
+    subTypes: Array<any>;
+    reset: () => void;
+    onFilter: (param: FilterParamsType) => void;
+}
+export interface FilterParamsType {
+    fromDate: Date;
+    toDate: Date;
+    types: Array<any>;
+    subTypes: Array<any>;
 }
 interface ButtonContainerProps {
-    label: string,
-    onPress: (param: any) => void
+    label: string;
+    onPress: (param: any) => void;
 }
 interface DateContainerProps {
-    label: string,
-    date: Date,
-    updater: (mode: DTPModeType) => void
+    label: string;
+    date: Date;
+    updater: (mode: DTPModeType) => void;
 }
 type DTPModeType = 'time' | 'date' | 'datetime' | 'countdown' | undefined;
 interface DateTimePickerModeType {
-    mode: 'time' | 'date' | 'datetime' | 'countdown' | undefined,
-    type: string,
-    update: (date: Date) => void
+    mode: 'time' | 'date' | 'datetime' | 'countdown' | undefined;
+    type: string;
+    update: (date: Date) => void;
 }
 const FilterTransaction: React.FC<FilterTransactionProps> = (props): ReactElement => {
     const [fromDate, updateFromDate] = useState<Date>(props.fromDate);
     const [toDate, updateToDate] = useState<Date>(props.toDate);
-    const [types, updateTypes] = useState<Array<any>>([]);
-    const [subTypes, updateSubTypes] = useState<Array<any>>([]);
+    const [types, updateTypes] = useState<Array<any>>(props.types);
+    const [subTypes, updateSubTypes] = useState<Array<any>>(props.subTypes);
     const [dateTimePickerMode, updateDateTimePickerMode] = useState<DateTimePickerModeType>({
         mode: undefined,
         type: '',
@@ -45,13 +48,16 @@ const FilterTransaction: React.FC<FilterTransactionProps> = (props): ReactElemen
     const context = {
         ...useContext(AppContext)
     };
+    useEffect(() => {
+        updateFromDate(props.fromDate);
+        updateToDate(props.toDate);
+        updateTypes(props.types);
+        updateSubTypes(props.subTypes);
+    }, [props.fromDate,props.toDate, props.types, props.subTypes]);
     const resetStates = (param: string) => {
         switch (param) {
-            case 'fromDate':
-                updateFromDate(props.fromDate);
-                break;
-            case 'toDate':
-                updateToDate(props.toDate);
+            case 'filterParams':
+                props.reset();
                 break;
             case 'dateTimePickerMode':
                 updateDateTimePickerMode({
@@ -61,14 +67,13 @@ const FilterTransaction: React.FC<FilterTransactionProps> = (props): ReactElemen
                 });
                 break;
             default:
-                resetStates('fromDate');
-                resetStates('toDate');
+                resetStates('filterParams');
                 resetStates('dateTimePickerMode');
                 break;
         }
     }
     const onFilter = () => {
-        props.onFilter({ fromDate, toDate });
+        props.onFilter({ fromDate, toDate, types, subTypes });
     }
     const ButtonContainer = (buttonProps: ButtonContainerProps) => {
         return (
@@ -83,7 +88,7 @@ const FilterTransaction: React.FC<FilterTransactionProps> = (props): ReactElemen
         return (
             <View style={styles[`${FilterTransaction.displayName}-action-container`]}>
                 {ButtonContainer({
-                    label: 'CLEAR',
+                    label: 'RESET',
                     onPress: resetStates
                 })}
                 {ButtonContainer({
@@ -193,6 +198,7 @@ const FilterTransaction: React.FC<FilterTransactionProps> = (props): ReactElemen
             </ScrollView>
         )
     }
+    console.log('FilterTransaction', toDate);
     return (
         <View style={styles[`${FilterTransaction.displayName}-container`]}>
             {ActionContainer()}

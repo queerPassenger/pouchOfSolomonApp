@@ -2,6 +2,8 @@ import React, { useState, ReactElement } from 'react';
 import { View, TouchableOpacity, Text, Picker, ScrollView } from 'react-native';
 import { styles } from '../style';
 import Modal from './modal';
+import { APP_DEFAULT_COLORS } from '../constants';
+import logger from '../utils/logger';
 
 interface PickerContainerProps {
     mode: ('simple' | 'multi')
@@ -39,8 +41,30 @@ const SimplePicker: React.FC<PickerContainerProps> = (props): ReactElement => {
 }
 const MultiPicker: React.FC<PickerContainerProps> = (props): ReactElement => {
     const [showOptions, updateShowOptions] = useState(false);
-    const onOptionPress = (value: string) => {
-        props.onChange(value)
+    const [selectAll, updateSelectAll] = useState(true);
+    const onOptionPress = (selectedValue: string) => {
+        if (Array.isArray(props.value)) {
+            let values = [...props.value];
+            const ind = values.indexOf(selectedValue);
+            if (ind === -1) {
+                values.push(selectedValue);
+            }
+            else {
+                values.splice(ind, 1);
+            }
+            props.onChange(values);
+        }
+    }
+    const onOptionLongPress = () => {
+        if (Array.isArray(props.value)) {
+            let values = [...props.value];
+            if (selectAll)
+                values = props.options.map(x => x.value);
+            else
+                values = [];
+            updateSelectAll(!selectAll);
+            props.onChange(values);
+        }
     }
     const option = (_props: OptionMethodProps) => {
         return (
@@ -48,6 +72,7 @@ const MultiPicker: React.FC<PickerContainerProps> = (props): ReactElement => {
                 key={'pickerOptions-option' + _props.i}
                 style={styles[`${displayName}-multipicker-option-container`]}
                 onPress={() => onOptionPress(_props.value.value)}
+                onLongPress={() => onOptionLongPress()}
             >
                 <View style={{
                     width: 20,
@@ -57,7 +82,8 @@ const MultiPicker: React.FC<PickerContainerProps> = (props): ReactElement => {
                     borderRadius: 3,
                     marginRight: 20,
                     flexDirection: 'row',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    ...(props.value.indexOf(_props.value.value) !== -1 && { backgroundColor: APP_DEFAULT_COLORS.DARK_COLOR })
                 }}>
 
                 </View>
@@ -71,10 +97,13 @@ const MultiPicker: React.FC<PickerContainerProps> = (props): ReactElement => {
         return props.options.map((x, i) => option({ i, value: x }));
     }
     return (
-        <TouchableOpacity style={styles[`${displayName}-container`]} onPress={() => updateShowOptions(true)}>
+        <TouchableOpacity style={styles[`${displayName}-multipicker-container`]} onPress={() => updateShowOptions(true)}>
+            <Text style={styles[`${displayName}-multipicker-selected-text`]} numberOfLines={1}>
+                {props.options.filter(x => props.value.indexOf(x.value) !== -1).map(x => x.label).join(',')}
+            </Text>
             <Text style={styles[`${displayName}-label`]} >
                 {props.label}
-            </Text>
+            </Text>            
             {showOptions &&
                 <Modal onClose={() => updateShowOptions(false)}>
                     <ScrollView>

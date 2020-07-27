@@ -355,10 +355,27 @@ const pickerContainer = {
         fontStyle: 'italic',
         fontSize: 12
     },
+    'pickerContainer-multipicker-container': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',        
+        width: 250,
+        height: 40,
+        backgroundColor: 'white',
+        borderRadius: 3,
+        borderWidth: 0.25,
+        borderColor: APP_DEFAULT_COLORS.DARK_COLOR,
+        elevation: 3,
+        paddingHorizontal: 5      
+    },
     'pickerContainer-multipicker-option-container': {
         flexDirection: 'row',
         padding: 20,
         alignItems: 'center',        
+    },
+    'pickerContainer-multipicker-selected-text': {
+        fontWeight: 'bold',
+        fontSize: 16
     },
     'pickerContainer-multipicker-option-text': {
         fontWeight: 'bold',

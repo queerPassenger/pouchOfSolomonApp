@@ -4,6 +4,7 @@ import AppContext, { getAppContextSchema, Tab as TabType } from './appContext';
 import  logger from '../utils/logger';
 import { request } from '../utils/request';
 import { URL, API_PATH } from '../constants';
+import AppImage from '../components/appImage';
 
 interface ContextProps {
     userId: string,
@@ -18,7 +19,7 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
     const [transactionTypes, updateTransactionTypes] = useState<Array<any>>([]);
     const [transactionTypeList, updateTransactionTypeList] = useState<Array<any>>([]);
     const [amountTypeList, updateAmountTypeList] = useState<Array<any>>([]);
-
+    const [contextLoaded, updateContextLoaded] = useState<boolean>(false);
     useEffect((): void => {
         loadAppContext();        
     }, []);
@@ -28,6 +29,7 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
         updateTabsContext(getAppContextSchema().tabs);
         await getTransactionType();
         await getAmounType();
+        updateContextLoaded(true);
         hideLoader();
     }
     const updateTabsContext = (updatedTabs: Array<TabType>): void => {
@@ -111,7 +113,7 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
                 updateTransactionTypeList,
                 updateAmountTypeList
             }}>
-                {props.children}
+                {contextLoaded? props.children: <AppImage />}
             </AppContext.Provider>
         </UserContext.Provider>
     )

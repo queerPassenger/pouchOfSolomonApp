@@ -8,54 +8,114 @@ import { getDate, getTime } from '../utils/calendar';
 import { LinearGradient } from 'expo-linear-gradient';
 import { styles } from '../style';
 import Modal from './modal';
-import FilterTransaction, { FeedBackProps } from './filterTransaction';
+import FilterTransaction, { FilterParamsType } from './filterTransaction';
 import AddTransaction from './addTransaction';
+import logger from '../utils/logger';
 
 interface ItemProps {
     amount: number,
     amountTypeId: number,
     comment: string,
     transactionTypeId: number,
-    transactionTypeName: string,
     createdTimeStamp: string
+};
+interface ListItemProps {
+    amount: number,
+    amountTypeId: number,
+    comment: string,
+    transactionTypeId: number,
+    createdTimeStamp: string,
+    transactionTypeName: string,
+    transactionClassification: string
+}
+interface ModalProps {
+    flag: boolean,
+    type: string
 }
 const TransactionPage: React.FC = (): ReactElement => {
-    const [list, updateList] = useState([]);
-    const [modal, updateModal] = useState({
-        flag: false,
-        type: ''
-    })
-    const [fromDate, updateFromDate] = useState<Date>(new Date(new Date().getFullYear(), 0, 1));
-    const [toDate, updateToDate] = useState<Date>(new Date());
     const context = {
         ...useContext(UserContext),
         ...useContext(AppContext)
     };
+    
+    const getInitialState = (state: string): { state: any } => {
+        switch (state) {
+            case 'filterParams':
+                return {
+                    state: {
+                        fromDate: new Date(new Date().getFullYear(), 0, 1),
+                        toDate: new Date(),
+                        types: context.transactionTypes.map(x => x),
+                        subTypes: context.transactionTypeList.map(x => x.transactionTypeId)
+                    }
+                };
+            case 'list':
+                return {
+                    state: []
+                };
+            case 'modal':
+                return {
+                    state: {
+                        flag: false,
+                        type: ''
+                    }
+                };
+            default:
+                return {
+                    state: undefined
+                }
+        }
+    }
+    const [filterParams, updateFilterParams] = useState<FilterParamsType>(getInitialState('filterParams').state);
+    const [triggerLoadData, updateTriggerLoadData] = useState<boolean>(true);
+    const [list, updateList] = useState<Array<any>>(getInitialState('list').state);
+    const [modal, updateModal] = useState<ModalProps>(getInitialState('modal').state);
+
     useEffect(() => {
-        loadData();
+        if (triggerLoadData) {
+            loadData();
+            updateTriggerLoadData(false)
+        }
     }, []);
+    useEffect(() => {
+        console.log('FilterParams', triggerLoadData);
+        if (triggerLoadData) {
+            loadData();
+            updateTriggerLoadData(false)
+        }
+    }, [filterParams]);
     const loadData = async (): Promise<void> => {
         context.showLoader();
-        await getTransaction(fromDate, toDate);
+        await getTransaction();
         context.hideLoader();
     }
-    const getTransaction = async (fromDate: Date, toDate: Date): Promise<boolean> => {
+    const getTransaction = async (): Promise<boolean> => {
+        const { fromDate, toDate, types, subTypes } = filterParams;
         const body = {
             fromDate,
             toDate
         };
+        updateList([]);
         try {
             let response = await request.post(URL.API_URL + API_PATH.GET_TRANSACTION.replace('{id}', context.userId), body, {})
             if (response && response.status && response.type === 'json' && response.data) {
                 if (response.data.status) {
-                    updateList(response.data.data.reverse());
+                    let result = response.data.data.map((item: ItemProps) => {
+                        let transactionType = context.transactionTypeList.filter(x => x.transactionTypeId === item.transactionTypeId)[0] || {};
+                        return {
+                            ...item,
+                            transactionTypeName: transactionType.transactionTypeName,
+                            transactionClassification: transactionType.transactionClassification
+                        }
+                    }).filter((x: ListItemProps) => types.indexOf(x.transactionClassification) !== -1 || subTypes.indexOf(x.transactionTypeId) !== -1).reverse();
+                    updateList(result);
                     return true;
                 }
             }
             return false;
         }
         catch (err) {
-            console.warn('Error getTransaction', err)
+            logger.warn('Error getTransaction' + err.toString())
             return false
         }
     }
@@ -66,20 +126,14 @@ const TransactionPage: React.FC = (): ReactElement => {
         });
     }
     const closeModal = (): void => {
-        updateModal({
-            flag: false,
-            type: ''
-        });
+        updateModal(getInitialState('modal').state);
     }
-    const onFilter = async ({ fromDate, toDate }: FeedBackProps): Promise<any> => {
+    const onFilter = async (filterParams: FilterParamsType): Promise<any> => {
         closeModal();
-        updateFromDate(fromDate);
-        updateToDate(toDate);
-        context.showLoader();
-        await getTransaction(fromDate, toDate);
-        context.hideLoader();
+        updateTriggerLoadData(true);
+        updateFilterParams(filterParams);
     }
-    const ListItem = (item: ItemProps | undefined) => {
+    const ListItem = (item: ListItemProps | undefined) => {
         if (!item) {
             let totalLayers = 3;
             return (
@@ -99,7 +153,6 @@ const TransactionPage: React.FC = (): ReactElement => {
             )
         }
         else {
-            const transactionType = context.transactionTypeList.filter(x => x.transactionTypeId === item.transactionTypeId)[0] || {};
             const amountType = context.amountTypeList.filter(x => x.amountTypeId === item.amountTypeId)[0] || {};
             const change = (item.amount - Math.floor(item.amount)).toFixed(2).split('.')[1];
             return (
@@ -109,7 +162,7 @@ const TransactionPage: React.FC = (): ReactElement => {
                             {item.comment}
                         </Text>
                         <Text style={styles[`${TransactionPage.displayName}-list-item-sub-container2-text2`]} numberOfLines={1}>
-                            {transactionType.transactionTypeName ? transactionType.transactionTypeName : ''}
+                            {item.transactionTypeName ? item.transactionTypeName : ''}
                         </Text>
                         <Text style={styles[`${TransactionPage.displayName}-list-item-sub-container2-text3`]} numberOfLines={1}>
                             {getDate(item.createdTimeStamp ? new Date(item.createdTimeStamp) : new Date())}
@@ -127,7 +180,7 @@ const TransactionPage: React.FC = (): ReactElement => {
                         <View>
                             <Text style={{
                                 ...styles[`${TransactionPage.displayName}-list-item-sub-container3-text2`],
-                                ...{ color: transactionType.transactionClassification === 'expense' ? 'red' : 'green' }
+                                ...{ color: item.transactionClassification === 'expense' ? 'red' : 'green' }
                             }} numberOfLines={1}>
                                 {item.amount.toFixed(0)}
                             </Text>
@@ -189,8 +242,11 @@ const TransactionPage: React.FC = (): ReactElement => {
             case 'filter':
                 return (
                     <FilterTransaction
-                        fromDate={fromDate}
-                        toDate={toDate}
+                        {...filterParams}
+                        reset={() => {
+                            updateTriggerLoadData(false);
+                            updateFilterParams(getInitialState('filterParams').state)
+                        }}
                         onFilter={onFilter}
                     />
                 );
@@ -212,6 +268,7 @@ const TransactionPage: React.FC = (): ReactElement => {
                 </Modal>
             )
     }
+    console.log('TransactionPage', filterParams.toDate);
     return (
         <View style={styles[`${TransactionPage.displayName}-container`]}>
             {ListContainer()}
