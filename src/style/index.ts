@@ -133,8 +133,7 @@ const transactionPage = {
         flexDirection: 'row',
         backgroundColor: 'white',
         flex: 1,
-        justifyContent: 'space-evenly',
-        backgroundColor: 'white'
+        justifyContent: 'space-evenly'
     },
     'transactionPage-norecords-container': {
         flexDirection: 'column',
@@ -225,6 +224,11 @@ const transactionPage = {
         textAlign: 'right',
         fontStyle: 'italic'
     },
+    'transactionPage-list-item-sub-container3-text4': {
+        textAlign: 'right',
+        fontSize: 14,
+        color: 'white'
+    },
     'transactionPage-footer-container-sub-container': {
         flex: 1,
         flexDirection: 'row',
@@ -233,8 +237,9 @@ const transactionPage = {
         elevation: 1
     },
     'transactionPage-footer-container-sub-container-image': {
-        width: 30,
-        height: 30
+        width: 23,
+        height: 23,
+        marginTop: 10
     }
 
 };

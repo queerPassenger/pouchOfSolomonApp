@@ -2,7 +2,8 @@ import logger from '../utils/logger';
 
 interface RequestProps {
     get: (url: string, headers?: any) => Promise<Response>,
-    post: (url: string, body: any, headers?: any) => Promise<Response>
+    post: (url: string, body: any, headers?: any) => Promise<Response>,
+    delete: (url: string, body?: any, headers?: any) => Promise<Response>
 }
 interface FetchResponse {
     text: () => Promise<any>,
@@ -15,7 +16,6 @@ interface Response {
 }
 export const request: RequestProps = {
     get: async (url, headers) => {
-        console.log('GET', url, headers);
         try{
             const response  = await fetch(url, {
                 method: 'GET',
@@ -28,7 +28,7 @@ export const request: RequestProps = {
             return await responseHandler(response);       
         }
         catch(err){
-            logger.warn('Error'+ err.toString());
+            logger.warn('Error in request get'+ err.toString());
             return {
                 status: false,
                 type: 'error',
@@ -37,7 +37,6 @@ export const request: RequestProps = {
         }    
     },
     post: async (url, body, headers) => {
-        console.log('POST', url, body, headers);
         try{
             const response  = await fetch(url, {
                 method: 'POST',
@@ -51,7 +50,29 @@ export const request: RequestProps = {
             return await responseHandler(response);       
         }
         catch(err){
-            logger.warn('Error'+ err.toString());
+            logger.warn('Error in request post'+ err.toString());
+            return {
+                status: false,
+                type: 'error',
+                data: err
+            }
+        }        
+    },
+    delete: async (url, body, headers) => {
+        try{
+            const response  = await fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    ...headers
+                },
+                body: JSON.stringify(body)
+            });
+            return await responseHandler(response);       
+        }
+        catch(err){
+            logger.warn('Error in request delete'+ err.toString());
             return {
                 status: false,
                 type: 'error',
