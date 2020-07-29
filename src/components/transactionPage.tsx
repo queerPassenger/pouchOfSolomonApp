@@ -78,7 +78,6 @@ const TransactionPage: React.FC = (): ReactElement => {
         }
     }, []);
     useEffect(() => {
-        console.log('FilterParams', triggerLoadData);
         if (triggerLoadData) {
             loadData();
             updateTriggerLoadData(false)
@@ -268,7 +267,7 @@ const TransactionPage: React.FC = (): ReactElement => {
                 </Modal>
             )
     }
-    console.log('TransactionPage', filterParams.toDate);
+    console.log('AppContext', context.transactionTypeList);
     return (
         <View style={styles[`${TransactionPage.displayName}-container`]}>
             {ListContainer()}

@@ -10,8 +10,9 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
+    "android": {
+      "package": "com.pouchOfSolomon.pouchOfSolomonApp",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"

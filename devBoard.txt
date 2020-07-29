@@ -1,0 +1,13 @@
+QueerPassenger Dev Board
+
+Higher level 
+- Version controlled Api 
+- Async Storage Expiration
+- Publishing into Apk and distributing it to PlayStore
+- Splash image to be set
+
+App level
+- Selecting a transaction on long press
+- Edit 
+- Delete
+- Add
