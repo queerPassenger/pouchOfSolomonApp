@@ -410,7 +410,9 @@ const TransactionPage: React.FC = (): ReactElement => {
                 );
             case 'add':
                 return (
-                    <AddTransaction />
+                    <AddTransaction 
+                        onBack={closeModal}                        
+                    />
                 );
             default:
                 return (null)

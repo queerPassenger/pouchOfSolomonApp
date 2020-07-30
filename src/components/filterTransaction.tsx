@@ -198,7 +198,6 @@ const FilterTransaction: React.FC<FilterTransactionProps> = (props): ReactElemen
             </ScrollView>
         )
     }
-    console.log('FilterTransaction', toDate);
     return (
         <View style={styles[`${FilterTransaction.displayName}-container`]}>
             {ActionContainer()}

@@ -393,7 +393,83 @@ const pickerContainer = {
         fontWeight: 'bold',
         fontSize: 16
     }    
-}
+};
+const addTransaction = {
+    'addTransaction-container': {
+        flexDirection: 'column',
+        flex: 1
+    },
+    'addTransaction-header': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 10,
+        paddingBottom: 15,
+        elevation: 1,
+        borderWidth: 0.02
+    },
+    'addTransaction-header-part1': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 2,
+        bottom: 2
+    },
+    'addTransaction-header-part1-txt': {
+        fontSize: 40
+    },
+    'addTransaction-header-part2': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 6,
+        paddingTop: 14
+    },
+    'addTransaction-header-part2-txt': {
+        fontSize: 17
+    },
+    'addTransaction-header-part3': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 2
+    },
+    'addTransaction-header-part3-txt': {
+        fontSize: 30
+    },
+    'addTransaction-header-part4': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 2
+    },
+    'addTransaction-header-part4-txt': {
+        fontSize: 25
+    },
+    'addTransaction-body': {
+        flex: 1,
+        flexDirection: 'column',
+        paddingVertical: 20,
+        paddingHorizontal: 5
+    },
+    'addTransaction-body-part1': {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 10
+    },
+    'addTransaction-body-part1-sub': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingVertical: 15,
+        paddingHorizontal: 25,
+        width: 150
+    },
+    'addTransaction-body-part1-sub-txt': {
+        fontSize: 18,
+        textTransform: 'capitalize',
+        color: 'gray'
+    }
+};
 export const styles = StyleSheet.create<any>({
     ...application,
     ...appHeader,
@@ -405,5 +481,6 @@ export const styles = StyleSheet.create<any>({
     ...transactionPage,
     ...modalComponent,
     ...filterTransaction,
-    ...pickerContainer
+    ...pickerContainer,
+    ...addTransaction
 });
