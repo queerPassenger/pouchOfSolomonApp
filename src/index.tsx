@@ -25,20 +25,26 @@ const cacheResourcesAsync = async (): Promise<void> => {
 const Index: React.FC = (): ReactElement => {
     const [mode, updateMode]= useState<string>('appLoading');
     const [userId, updateUserId] = useState<string>('');
+    const [googleUserInfo, updateGoogleUserInfo] = useState<any>({});
     const assetsLoaded = (): void => {
         updateMode('appImage');
-        setTimeout(async (): Promise<any> => {
-            try{
-                let resp = await AsyncStorage.getItem('app-userId');
-                updateUserId(resp? resp: '');            
+        setTimeout(loadStoredItems, 3000) 
+    }
+    const loadStoredItems = async (): Promise<void> => {
+        try{
+            let asyncStoredItems = {
+                userId: await AsyncStorage.getItem('app-userId'),
+                googleUserInfo: await AsyncStorage.getItem('google-userInfo')
             }
-            catch(err){
-                logger.info('Failed to load app user details')
-            }   
-            finally{
-                updateMode('app');
-            }  
-        }, 3000) 
+            updateUserId(asyncStoredItems.userId ? asyncStoredItems.userId : '');
+            updateGoogleUserInfo(asyncStoredItems.googleUserInfo ? JSON.parse(asyncStoredItems.googleUserInfo): {});
+        }
+        catch(err){
+            logger.info('Failed to load app user details')
+        }   
+        finally{
+            updateMode('app');
+        }  
     }
     if (mode === 'appLoading')
         return <AppLoading
@@ -50,8 +56,11 @@ const Index: React.FC = (): ReactElement => {
         return <AppImage />
     else
         return (
-            <GlobalContext userId={userId}>
-                <Container mode={userId? 'application': 'login'}/>
+            <GlobalContext 
+                userId={userId} 
+                googleUserInfo={googleUserInfo}
+            >
+                <Container mode={userId && googleUserInfo.user ? 'application': 'login'}/>
             </GlobalContext>
         )
 }

@@ -12,12 +12,19 @@ const appHeader = {
     'appHeader-container': {
         backgroundColor: APP_DEFAULT_COLORS.DARK_COLOR,
         paddingVertical: 15,
-        paddingLeft: 20
+        paddingHorizontal: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     'appHeader-appName': {
         color: 'white',
         fontSize: 16,
         fontWeight: 'bold'
+    },   
+    'appHeader-userImg': {
+        width: 30,
+        height: 30,
+        borderRadius: 5
     }
 };
 const appImage = {
@@ -247,7 +254,7 @@ const modalComponent = {
     'modalComponent-container': {
         flex: 1,
         justifyContent: 'center',
-        padding: 20
+        //padding: 20
     },
     'modalComponent-sub-container': {
         flex: 1,

@@ -9,10 +9,11 @@ import AppImage from '../components/appImage';
 interface ContextProps {
     userId: string,
     children: ReactNode,
+    googleUserInfo: any
 }
 const Context: React.FC<ContextProps> = (props): ReactElement => {
     const [userId, updateUserId] = useState<string>(props.userId);
-    const [googleUserInfo, updateGoogleUserInfo] = useState<any>({});
+    const [googleUserInfo, updateGoogleUserInfo] = useState<any>(props.googleUserInfo);
     const [loader, updateLoader] = useState<number>(0);    
     const [tabs, updateTabs] = useState<Array<TabType>>([]);
     const [selectedTab, updateSelectedTab] = useState<string>('');

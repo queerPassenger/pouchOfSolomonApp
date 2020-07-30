@@ -154,7 +154,8 @@ const TransactionPage: React.FC = (): ReactElement => {
         updateFilterParams(filterParams);
     }
     const onItemSelect = (id: string, longPress: boolean) => {
-        let _selectionEnabled = longPress ? !selectionEnabled : selectionEnabled;
+       // let _selectionEnabled = longPress ? !selectionEnabled : selectionEnabled;
+        let _selectionEnabled = true;
         if (_selectionEnabled) {
             updateList(list.map(x => {
                 return {
@@ -285,7 +286,11 @@ const TransactionPage: React.FC = (): ReactElement => {
             const amountType = context.amountTypeList.filter(x => x.amountTypeId === item.amountTypeId)[0] || {};
             const change = (item.amount - Math.floor(item.amount)).toFixed(2).split('.')[1];
             return (
-                <TouchableOpacity onPress={() => selectionEnabled && onItemSelect(item.transactionId, false)} onLongPress={() => onItemSelect(item.transactionId, true)}>
+                <TouchableOpacity 
+                   // onPress={() => selectionEnabled && onItemSelect(item.transactionId, false)} 
+                   // onLongPress={() => onItemSelect(item.transactionId, true)}
+                   onPress={() => onItemSelect(item.transactionId, true)}
+                >
                     <LinearGradient colors={[APP_DEFAULT_COLORS.DARK_COLOR, APP_DEFAULT_COLORS.DARK_COLOR, 'rgb(88, 62, 78)']} style={styles[`${TransactionPage.displayName}-list-item-container`]} >
                         <View style={styles[`${TransactionPage.displayName}-list-item-sub-container2`]}>
                             <Text style={styles[`${TransactionPage.displayName}-list-item-sub-container2-text1`]} numberOfLines={1} >
