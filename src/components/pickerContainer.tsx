@@ -13,7 +13,7 @@ interface PickerContainerProps {
     options: Array<OptionProps>,
     onChange: (value: any) => void
 }
-interface OptionProps {
+export interface OptionProps {
     value: string,
     label: string
 }

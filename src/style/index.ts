@@ -20,7 +20,7 @@ const appHeader = {
         color: 'white',
         fontSize: 16,
         fontWeight: 'bold'
-    },   
+    },
     'appHeader-userImg': {
         width: 30,
         height: 30,
@@ -312,7 +312,7 @@ const filterTransaction = {
         borderWidth: 0.25,
         borderColor: APP_DEFAULT_COLORS.DARK_COLOR,
         elevation: 3,
-        width: 180,
+        width: '70%',
         height: 30
     },
     'filterTransaction-datetime-text': {
@@ -345,8 +345,8 @@ const filterTransaction = {
 const pickerContainer = {
     'pickerContainer-container': {
         flexDirection: 'row',
-        alignItems: 'center',        
-        width: 250,
+        alignItems: 'center',
+        width: '90%',
         height: 40,
         backgroundColor: 'white',
         borderRadius: 3,
@@ -370,29 +370,28 @@ const pickerContainer = {
     'pickerContainer-multipicker-container': {
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center',        
-        width: 250,
+        alignItems: 'center',
+        width: '90%',
         height: 40,
         backgroundColor: 'white',
         borderRadius: 3,
         borderWidth: 0.25,
         borderColor: APP_DEFAULT_COLORS.DARK_COLOR,
         elevation: 3,
-        paddingHorizontal: 5      
+        paddingHorizontal: 5
     },
     'pickerContainer-multipicker-option-container': {
         flexDirection: 'row',
         padding: 20,
-        alignItems: 'center',        
+        alignItems: 'center',
     },
     'pickerContainer-multipicker-selected-text': {
-        fontWeight: 'bold',
         fontSize: 16
     },
     'pickerContainer-multipicker-option-text': {
         fontWeight: 'bold',
         fontSize: 16
-    }    
+    }
 };
 const addTransaction = {
     'addTransaction-container': {
@@ -455,21 +454,58 @@ const addTransaction = {
     'addTransaction-body-part1': {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        marginVertical: 10
     },
     'addTransaction-body-part1-sub': {
         flexDirection: 'row',
         justifyContent: 'center',
-        paddingVertical: 15,
+        paddingVertical: 8,
         paddingHorizontal: 25,
-        width: 150
+        width: 150,
+        elevation: 1,
+        borderWidth: 0.2,
+        borderColor: 'transparent',
+        borderRadius: 3,
     },
     'addTransaction-body-part1-sub-txt': {
-        fontSize: 18,
+        fontSize: 16,
         textTransform: 'capitalize',
         color: 'gray'
+    },
+    'addTransaction-body-part': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 10,
+        marginTop: 50
     }
 };
+const textInputContainer = {
+    'textInputContainer-container': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '90%',
+        height: 40,
+        backgroundColor: 'white',
+        borderRadius: 3,
+        borderWidth: 0.25,
+        borderColor: APP_DEFAULT_COLORS.DARK_COLOR,
+        elevation: 3,
+        paddingHorizontal: 5
+    },
+    'textInputContainer-label': {
+        position: 'absolute',
+        bottom: 32,
+        right: 10,
+        backgroundColor: 'white',
+        color: 'gray',
+        fontWeight: 'bold',
+        fontStyle: 'italic',
+        fontSize: 12
+    },
+}
 export const styles = StyleSheet.create<any>({
     ...application,
     ...appHeader,
@@ -482,5 +518,6 @@ export const styles = StyleSheet.create<any>({
     ...modalComponent,
     ...filterTransaction,
     ...pickerContainer,
-    ...addTransaction
+    ...addTransaction,
+    ...textInputContainer
 });

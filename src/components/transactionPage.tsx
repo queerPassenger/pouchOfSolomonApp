@@ -103,9 +103,9 @@ const TransactionPage: React.FC = (): ReactElement => {
         }
     }, [filterParams]);
     const loadData = async (): Promise<void> => {
-        context.showLoader();
+        context.showLoader();        
         await getTransaction();
-        context.hideLoader();
+        context.hideLoader();        
     }
     const getTransaction = async (): Promise<boolean> => {
         const { fromDate, toDate, types, subTypes } = filterParams;
@@ -206,9 +206,7 @@ const TransactionPage: React.FC = (): ReactElement => {
                             text: ALERT_BUTTON.OK,
                             onPress: async () => {
                                 updateAlert(getInitialState('alert').state);
-                                context.showLoader();
-                                await getTransaction();
-                                context.hideLoader();
+                                loadData();
                             },
                             type: 'default'
                         }
@@ -411,7 +409,13 @@ const TransactionPage: React.FC = (): ReactElement => {
             case 'add':
                 return (
                     <AddTransaction 
-                        onBack={closeModal}                        
+                        onBack={(trigger) => {
+                            closeModal();
+                            if(trigger){
+                                updateTriggerLoadData(true);
+                                updateFilterParams(getInitialState('filterParams').state);
+                            }
+                        }}    
                     />
                 );
             default:

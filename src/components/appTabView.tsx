@@ -9,6 +9,7 @@ import AnalysePage from './analysePage';
 const AppTabView: React.FC = (): ReactElement => {
     const context = useContext(AppContext);
     const onSwipe = (direction: string): void => {
+        return;
         const tabSelectedInd = context.tabs.findIndex(x => x.selected);
         if (tabSelectedInd >= 0) {
             let tabCurrentSelectedInd;
