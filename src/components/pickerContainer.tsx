@@ -99,7 +99,7 @@ const MultiPicker: React.FC<PickerContainerProps> = (props): ReactElement => {
     return (
         <TouchableOpacity style={styles[`${displayName}-multipicker-container`]} onPress={() => updateShowOptions(true)}>
             <Text style={styles[`${displayName}-multipicker-selected-text`]} numberOfLines={1}>
-                {props.options.filter(x => props.value.indexOf(x.value) !== -1).map(x => x.label).join(',')}
+                {props.options.filter(x => props.value.indexOf(x.value) !== -1).map(x => x.label).join(', ')}
             </Text>
             <Text style={styles[`${displayName}-label`]} >
                 {props.label}

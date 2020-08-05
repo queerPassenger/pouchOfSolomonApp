@@ -15,7 +15,8 @@ export enum API_PATH {
     GET_TRANSACTION_TYPE = 'getTransactionTypeList?id={id}',
     GET_AMOUNT_TYPE = 'getAmountTypeList?id={id}',
     DELETE_TRANSACTION = 'deleteTransaction?id={id}',
-    ADD_TRANSACTION = 'recordTransaction?id={id}'
+    ADD_TRANSACTION = 'recordTransaction?id={id}',
+    UPDATE_TRANSACTION = 'updateTransaction?id={id}'
 };
 export enum ALERT_TITLE {
     WARNING =  'Warning',
@@ -28,7 +29,10 @@ export enum ALERT_MSG {
     CONFIRMATION_DELETE_TRANSACTION = 'Are you sure want to delete these items',
     UNMET_PREREQ_DELETE_TRANSACTION = 'Please select atleast one item before deleting',
     UNMET_ADD_TRANSACTION = 'Please fill all the fields before adding',
-    SUCCESS_ADD_TRANSACTION = 'Added successfully'
+    SUCCESS_ADD_TRANSACTION = 'Added successfully',
+    UNMET_PREREQ_UPDATE_TRANSACTION = 'Please select one item at a time to update',    
+    UNMET_UPDATE_TRANSACTION = 'Please fill all the fields before updating',
+    SUCCESS_UPDATE_TRANSACTION = 'Updated successfully',
 };
 export enum ALERT_BUTTON {
     YES = 'Yes',

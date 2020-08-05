@@ -369,7 +369,6 @@ const pickerContainer = {
     },
     'pickerContainer-multipicker-container': {
         flexDirection: 'row',
-        justifyContent: 'center',
         alignItems: 'center',
         width: '90%',
         height: 40,
@@ -378,7 +377,7 @@ const pickerContainer = {
         borderWidth: 0.25,
         borderColor: APP_DEFAULT_COLORS.DARK_COLOR,
         elevation: 3,
-        paddingHorizontal: 5
+        paddingHorizontal: 8
     },
     'pickerContainer-multipicker-option-container': {
         flexDirection: 'row',
@@ -386,19 +385,19 @@ const pickerContainer = {
         alignItems: 'center',
     },
     'pickerContainer-multipicker-selected-text': {
-        fontSize: 16
+        fontSize: 14
     },
     'pickerContainer-multipicker-option-text': {
         fontWeight: 'bold',
         fontSize: 16
     }
 };
-const addTransaction = {
-    'addTransaction-container': {
+const modalChildrenPage = {
+    'modalChildrenPage-container': {
         flexDirection: 'column',
         flex: 1
     },
-    'addTransaction-header': {
+    'modalChildrenPage-header': {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -407,57 +406,57 @@ const addTransaction = {
         elevation: 1,
         borderWidth: 0.02
     },
-    'addTransaction-header-part1': {
+    'modalChildrenPage-header-part1': {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         flex: 2,
         bottom: 2
     },
-    'addTransaction-header-part1-txt': {
+    'modalChildrenPage-header-part1-txt': {
         fontSize: 40
     },
-    'addTransaction-header-part2': {
+    'modalChildrenPage-header-part2': {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         flex: 6,
         paddingTop: 14
     },
-    'addTransaction-header-part2-txt': {
+    'modalChildrenPage-header-part2-txt': {
         fontSize: 17
     },
-    'addTransaction-header-part3': {
+    'modalChildrenPage-header-part3': {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         flex: 2
     },
-    'addTransaction-header-part3-txt': {
+    'modalChildrenPage-header-part3-txt': {
         fontSize: 30
     },
-    'addTransaction-header-part4': {
+    'modalChildrenPage-header-part4': {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         flex: 2
     },
-    'addTransaction-header-part4-txt': {
+    'modalChildrenPage-header-part4-txt': {
         fontSize: 25
     },
-    'addTransaction-body': {
+    'modalChildrenPage-body': {
         flex: 1,
         flexDirection: 'column',
         paddingVertical: 20,
         paddingHorizontal: 5
     },
-    'addTransaction-body-part1': {
+    'modalChildrenPage-body-part1': {
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 10,
         marginVertical: 10
     },
-    'addTransaction-body-part1-sub': {
+    'modalChildrenPage-body-part1-sub': {
         flexDirection: 'row',
         justifyContent: 'center',
         paddingVertical: 8,
@@ -468,17 +467,39 @@ const addTransaction = {
         borderColor: 'transparent',
         borderRadius: 3,
     },
-    'addTransaction-body-part1-sub-txt': {
+    'modalChildrenPage-body-part1-sub-txt': {
         fontSize: 16,
         textTransform: 'capitalize',
         color: 'gray'
     },
-    'addTransaction-body-part': {
+    'modalChildrenPage-body-part': {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: 10,
         marginTop: 50
+    },
+    'modalChildrenPage-body-part-sub-box': {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '90%',
+        height: 40,
+        backgroundColor: 'white',
+        borderRadius: 3,
+        borderWidth: 0.25,
+        borderColor: APP_DEFAULT_COLORS.DARK_COLOR,
+        elevation: 3,
+        paddingHorizontal: 8
+    },
+    'modalChildrenPage-body-part-sub-box-label': {
+        position: 'absolute',
+        bottom: 32,
+        right: 10,
+        backgroundColor: 'white',
+        color: 'gray',
+        fontWeight: 'bold',
+        fontStyle: 'italic',
+        fontSize: 12
     }
 };
 const textInputContainer = {
@@ -518,6 +539,6 @@ export const styles = StyleSheet.create<any>({
     ...modalComponent,
     ...filterTransaction,
     ...pickerContainer,
-    ...addTransaction,
+    ...modalChildrenPage,
     ...textInputContainer
 });

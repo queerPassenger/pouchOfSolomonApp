@@ -1,10 +1,10 @@
-import React, { ReactElement, useState, useContext } from 'react';
+import React, { ReactElement, useState, useContext, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { styles } from '../style';
 import logger from '../utils/logger';
 import AppContext from '../context/appContext';
 import { URL, API_PATH, APP_DEFAULT_COLORS, ALERT_TITLE, ALERT_MSG, ALERT_BUTTON } from '../constants';
-import PickerContainer, { OptionProps } from '../components/pickerContainer';
+import PickerContainer, { OptionProps } from './pickerContainer';
 import TextInputContainer from './textInputContainer';
 import { showAlert } from '../utils/alert';
 import { Keyboard } from 'react-native';
@@ -13,21 +13,24 @@ import UserContext from '../context/userContext';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { getDate, getTime } from '../utils/calendar';
 import Loader from './loader';
+import { ListItemProps } from './transactionPage';
 
-interface AddTransactionProps {
+interface UpdateTransactionProps {
+    selected: Array<ListItemProps>,
     onBack: (flag: boolean) => void
 };
 interface RecordTransactionPayloadType {
     amount: number,
     amountTypeId: number,
     comment: string,
-    createdTimeStamp: string,
-    lastUpdatedTimeStamp: '',
+    createdTimeStamp: '',
+    lastUpdatedTimeStamp: string,
     timeStamp: string,
-    transactionTypeId: number
+    transactionTypeId: number,
+    transactionId: string
 }
 const commonDisplayName = 'modalChildrenPage';
-const AddTransaction: React.FC<AddTransactionProps> = (props): ReactElement => {
+const UpdateTransaction: React.FC<UpdateTransactionProps> = (props): ReactElement => {
     const context = {
         ...useContext(AppContext),
         ...useContext(UserContext)
@@ -62,25 +65,26 @@ const AddTransaction: React.FC<AddTransactionProps> = (props): ReactElement => {
     }
     const [types, subTypes, amountTypes] = loadInitialData();
     const getInitialState = (key: string): { state: any } => {
+        let selected = props.selected[0];
         let state;
         switch (key) {
             case 'transactionDateTime':
-                state = new Date();
+                state = new Date(selected.timeStamp);
                 break;
             case 'type':
-                state = types[0];
+                state = selected.transactionClassification.toUpperCase();
                 break;
             case 'subTypeId':
-                state = subTypes[0][0].value.toString();
+                state = selected.transactionTypeId.toString();
                 break;
             case 'amount':
-                state = '';
+                state = selected.amount.toString();
                 break;
             case 'amountTypeId':
-                state = '49';
+                state = selected.amountTypeId.toString();
                 break;
             case 'comment':
-                state = '';
+                state = selected.comment;
                 break;
             case 'dateTimeMode':
                 state;
@@ -99,6 +103,7 @@ const AddTransaction: React.FC<AddTransactionProps> = (props): ReactElement => {
     const [comment, updateComment] = useState<string>(getInitialState('comment').state);
     const [dateTimeMode, updateDateTimeMode] = useState<any>(getInitialState('dateTimeMode').state);
     const [loader, updateLoader] = useState<boolean>(getInitialState('loader').state);
+
     const onReset = () => {
         updateTransactionDateTime(getInitialState('transactionDateTime').state);
         updateType(getInitialState('type').state);
@@ -123,18 +128,19 @@ const AddTransaction: React.FC<AddTransactionProps> = (props): ReactElement => {
         else
             return true;
     }
-    const proceedToAdd = async (): Promise<boolean> => {
+    const proceedToUpdate = async (): Promise<boolean> => {
         let body: Array<RecordTransactionPayloadType> = [{
             amount: +amount,
             amountTypeId: +amountTypeId,
             comment,
-            createdTimeStamp: new Date().toISOString(),
-            lastUpdatedTimeStamp: '',
+            createdTimeStamp: '',
+            lastUpdatedTimeStamp: new Date().toISOString(),
             timeStamp: transactionDateTime.toISOString(),
-            transactionTypeId: +subTypeId
+            transactionTypeId: +subTypeId,
+            transactionId: props.selected[0].transactionId
         }];
         try {
-            let response = await request.post(URL.API_URL + API_PATH.ADD_TRANSACTION.replace('{id}', context.userId), body, {})
+            let response = await request.post(URL.API_URL + API_PATH.UPDATE_TRANSACTION.replace('{id}', context.userId), body, {})
             if (response && response.status && response.type === 'json' && response.data) {
                 if (response.data.status) {
                     return true;
@@ -143,20 +149,20 @@ const AddTransaction: React.FC<AddTransactionProps> = (props): ReactElement => {
             return false;
         }
         catch (err) {
-            logger.warn('Error proceedToAdd' + err.toString())
-            return false
+            logger.warn('Error proceedToUpdate' + err.toString());
+            return false;
         }
     }
-    const onAdd = async () => {
+    const onUpdate = async () => {
         Keyboard.dismiss();
         if (isPreReqMet()) {
             updateLoader(true);
-            const flag = await proceedToAdd();
+            const flag = await proceedToUpdate();
             updateLoader(false);
             if (flag) {
                 showAlert(
                     ALERT_TITLE.SUCCESS,
-                    ALERT_MSG.SUCCESS_ADD_TRANSACTION,
+                    ALERT_MSG.SUCCESS_UPDATE_TRANSACTION,
                     [
                         {
                             text: ALERT_BUTTON.OK,
@@ -188,7 +194,7 @@ const AddTransaction: React.FC<AddTransactionProps> = (props): ReactElement => {
                 </TouchableOpacity>
                 <View style={styles[`${commonDisplayName}-header-part2`]}>
                     <Text style={styles[`${commonDisplayName}-header-part2-txt`]}>
-                        ADD TRANSACTION
+                        UPDATE TRANSACTION
                     </Text>
                 </View>
                 <TouchableOpacity style={styles[`${commonDisplayName}-header-part3`]} onPress={onReset}>
@@ -196,7 +202,7 @@ const AddTransaction: React.FC<AddTransactionProps> = (props): ReactElement => {
                         &#8634;
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles[`${commonDisplayName}-header-part4`]} onPress={onAdd}>
+                <TouchableOpacity style={styles[`${commonDisplayName}-header-part4`]} onPress={onUpdate}>
                     <Text style={styles[`${commonDisplayName}-header-part4-txt`]}>
                         &#10003;
                     </Text>
@@ -313,5 +319,5 @@ const AddTransaction: React.FC<AddTransactionProps> = (props): ReactElement => {
         </View>
     )
 }
-AddTransaction.displayName = 'addTransaction';
-export default AddTransaction;
+UpdateTransaction.displayName = 'updateTransaction';
+export default UpdateTransaction;

@@ -28,11 +28,11 @@ const appContextSchema: AppContextType = {
             name: 'TRANSACTION',
             selected: false
         },
-        {
-            key: 'analyse',
-            name: 'ANALYSE',
-            selected: false
-        }
+        // {
+        //     key: 'analyse',
+        //     name: 'ANALYSE',
+        //     selected: false
+        // }
     ],
     selectedTab: '',
     transactionTypes: [],

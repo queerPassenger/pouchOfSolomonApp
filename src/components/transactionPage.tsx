@@ -10,7 +10,9 @@ import { styles } from '../style';
 import Modal from './modal';
 import FilterTransaction, { FilterParamsType } from './filterTransaction';
 import AddTransaction from './addTransaction';
+import UpdateTransaction from './updateTransaction';
 import logger from '../utils/logger';
+import { showAlert } from '../utils/alert';
 
 interface ItemProps {
     transactionId: string,
@@ -18,15 +20,15 @@ interface ItemProps {
     amountTypeId: number,
     comment: string,
     transactionTypeId: number,
-    createdTimeStamp: string
+    timeStamp: string,
 };
-interface ListItemProps {
+export interface ListItemProps {
     transactionId: string,
     amount: number,
     amountTypeId: number,
     comment: string,
     transactionTypeId: number,
-    createdTimeStamp: string,
+    timeStamp: string,
     transactionTypeName: string,
     transactionClassification: string,
     selected: boolean
@@ -34,13 +36,6 @@ interface ListItemProps {
 interface ModalProps {
     flag: boolean,
     type: string
-}
-interface AlertType {
-    flag: boolean,
-    title: string,
-    msg: string,
-    btns: Array<AlertButton>
-    cancelable: boolean
 }
 const TransactionPage: React.FC = (): ReactElement => {
     const context = {
@@ -70,26 +65,19 @@ const TransactionPage: React.FC = (): ReactElement => {
                 break;
             case 'selectionEnabled':
                 newState = false;
-            case 'alert':
-                newState = {
-                    flag: false,
-                    title: '',
-                    msg: '',
-                    btns: [],
-                    cancelable: false
-                };
                 break;
             default:
-                break; 
+                break;
         }
-        return {state: {...newState}}
+        return Object.assign({
+            state: newState
+        }, {});
     }
     const [filterParams, updateFilterParams] = useState<FilterParamsType>(getInitialState('filterParams').state);
     const [triggerLoadData, updateTriggerLoadData] = useState<boolean>(true);
     const [list, updateList] = useState<Array<any>>(getInitialState('list').state);
     const [modal, updateModal] = useState<ModalProps>(getInitialState('modal').state);
     const [selectionEnabled, updateSelectionEnabled] = useState<boolean>(getInitialState('selectionEnabled').state);
-    const [alert, updateAlert] = useState<AlertType>(getInitialState('alert').state);
     useEffect(() => {
         if (triggerLoadData) {
             loadData();
@@ -103,9 +91,9 @@ const TransactionPage: React.FC = (): ReactElement => {
         }
     }, [filterParams]);
     const loadData = async (): Promise<void> => {
-        context.showLoader();        
+        context.showLoader();
         await getTransaction();
-        context.hideLoader();        
+        context.hideLoader();
     }
     const getTransaction = async (): Promise<boolean> => {
         const { fromDate, toDate, types, subTypes } = filterParams;
@@ -122,7 +110,7 @@ const TransactionPage: React.FC = (): ReactElement => {
                         let transactionType = context.transactionTypeList.filter(x => x.transactionTypeId === item.transactionTypeId)[0] || {};
                         return {
                             ...item,
-                            amount: +item.amount, 
+                            amount: +item.amount,
                             transactionTypeName: transactionType.transactionTypeName,
                             transactionClassification: transactionType.transactionClassification,
                             selected: false
@@ -154,7 +142,7 @@ const TransactionPage: React.FC = (): ReactElement => {
         updateFilterParams(filterParams);
     }
     const onItemSelect = (id: string, longPress: boolean) => {
-       // let _selectionEnabled = longPress ? !selectionEnabled : selectionEnabled;
+        // let _selectionEnabled = longPress ? !selectionEnabled : selectionEnabled;
         let _selectionEnabled = true;
         if (_selectionEnabled) {
             updateList(list.map(x => {
@@ -174,49 +162,38 @@ const TransactionPage: React.FC = (): ReactElement => {
         }
         updateSelectionEnabled(_selectionEnabled);
     }
-    const failedProcessAlert = (cb = () => {}): void => {
-        let alert = getInitialState('alert').state;
-        alert.flag = true;
-        alert.title = ALERT_TITLE.FAILURE;
-        alert.msg = ALERT_MSG.FAILED_REQUEST;
-        alert.btns = [
-            {
-                text: ALERT_BUTTON.OK,
-                onPress: () => {
-                    updateAlert(getInitialState('alert').state);
-                    cb();
-                },
-                type: 'default'
-            }
-        ]
-        updateAlert(alert);
+    const failedProcessAlert = (cb = () => { }): void => {
+        showAlert(
+            ALERT_TITLE.FAILURE,
+            ALERT_MSG.FAILED_REQUEST,
+            [
+                {
+                    text: ALERT_BUTTON.OK,
+                }
+            ]
+        );
     }
     const deleteTransactions = async (selectedItems: Array<ListItemProps>): Promise<void> => {
-        try{
-            let body = selectedItems.map(x => {return {transactionId: x.transactionId}});
+        try {
+            let body = selectedItems.map(x => { return { transactionId: x.transactionId } });
             let response = await request.delete(URL.API_URL + API_PATH.DELETE_TRANSACTION.replace('{id}', context.userId), body, {})
             if (response && response.status && response.type === 'json' && response.data) {
                 if (response.data.status) {
-                    let alert = getInitialState('alert').state;
-                    alert.flag = true;
-                    alert.title = ALERT_TITLE.SUCCESS;
-                    alert.msg = ALERT_MSG.SUCCESS_DELETE_TRANSACTION;
-                    alert.btns = [
-                        {
-                            text: ALERT_BUTTON.OK,
-                            onPress: async () => {
-                                updateAlert(getInitialState('alert').state);
-                                loadData();
-                            },
-                            type: 'default'
-                        }
-                    ];
-                    updateAlert(alert);                    
+                    showAlert(
+                        ALERT_TITLE.SUCCESS,
+                        ALERT_MSG.SUCCESS_DELETE_TRANSACTION,
+                        [
+                            {
+                                text: ALERT_BUTTON.OK,
+                                onPress: loadData
+                            }
+                        ]
+                    );
                     return;
                 }
             }
-            failedProcessAlert(); 
-            return;               
+            failedProcessAlert();
+            return;
         }
         catch (err) {
             logger.warn('Error deleteTransactions' + err.toString());
@@ -224,42 +201,52 @@ const TransactionPage: React.FC = (): ReactElement => {
             return;
         }
     }
+    const onUpdatePress = () => {
+        const selected = list.filter(x => x.selected);
+        if (selected.length !== 1) {
+            Alert.alert(
+                ALERT_TITLE.WARNING,
+                ALERT_MSG.UNMET_PREREQ_UPDATE_TRANSACTION,
+                [{
+                    text: ALERT_BUTTON.OK
+                }]
+            )
+        }
+        else
+            openModal('update');
+    }
     const onDeletePress = () => {
         const selectedItems = list.filter(x => x.selected);
-        let alert = getInitialState('alert').state;
-        alert.flag = true;
-        if(selectedItems.length > 0){
-            alert.title = ALERT_TITLE.WARNING;
-            alert.msg = ALERT_MSG.CONFIRMATION_DELETE_TRANSACTION;
-            alert.btns = [
-                {
-                    text: ALERT_BUTTON.NO,
-                    onPress: () => updateAlert(getInitialState('alert').state),
-                    type: 'default'
-                },
-                {
-                    text: ALERT_BUTTON.YES,
-                    onPress: async () => {
-                        updateAlert(getInitialState('alert').state);
-                        context.showLoader();
-                        await deleteTransactions(selectedItems);
-                        context.hideLoader();
+        if (selectedItems.length > 0) {
+            showAlert(
+                ALERT_TITLE.WARNING,
+                ALERT_MSG.CONFIRMATION_DELETE_TRANSACTION,
+                [
+                    {
+                        text: ALERT_BUTTON.NO
+                    },
+                    {
+                        text: ALERT_BUTTON.YES,
+                        onPress: async () => {
+                            context.showLoader();
+                            await deleteTransactions(selectedItems);
+                            context.hideLoader();
+                        }
                     }
-                }
-            ]
+                ]
+            );
         }
-        else{
-            alert.title = ALERT_TITLE.WARNING;
-            alert.msg = ALERT_MSG.UNMET_PREREQ_DELETE_TRANSACTION;
-            alert.btns = [
-                {
-                    text: ALERT_BUTTON.OK,
-                    onPress: () => updateAlert(getInitialState('alert').state),
-                    type: 'default'
-                }
-            ]
+        else {
+            showAlert(
+                ALERT_TITLE.WARNING,
+                ALERT_MSG.UNMET_PREREQ_DELETE_TRANSACTION,
+                [
+                    {
+                        text: ALERT_BUTTON.OK
+                    }
+                ]
+            );
         }
-        updateAlert(alert);
     }
     const ListItem = (item: ListItemProps | undefined) => {
         if (!item) {
@@ -284,10 +271,10 @@ const TransactionPage: React.FC = (): ReactElement => {
             const amountType = context.amountTypeList.filter(x => x.amountTypeId === item.amountTypeId)[0] || {};
             const change = (item.amount - Math.floor(item.amount)).toFixed(2).split('.')[1];
             return (
-                <TouchableOpacity 
-                   // onPress={() => selectionEnabled && onItemSelect(item.transactionId, false)} 
-                   // onLongPress={() => onItemSelect(item.transactionId, true)}
-                   onPress={() => onItemSelect(item.transactionId, true)}
+                <TouchableOpacity
+                    // onPress={() => selectionEnabled && onItemSelect(item.transactionId, false)} 
+                    // onLongPress={() => onItemSelect(item.transactionId, true)}
+                    onPress={() => onItemSelect(item.transactionId, true)}
                 >
                     <LinearGradient colors={[APP_DEFAULT_COLORS.DARK_COLOR, APP_DEFAULT_COLORS.DARK_COLOR, 'rgb(88, 62, 78)']} style={styles[`${TransactionPage.displayName}-list-item-container`]} >
                         <View style={styles[`${TransactionPage.displayName}-list-item-sub-container2`]}>
@@ -298,10 +285,10 @@ const TransactionPage: React.FC = (): ReactElement => {
                                 {item.transactionTypeName ? item.transactionTypeName : ''}
                             </Text>
                             <Text style={styles[`${TransactionPage.displayName}-list-item-sub-container2-text3`]} numberOfLines={1}>
-                                {getDate(item.createdTimeStamp ? new Date(item.createdTimeStamp) : new Date())}
+                                {getDate(item.timeStamp ? new Date(item.timeStamp) : new Date())}
                             </Text>
                             <Text style={styles[`${TransactionPage.displayName}-list-item-sub-container2-text4`]} numberOfLines={1}>
-                                {getTime(item.createdTimeStamp ? new Date(item.createdTimeStamp) : new Date())}
+                                {getTime(item.timeStamp ? new Date(item.timeStamp) : new Date())}
                             </Text>
                         </View>
                         <View style={styles[`${TransactionPage.displayName}-list-item-sub-container3`]}>
@@ -373,21 +360,21 @@ const TransactionPage: React.FC = (): ReactElement => {
                     <Text style={{
                         fontSize: 40
                     }}>
-                    &#43;
+                        &#43;
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles[`${TransactionPage.displayName}-footer-container-sub-container`]} onPress={() => openModal('add')}>
+                <TouchableOpacity style={styles[`${TransactionPage.displayName}-footer-container-sub-container`]} onPress={onUpdatePress}>
                     <Text style={{
                         fontSize: 30,
                     }}>
-                    &#10000;
+                        &#10000;
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles[`${TransactionPage.displayName}-footer-container-sub-container`]} onPress={onDeletePress}>
                     <Text style={{
                         fontSize: 25
                     }}>
-                    &#128465;
+                        &#128465;
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -404,18 +391,32 @@ const TransactionPage: React.FC = (): ReactElement => {
                             updateFilterParams(getInitialState('filterParams').state)
                         }}
                         onFilter={onFilter}
+                        onBack={closeModal}
                     />
                 );
             case 'add':
                 return (
-                    <AddTransaction 
+                    <AddTransaction
                         onBack={(trigger) => {
                             closeModal();
-                            if(trigger){
+                            if (trigger) {
                                 updateTriggerLoadData(true);
                                 updateFilterParams(getInitialState('filterParams').state);
                             }
-                        }}    
+                        }}
+                    />
+                );
+            case 'update':
+                return (
+                    <UpdateTransaction
+                        selected={list.filter(x => x.selected)}
+                        onBack={(trigger) => {
+                            closeModal();
+                            if (trigger) {
+                                updateTriggerLoadData(true);
+                                updateFilterParams(getInitialState('filterParams').state);
+                            }
+                        }}
                     />
                 );
             default:
@@ -432,26 +433,11 @@ const TransactionPage: React.FC = (): ReactElement => {
                 </Modal>
             )
     }
-    const AlertContainer = () => {
-        const { flag, title, msg, btns, cancelable } = alert;
-        if(!flag)
-            return (null);
-        else
-            return (
-                Alert.alert(
-                    title,
-                    msg,
-                    btns,
-                    {cancelable}
-                )
-            )
-    }
     return (
         <View style={styles[`${TransactionPage.displayName}-container`]}>
             {ListContainer()}
             {FooterContainer()}
             {ModalContainer()}
-            {AlertContainer()}
         </View>
     )
 }

@@ -1,10 +1,11 @@
-import React, { useState, useContext, ReactElement, useEffect } from 'react';
+import React, { useState, useContext, ReactElement, useEffect, Fragment } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { styles } from '../style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { getDate, getTime } from '../utils/calendar';
 import PickerContainer from './pickerContainer';
 import AppContext from '../context/appContext';
+import { APP_DEFAULT_COLORS } from '../constants';
 
 interface FilterTransactionProps {
     fromDate: Date;
@@ -13,6 +14,7 @@ interface FilterTransactionProps {
     subTypes: Array<any>;
     reset: () => void;
     onFilter: (param: FilterParamsType) => void;
+    onBack: () => void;
 }
 export interface FilterParamsType {
     fromDate: Date;
@@ -20,31 +22,14 @@ export interface FilterParamsType {
     types: Array<any>;
     subTypes: Array<any>;
 }
-interface ButtonContainerProps {
-    label: string;
-    onPress: (param: any) => void;
-}
-interface DateContainerProps {
-    label: string;
-    date: Date;
-    updater: (mode: DTPModeType) => void;
-}
-type DTPModeType = 'time' | 'date' | 'datetime' | 'countdown' | undefined;
-interface DateTimePickerModeType {
-    mode: 'time' | 'date' | 'datetime' | 'countdown' | undefined;
-    type: string;
-    update: (date: Date) => void;
-}
+
+const commonDisplayName = 'modalChildrenPage';
 const FilterTransaction: React.FC<FilterTransactionProps> = (props): ReactElement => {
     const [fromDate, updateFromDate] = useState<Date>(props.fromDate);
     const [toDate, updateToDate] = useState<Date>(props.toDate);
     const [types, updateTypes] = useState<Array<any>>(props.types);
     const [subTypes, updateSubTypes] = useState<Array<any>>(props.subTypes);
-    const [dateTimePickerMode, updateDateTimePickerMode] = useState<DateTimePickerModeType>({
-        mode: undefined,
-        type: '',
-        update: () => { }
-    });
+    const [dateTimeMode, updateDateTimeMode] = useState<Array<any>>([undefined, undefined]);
     const context = {
         ...useContext(AppContext)
     };
@@ -54,154 +39,153 @@ const FilterTransaction: React.FC<FilterTransactionProps> = (props): ReactElemen
         updateTypes(props.types);
         updateSubTypes(props.subTypes);
     }, [props.fromDate,props.toDate, props.types, props.subTypes]);
+
     const resetStates = (param: string) => {
         switch (param) {
             case 'filterParams':
                 props.reset();
                 break;
-            case 'dateTimePickerMode':
-                updateDateTimePickerMode({
-                    mode: undefined,
-                    type: '',
-                    update: () => { }
-                });
+            case 'dateTimeMode':
+                updateDateTimeMode([undefined, undefined]);
                 break;
             default:
                 resetStates('filterParams');
-                resetStates('dateTimePickerMode');
+                resetStates('dateTimeMode');
                 break;
         }
     }
     const onFilter = () => {
         props.onFilter({ fromDate, toDate, types, subTypes });
     }
-    const ButtonContainer = (buttonProps: ButtonContainerProps) => {
-        return (
-            <TouchableOpacity style={styles[`${FilterTransaction.displayName}-btn-container`]} onPress={buttonProps.onPress}>
-                <Text style={styles[`${FilterTransaction.displayName}-btn-text`]}>
-                    {buttonProps.label}
-                </Text>
-            </TouchableOpacity>
-        )
-    }
-    const ActionContainer = () => {
-        return (
-            <View style={styles[`${FilterTransaction.displayName}-action-container`]}>
-                {ButtonContainer({
-                    label: 'RESET',
-                    onPress: resetStates
-                })}
-                {ButtonContainer({
-                    label: 'FILTER',
-                    onPress: onFilter
-                })}
-            </View>
-        )
-    }
     const getDateTime = (date: Date) => {
         return `${getDate(date)}  ${getTime(date)} `
     }
-    const DateContainer = (dateContainerProps: DateContainerProps) => {
+    const Header = (): ReactElement => {
         return (
-            <View style={styles[`${FilterTransaction.displayName}-date-container`]} >
-                <View style={styles[`${FilterTransaction.displayName}-datetime-container`]} >
-                    <Text style={styles[`${FilterTransaction.displayName}-datetime-text`]} >
-                        {getDateTime(dateContainerProps.date)}
+            <View style={styles[`${commonDisplayName}-header`]}>
+                <TouchableOpacity style={styles[`${commonDisplayName}-header-part1`]} onPress={() => props.onBack()}>
+                    <Text style={styles[`${commonDisplayName}-header-part1-txt`]}>
+                        &#8592;
                     </Text>
-                    <Text style={styles[`${FilterTransaction.displayName}-text-label`]} >
-                        {dateContainerProps.label}
+                </TouchableOpacity>
+                <View style={styles[`${commonDisplayName}-header-part2`]}>
+                    <Text style={styles[`${commonDisplayName}-header-part2-txt`]}>
+                        FILTER TRANSACTION
                     </Text>
                 </View>
-                <TouchableOpacity onPress={() => dateContainerProps.updater('date')}>
-                    <Image style={styles[`${FilterTransaction.displayName}-datetime-image`]} source={require('../../assets/images/calendar.png')} />
+                <TouchableOpacity style={styles[`${commonDisplayName}-header-part3`]} onPress={() => resetStates('all')}>
+                    <Text style={styles[`${commonDisplayName}-header-part3-txt`]}>
+                        &#8634;
+                    </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => dateContainerProps.updater('time')}>
-                    <Image style={styles[`${FilterTransaction.displayName}-datetime-image`]} source={require('../../assets/images/clock.png')} />
+                <TouchableOpacity style={styles[`${commonDisplayName}-header-part4`]} onPress={onFilter}>
+                    <Text style={styles[`${commonDisplayName}-header-part4-txt`]}>
+                        &#10003;
+                    </Text>
                 </TouchableOpacity>
             </View>
         )
     }
-
-    const DateSuperContainer = () => {
+    const Body = () => {
         return (
-            <View style={styles[`${FilterTransaction.displayName}-date-super-container`]}>
-                {DateContainer({
-                    label: 'START',
-                    date: fromDate,
-                    updater: (mode: DTPModeType) => updateDateTimePickerMode({
-                        mode: mode,
-                        type: 'fromDate',
-                        update: (date: Date) => updateFromDate(date)
-                    })
-                })}
-                {DateContainer({
-                    label: 'END',
-                    date: toDate,
-                    updater: (mode: DTPModeType) => updateDateTimePickerMode({
-                        mode: mode,
-                        type: 'toDate',
-                        update: (date: Date) => updateToDate(date)
-                    })
-                })}
-                {dateTimePickerMode.mode ?
-                    (<DateTimePicker
-                        value={dateTimePickerMode.type === 'fromDate' ? fromDate : toDate}
-                        mode={dateTimePickerMode.mode}
-                        onChange={(e, date) => {
-                            const { update } = dateTimePickerMode;
-                            resetStates('dateTimePickerMode');
-                            date && update(date);
-                        }}
-                    />)
-                    :
-                    null
-                }
-            </View>
-        )
-    }
-    const TransactionType = () => {
-        return (
-            <View style={styles[`${FilterTransaction.displayName}-picker-wrapper`]}>
-                <PickerContainer
-                    mode='multi'
-                    label='TYPE'
-                    value={types}
-                    options={context.transactionTypes.map(x => {
-                        return { label: x, value: x }
+            <View style={styles[`${commonDisplayName}-body`]}>
+                <View style={styles[`${commonDisplayName}-body-part1`]}>
+                    {context.transactionTypes.map((x: string, ind: number) => {
+                        let matchInd = types.indexOf(x);
+                        let selected = matchInd !== -1;
+                        return (
+                            <TouchableOpacity
+                                key={x}
+                                style={{
+                                    ...styles[`${commonDisplayName}-body-part1-sub`],
+                                    ...(selected && {
+                                        borderBottomColor: APP_DEFAULT_COLORS.DARK_COLOR,
+                                        borderBottomWidth: 2
+                                    })
+                                }}
+                                onPress={() => {
+                                    if(selected){
+                                        updateTypes(types.filter(t => t!== x));
+                                    }
+                                    else{
+                                        updateTypes([...types, x]);
+                                    }
+                                    
+                                }}
+                            >
+                                <Text style={{
+                                    ...styles[`${commonDisplayName}-body-part1-sub-txt`],
+                                    ...(selected && {
+                                        color: APP_DEFAULT_COLORS.DARK_COLOR,
+                                        fontWeight: 'bold'
+                                    })
+                                }}>{x.toUpperCase()}</Text>
+                            </TouchableOpacity>
+                        )
                     })}
-                    onChange={value => updateTypes(value)}
-                />
+                </View>
+                <View style={styles[`${commonDisplayName}-body-part`]}>
+                    <PickerContainer
+                        mode='multi'
+                        label='SUB TYPE'
+                        value={subTypes}
+                        options={context.transactionTypeList.map(x => {
+                            return { label: x.transactionTypeName, value: x.transactionTypeId }
+                        })}
+                        onChange={value => updateSubTypes(value)}
+                    />
+                 </View>
+                <Fragment>
+                    <View style={styles[`${commonDisplayName}-body-part`]}>
+                        <TouchableOpacity style={styles[`${commonDisplayName}-body-part-sub-box`]} onPress={() => updateDateTimeMode(['fromDate', 'date'])}>
+                            <Text>
+                                {getDateTime(fromDate)}
+                            </Text>
+                            <Text style={styles[`${commonDisplayName}-body-part-sub-box-label`]} >
+                                {`FROM DATE & TIME`}
+                            </Text>
+                        </TouchableOpacity>
+                        
+                    </View>
+                    <View style={styles[`${commonDisplayName}-body-part`]}>
+                        <TouchableOpacity style={styles[`${commonDisplayName}-body-part-sub-box`]} onPress={() => updateDateTimeMode(['toDate', 'date'])}>
+                            <Text>
+                                {getDateTime(toDate)}
+                            </Text>
+                            <Text style={styles[`${commonDisplayName}-body-part-sub-box-label`]} >
+                                {`TO DATE & TIME`}
+                            </Text>
+                        </TouchableOpacity>
+                        
+                    </View>
+                    {dateTimeMode[0] && dateTimeMode[1] &&
+                        <DateTimePicker
+                            value={dateTimeMode[0] === 'fromDate'? fromDate: toDate}
+                            mode={dateTimeMode[1]}
+                            onChange={(e, date) => {
+                                let futureDateTimeMode1 = dateTimeMode[1] === 'date' ? 'time' : undefined;
+                                let futureDateTimeMode0 = dateTimeMode[1] ? dateTimeMode[0]: undefined;
+                                updateDateTimeMode([undefined, undefined]);
+                                if (date) {          
+                                    dateTimeMode[0] === 'fromDate'? updateFromDate(date): updateToDate(date);
+                                    setTimeout(() => {
+                                        updateDateTimeMode([futureDateTimeMode0, futureDateTimeMode1]);
+                                    }, 10);
+                                }
+                            }}
+                        />
+                    }
+                </Fragment>
+                 
             </View>
-        )
-    }
-    const TransactionSubType = () => {
-        return (
-            <View style={styles[`${FilterTransaction.displayName}-picker-wrapper`]}>
-                <PickerContainer
-                    mode='multi'
-                    label='SUB TYPE'
-                    value={subTypes}
-                    options={context.transactionTypeList.map(x => {
-                        return { label: x.transactionTypeName, value: x.transactionTypeId }
-                    })}
-                    onChange={value => updateSubTypes(value)}
-                />
-            </View>
-        )
-    }
-    const FilterContainer = () => {
-        return (
-            <ScrollView>
-                {DateSuperContainer()}
-                {TransactionType()}
-                {TransactionSubType()}
-            </ScrollView>
         )
     }
     return (
         <View style={styles[`${FilterTransaction.displayName}-container`]}>
-            {ActionContainer()}
-            {FilterContainer()}
+            {Header()}
+            <ScrollView>
+                {Body()}
+            </ScrollView>            
         </View>
     )
 }
