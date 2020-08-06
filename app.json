@@ -12,7 +12,12 @@
     ],
     "android": {
       "package": "com.pouchOfSolomon.pouchOfSolomonApp",
-      "versionCode": 1
+      "versionCode": 1,
+      "config": {
+        "googleSignIn": {
+            "certificateHash": "85F977FF68DC664F34A0CB8956AE5AE3FD3FF9C9"
+        }
+    }
     },
     "web": {
     

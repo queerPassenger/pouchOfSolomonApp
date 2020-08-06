@@ -31,7 +31,8 @@ interface GoogleLoginResponse {
     data: GoogleResponse | null
 };
 const config = {
-    androidClientId: PASSCODES.ANDROID_CLIENT_ID,
+    //androidClientId: PASSCODES.ANDROID_CLIENT_ID,
+    androidStandaloneAppClientId: PASSCODES.ANDROID_STANDALONE_APP_CLIENT_ID,
     scopes: ['profile', 'email'],
 };
 
