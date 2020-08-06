@@ -11,11 +11,7 @@ const cacheResourcesAsync = async (): Promise<void> => {
     const images: Array<any>  = [
         require('../assets/images/' + 'pos-splash.png'),
         require('../assets/images/' + 'googleLogo.png'),
-        require('../assets/images/' + 'filter.png'),
-        require('../assets/images/' + 'add.png'),
-        require('../assets/images/' + 'edit.png'),
-        require('../assets/images/' + 'clock.png'),
-        require('../assets/images/' + 'calendar.png'),
+        require('../assets/images/' + 'filter.png')
     ];
     const cacheImages: Array<Promise<void>> = images.map(image => {
         return Asset.fromModule(image).downloadAsync();
