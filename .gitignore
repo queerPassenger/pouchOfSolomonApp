@@ -2,3 +2,6 @@ node_modules/
 package-lock.json
 .expo/
 passcodes.ts
+pouchOfSolomonApp.jks
+app.json
+.env
