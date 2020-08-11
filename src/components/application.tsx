@@ -6,11 +6,14 @@ import AppTab from './appTab';
 import AppTabView from './appTabView';
 import { styles } from '../style';
 
-const Application: React.FC = (): ReactElement => {
-    return(
+interface ApplicationProps {
+    navigateToSettings: () => void
+}
+const Application: React.FC<ApplicationProps> = (props): ReactElement => {
+    return (
         <View style={styles[`${Application.displayName}-container`]}>
             <StatusBar />
-            <AppHeader />
+            <AppHeader navigateToSettings={props.navigateToSettings} />
             <AppTab />
             <AppTabView />
         </View>

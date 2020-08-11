@@ -526,6 +526,68 @@ const textInputContainer = {
         fontStyle: 'italic',
         fontSize: 12
     },
+};
+const settings = {
+    'settings-container': {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        flex: 1
+    },
+    'settings-img-container': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingVertical: 20
+    },
+    'settings-img': {
+        width: '50%',
+        height: 200,
+        borderRadius: 7
+    },
+    'settings-userDetails-wrapper': {
+        flexDirection: 'column',
+        borderBottomColor: 'gray',
+        borderBottomWidth: 0.75,
+        paddingVertical: 10
+    },
+    'settings-userDetails-super-container': {
+        flexDirection: 'row',
+        flex: 1,
+        alignItems: 'center',
+        paddingVertical: 20,
+        paddingHorizontal: 10
+    },
+    'settings-userDetails-container': {
+        flexDirection: 'row',
+        flex: 1,
+        alignItems: 'center',
+        borderTopColor: 'gray',
+        borderTopWidth: 0.25,
+        paddingTop: 15
+    },
+    'settings-userDetails-text': {
+        paddingHorizontal: 10,
+        fontSize: 15,
+        color: 'gray',
+    },
+    'settings-userDetails-label': {
+        position: 'absolute',
+        bottom: 28,
+        backgroundColor: 'white',
+        fontWeight: 'bold',
+        fontSize: 12,
+        textTransform: 'uppercase',
+        paddingRight: 3
+    },
+    'settings-userActions-wrapper': {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        paddingVertical: 10
+    },
+    'settings-userAction': {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
 }
 export const styles = StyleSheet.create<any>({
     ...application,
@@ -540,5 +602,6 @@ export const styles = StyleSheet.create<any>({
     ...filterTransaction,
     ...pickerContainer,
     ...modalChildrenPage,
-    ...textInputContainer
+    ...textInputContainer,
+    ...settings
 });

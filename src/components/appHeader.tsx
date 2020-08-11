@@ -1,10 +1,13 @@
 import React, { ReactElement, useContext } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { APP_LABELS } from '../constants';
 import { styles } from '../style';
 import UserContext from '../context/userContext';
 
-const AppHeader: React.FC = (): ReactElement => {
+interface AppHeaderProps {
+    navigateToSettings: () => void
+}
+const AppHeader: React.FC<AppHeaderProps> = (props): ReactElement => {
     const context = {
         ...useContext(UserContext),
     }
@@ -13,12 +16,14 @@ const AppHeader: React.FC = (): ReactElement => {
             <Text style={styles[`${AppHeader.displayName}-appName`]}>
                 {APP_LABELS.APP_NAME}
             </Text>
-            <Image
-                style={styles[`${AppHeader.displayName}-userImg`]}
-                source={{
-                uri: context.googleUserInfo.user && context.googleUserInfo.user.photoUrl
-                }}
-            />                
+            <TouchableOpacity onPress={props.navigateToSettings}>
+                <Image
+                    style={styles[`${AppHeader.displayName}-userImg`]}
+                    source={{
+                        uri: context.googleUserInfo.user && context.googleUserInfo.user.photoUrl
+                    }}
+                />
+            </TouchableOpacity>
         </View>
     )
 }
