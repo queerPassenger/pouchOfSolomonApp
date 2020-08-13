@@ -6,12 +6,16 @@ import AppImage from './components/appImage';
 import GlobalContext from './context';
 import Container from './components/container';
 import { AppLoading } from 'expo';
+import { ImagePropTypes } from 'react-native';
 
 const cacheResourcesAsync = async (): Promise<void> => {
     const images: Array<any>  = [
         require('../assets/images/' + 'pos-splash.png'),
         require('../assets/images/' + 'googleLogo.png'),
-        require('../assets/images/' + 'filter.png')
+        require('../assets/images/' + 'filter.png'),
+        require('../assets/images/' + 'exitIcon.png'),
+        require('../assets/images/' + 'helpIcon.png'),
+        require('../assets/images/' + 'aboutIcon.png'),
     ];
     const cacheImages: Array<Promise<void>> = images.map(image => {
         return Asset.fromModule(image).downloadAsync();
@@ -42,6 +46,19 @@ const Index: React.FC = (): ReactElement => {
             updateMode('app');
         }  
     }
+    const onLogout = () => {
+        updateMode('appImage');
+        flushAsyncStoredItems(['app-userId', 'google-userInfo'], () => {
+            updateUserId('');
+            updateGoogleUserInfo({});
+            updateMode('app');
+        });
+    }
+    const flushAsyncStoredItems = async(keys: Array<string>, cb: () => void) => {
+        AsyncStorage.multiRemove(keys, () => {
+            cb && cb();
+        });
+    }
     if (mode === 'appLoading')
         return <AppLoading
             startAsync={cacheResourcesAsync}
@@ -56,7 +73,10 @@ const Index: React.FC = (): ReactElement => {
                 userId={userId} 
                 googleUserInfo={googleUserInfo}
             >
-                <Container mode={userId && googleUserInfo.user ? 'application': 'login'}/>
+                <Container 
+                    mode={userId && googleUserInfo.user ? 'application': 'login'}
+                    onLogout={onLogout}
+                />
             </GlobalContext>
         )
 }

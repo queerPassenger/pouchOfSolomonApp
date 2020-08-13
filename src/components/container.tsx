@@ -9,7 +9,8 @@ import Settings from './settings';
 
 type modeType = ('login' | 'application' | 'settings');
 interface ContainerProps {
-    mode: modeType
+    mode: modeType,
+    onLogout: () => void
 }
 const Container: React.FC<ContainerProps> = (props): ReactElement  => {
     const [mode, updateMode] = useState(props.mode);
@@ -54,6 +55,7 @@ const Container: React.FC<ContainerProps> = (props): ReactElement  => {
                     handleLogin={handleLogin}
                     navigateToSettings={() => navigate('settings')}
                     navigateToApplications={() => navigate('application')}
+                    onLogout={props.onLogout}
                 />
                 {context.loader > 0 && <Loader />}
             </Fragment>

@@ -1,11 +1,14 @@
 import React, { ReactElement, useEffect, useContext } from 'react';
-import { View, Text, Image, BackHandler, ScrollView } from 'react-native';
+import { View, Text, Image, BackHandler, ScrollView, TouchableOpacity } from 'react-native';
 import StatusBar from './statusBar';
 import { styles } from '../style';
 import UserContext from '../context/userContext';
+import { showAlert } from '../utils/alert';
+import { ALERT_TITLE, ALERT_MSG, ALERT_BUTTON } from '../constants';
 
 interface SettingsProps {
-    navigateToApplications: () => void
+    navigateToApplications: () => void,
+    onLogout: () => void
 }
 const Settings: React.FC<SettingsProps> = (props): ReactElement => {
     const context = {
@@ -21,6 +24,21 @@ const Settings: React.FC<SettingsProps> = (props): ReactElement => {
         );
         return () => backHandler.remove();
     }, []);
+    const confirmLogout = (): void => {
+        showAlert(
+            ALERT_TITLE.WARNING,
+            ALERT_MSG.CONFIRMATION_LOGOUT,
+            [
+                {
+                    text: ALERT_BUTTON.NO
+                },
+                {
+                    text: ALERT_BUTTON.YES,
+                    onPress: props.onLogout
+                }
+            ]
+        );
+    }
     return (
         <View style={styles[`${Settings.displayName}-container`]}>
             <StatusBar />
@@ -56,9 +74,24 @@ const Settings: React.FC<SettingsProps> = (props): ReactElement => {
                     </View>
                 </View>
                 <View style={styles[`${Settings.displayName}-userActions-wrapper`]}>
-                    <View style={styles[`${Settings.displayName}-userAction`]}>
-                        <Text> LOGOUT </Text>
-                    </View>
+                    <TouchableOpacity style={styles[`${Settings.displayName}-userAction`]}>
+                        <Image source={require('../../assets/images/helpIcon.png')} style={styles[`${Settings.displayName}-userAction-img`]} />
+                        <Text style={styles[`${Settings.displayName}-userAction-text`]}>
+                            Contact us
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles[`${Settings.displayName}-userAction`]}>                    
+                        <Image source={require('../../assets/images/aboutIcon.png')} style={styles[`${Settings.displayName}-userAction-img`]} />
+                        <Text style={styles[`${Settings.displayName}-userAction-text`]}>
+                            About
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles[`${Settings.displayName}-userAction`]} onPress={confirmLogout}>
+                        <Image source={require('../../assets/images/exitIcon.png')} style={styles[`${Settings.displayName}-userAction-img`]} />
+                        <Text style={styles[`${Settings.displayName}-userAction-text`]}>
+                            Logout
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </View>

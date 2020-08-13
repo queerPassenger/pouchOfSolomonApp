@@ -546,8 +546,7 @@ const settings = {
     },
     'settings-userDetails-wrapper': {
         flexDirection: 'column',
-        borderBottomColor: 'gray',
-        borderBottomWidth: 0.75,
+        elevation: 0.5,
         paddingVertical: 10
     },
     'settings-userDetails-super-container': {
@@ -586,8 +585,21 @@ const settings = {
     },
     'settings-userAction': {
         flexDirection: 'row',
-        alignItems: 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 20,
+        textAlign:'left'
     },
+    'settings-userAction-img': {
+        width: 14,
+        height: 14,
+        marginRight: 10,
+        marginTop: 2
+    },
+    'settings-userAction-text': {
+        fontSize: 18,
+        color: 'gray'
+    }
 }
 export const styles = StyleSheet.create<any>({
     ...application,
