@@ -6,7 +6,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "fetchHash": "node prime expo fetch:android:hashes",
+    "manageHash": "node prime expo credentials:manager"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.11.0",
