@@ -302,7 +302,7 @@ const TransactionPage: React.FC = (): ReactElement => {
                                     ...styles[`${TransactionPage.displayName}-list-item-sub-container3-text2`],
                                     ...{ color: item.transactionClassification === 'expense' ? 'red' : 'green' }
                                 }} numberOfLines={1}>
-                                    {item.amount.toFixed(0)}
+                                    {Math.floor(item.amount)}
                                 </Text>
                             </View>
                             <View>
