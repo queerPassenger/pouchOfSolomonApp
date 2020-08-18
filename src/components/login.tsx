@@ -6,6 +6,7 @@ import logger from '../utils/logger';
 
 interface LoginProps {
     showLoader: () => void,
+    hideLoader: () => void,
     handleLogin: (status: boolean, userId: string | null, googleUserInfo: GoogleResponse | null) => void
 }
 
@@ -28,6 +29,9 @@ export const Login: React.FC<LoginProps> = (props): ReactElement => {
         catch (err) {
             logger.warn('Error onLoginPress' + err.toString());
             props.handleLogin(false, null, null);
+        }
+        finally{
+            props.hideLoader();        
         }
     }
     return (

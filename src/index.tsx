@@ -67,17 +67,18 @@ const Index: React.FC = (): ReactElement => {
         />
     else if (mode === 'appImage')
         return <AppImage />
-    else
+    else if(mode === 'app')
         return (
             <GlobalContext 
                 userId={userId} 
                 googleUserInfo={googleUserInfo}
             >
                 <Container 
-                    mode={userId && googleUserInfo.user ? 'application': 'login'}
                     onLogout={onLogout}
                 />
             </GlobalContext>
         )
+    else
+        return <></>
 }
 export default Index;

@@ -19,6 +19,7 @@ export interface AppContextType {
     updateTransactionTypes: (param: Array<any>) => void,
     updateTransactionTypeList: (param: Array<any>) => void,
     updateAmountTypeList: (param: Array<any>) => void,
+    loadAppContext: () => Promise<any>
 }
 const appContextSchema: AppContextType = {
     loader: 0,
@@ -45,7 +46,8 @@ const appContextSchema: AppContextType = {
     updateSelectedTab: string => { },
     updateTransactionTypes: list => { },
     updateTransactionTypeList: list => { },
-    updateAmountTypeList: list => { }
+    updateAmountTypeList: list => { },
+    loadAppContext: () => new Promise(resolve => resolve())
 };
 export const getAppContextSchema = (): AppContextType => {
     return { ...appContextSchema }

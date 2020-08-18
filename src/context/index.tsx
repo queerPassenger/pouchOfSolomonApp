@@ -20,17 +20,12 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
     const [transactionTypes, updateTransactionTypes] = useState<Array<any>>([]);
     const [transactionTypeList, updateTransactionTypeList] = useState<Array<any>>([]);
     const [amountTypeList, updateAmountTypeList] = useState<Array<any>>([]);
-    const [contextLoaded, updateContextLoaded] = useState<boolean>(false);
-    useEffect((): void => {
-        loadAppContext();        
-    }, []);
-
+    
     const loadAppContext = async (): Promise<void> => {
         showLoader();
         updateTabsContext(getAppContextSchema().tabs);
         await getTransactionType();
         await getAmounType();
-        updateContextLoaded(true);
         hideLoader();
     }
     const updateTabsContext = (updatedTabs: Array<TabType>): void => {
@@ -112,9 +107,10 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
                 updateSelectedTab: onTabSelect,
                 updateTransactionTypes,
                 updateTransactionTypeList,
-                updateAmountTypeList
+                updateAmountTypeList,
+                loadAppContext
             }}>
-                {contextLoaded? props.children: <AppImage />}
+                {props.children}
             </AppContext.Provider>
         </UserContext.Provider>
     )

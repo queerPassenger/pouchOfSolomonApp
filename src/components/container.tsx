@@ -1,4 +1,4 @@
-import React, { Component, useState, useContext, Fragment, ReactElement } from 'react';
+import React, { Component, useState, useEffect, useContext, Fragment, ReactElement } from 'react';
 import UserContext from '../context/userContext';
 import AppContext from '../context/appContext';
 import Application from './application';
@@ -9,25 +9,30 @@ import Settings from './settings';
 
 type modeType = ('login' | 'application' | 'settings');
 interface ContainerProps {
-    mode: modeType,
     onLogout: () => void
 }
 const Container: React.FC<ContainerProps> = (props): ReactElement  => {
-    const [mode, updateMode] = useState(props.mode);
+    const [mode, updateMode] = useState('');
     const context = {
         ...useContext(UserContext),
         ...useContext(AppContext)
     };
+    useEffect(() => {
+        context.userId && loadAppContextData();
+    }, [context.userId]);
+
     const handleLogin = (status: string, userId: string | null, googleUserInfo: GoogleResponse | null): void => {
         if (status && userId) {
             context.updateUserId(userId);
-            context.updateGoogleUserInfo(googleUserInfo);
-            updateMode('application');
-            context.hideLoader();
+            context.updateGoogleUserInfo(googleUserInfo);                      
         }
         else {
             updateMode('login');
         }
+    }
+    const loadAppContextData = async (): Promise<any> => {
+        await context.loadAppContext();
+        updateMode('application');  
     }
     const getComponent = (): React.FC<any> => {
         switch (mode) {
@@ -52,6 +57,7 @@ const Container: React.FC<ContainerProps> = (props): ReactElement  => {
                 <Component
                     context={context}
                     showLoader={context.showLoader}
+                    hideLoader={context.hideLoader}
                     handleLogin={handleLogin}
                     navigateToSettings={() => navigate('settings')}
                     navigateToApplications={() => navigate('application')}

@@ -1,9 +1,9 @@
 import * as Google from 'expo-google-app-auth';
-import { PASSCODES } from '../../passcodes';
 import { request } from '../utils/request';
 import { URL, API_PATH } from '../constants';
 import AsyncStorage from '@react-native-community/async-storage';
 import logger from './logger';
+import Constants from 'expo-constants';
 
 export interface LoginResponse {
     status: boolean,
@@ -31,8 +31,8 @@ interface GoogleLoginResponse {
     data: GoogleResponse | null
 };
 const config = {
-    androidClientId: process.env.ANDROID_CLIENT_ID,
-    androidStandaloneAppClientId: process.env.ANDROID_STANDALONE_APP_CLIENT_ID,
+    androidClientId: Constants.manifest.extra.ANDROID_CLIENT_ID,
+    androidStandaloneAppClientId: Constants.manifest.extra.ANDROID_STANDALONE_APP_CLIENT_ID,
     scopes: ['profile', 'email'],
 };
 
