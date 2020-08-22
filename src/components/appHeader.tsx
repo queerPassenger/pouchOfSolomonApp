@@ -1,6 +1,6 @@
 import React, { ReactElement, useContext } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { APP_LABELS } from '../constants';
+import { APP } from '../constants';
 import { styles } from '../style';
 import UserContext from '../context/userContext';
 
@@ -14,7 +14,7 @@ const AppHeader: React.FC<AppHeaderProps> = (props): ReactElement => {
     return (
         <View style={styles[`${AppHeader.displayName}-container`]}>
             <Text style={styles[`${AppHeader.displayName}-appName`]}>
-                {APP_LABELS.APP_NAME}
+                {APP.APP_NAME}
             </Text>
             <TouchableOpacity onPress={props.navigateToSettings}>
                 <Image

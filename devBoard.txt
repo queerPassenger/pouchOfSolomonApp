@@ -4,15 +4,21 @@ Higher level
 To Do
 - Version controlled Api 
 - Async Storage Expiration
-- Publishing into Apk and distributing it to PlayStore
-- Splash image to be set
 
 App level
 To Do
+- About Page
+- Contact us Page
+- Color Pattern
+- Analyse Screen
+- Photo upload both API and UI 
 - Refreshing like small popUp
 - Analyse whether how to reduce time taken to close the popUp after the popUp closes
+
 Done
 - Selecting a transaction on long press
 - Edit 
 - Delete
 - Add
+- APK Generated
+- Uploaded to Google Play

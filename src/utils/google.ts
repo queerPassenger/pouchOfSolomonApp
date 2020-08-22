@@ -3,7 +3,7 @@ import { request } from '../utils/request';
 import { URL, API_PATH } from '../constants';
 import AsyncStorage from '@react-native-community/async-storage';
 import logger from './logger';
-import Constants from 'expo-constants';
+import { GOOGLE } from '../constants';
 
 export interface LoginResponse {
     status: boolean,
@@ -31,8 +31,8 @@ interface GoogleLoginResponse {
     data: GoogleResponse | null
 };
 const config = {
-    androidClientId: Constants.manifest.extra.ANDROID_CLIENT_ID,
-    androidStandaloneAppClientId: Constants.manifest.extra.ANDROID_STANDALONE_APP_CLIENT_ID,
+    androidClientId: GOOGLE.ANDROID_CLIENT_ID.toString(),
+    androidStandaloneAppClientId: GOOGLE.ANDROID_STANDALONE_APP_CLIENT_ID.toString(),
     scopes: ['profile', 'email'],
 };
 

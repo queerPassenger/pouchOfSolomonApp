@@ -600,6 +600,51 @@ const settings = {
         fontSize: 18,
         color: 'gray'
     }
+};
+const settingsModalChildrenPage = {
+    'settingsModalChildrenPage-container': {
+        flexDirection: 'column',
+        flex: 1
+    },
+    'settingsModalChildrenPage-header': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 10,
+        paddingBottom: 15,
+        elevation: 1,
+        borderWidth: 0.02,
+    },
+    'settingsModalChildrenPage-header-part1': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        bottom: 2,
+    },
+    'settingsModalChildrenPage-header-part1-txt': {
+        fontSize: 40
+    },
+    'settingsModalChildrenPage-header-part2': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 4,
+        paddingTop: 14,
+    },
+    'settingsModalChildrenPage-header-part2-txt': {
+        fontSize: 17
+    },
+    'settingsModalChildrenPage-header-part3': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        bottom: 2,
+    },
+};
+const about = {
+    
 }
 export const styles = StyleSheet.create<any>({
     ...application,
@@ -615,5 +660,6 @@ export const styles = StyleSheet.create<any>({
     ...pickerContainer,
     ...modalChildrenPage,
     ...textInputContainer,
-    ...settings
+    ...settings,
+    ...settingsModalChildrenPage
 });

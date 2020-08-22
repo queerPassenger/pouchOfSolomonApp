@@ -26,9 +26,11 @@ module.exports = function ({ config, mode }) {
 
         },
         "extra": {
+            APP_NAME,
             API_URL,
             ANDROID_CLIENT_ID,
-            ANDROID_STANDALONE_APP_CLIENT_ID
+            ANDROID_STANDALONE_APP_CLIENT_ID,
+            VERSION
         }
     }
     return expoConfig;

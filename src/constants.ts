@@ -1,13 +1,20 @@
-export enum APP_LABELS {
-    APP_NAME= 'Pouch of Solomon'
+import Constants from 'expo-constants';
+
+export enum APP {
+    APP_NAME= Constants.manifest.extra.APP_NAME,
+    APP_VERSION = Constants.manifest.extra.VERSION
 };
+export enum GOOGLE {
+    ANDROID_CLIENT_ID = Constants.manifest.extra.ANDROID_CLIENT_ID,
+    ANDROID_STANDALONE_APP_CLIENT_ID = Constants.manifest.extra.ANDROID_STANDALONE_APP_CLIENT_ID
+}
 export enum APP_DEFAULT_COLORS {
     DARK_COLOR = '#88184c',
     LIGHT_COLOR = '#ac527c',
     LIGHTEST_COLOR = '#fbe9f1'
 };
 export enum URL {
-    API_URL = 'https://pouchofsolomonapi.herokuapp.com/'
+    API_URL = Constants.manifest.extra.API_URL
 };
 export enum API_PATH {
     GET_USERID_FROM_LOGINID = 'getUserId',

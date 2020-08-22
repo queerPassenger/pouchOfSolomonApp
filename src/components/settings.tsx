@@ -1,16 +1,21 @@
-import React, { ReactElement, useEffect, useContext } from 'react';
+import React, { ReactElement, useEffect, useState, useContext } from 'react';
 import { View, Text, Image, BackHandler, ScrollView, TouchableOpacity } from 'react-native';
 import StatusBar from './statusBar';
 import { styles } from '../style';
 import UserContext from '../context/userContext';
 import { showAlert } from '../utils/alert';
 import { ALERT_TITLE, ALERT_MSG, ALERT_BUTTON } from '../constants';
+import Modal from './modal';
+import About from './about';
+import ContactUs from './contactUs';
 
 interface SettingsProps {
     navigateToApplications: () => void,
     onLogout: () => void
 }
+type Mode = 'mainPage' | 'about' | 'contactUs';
 const Settings: React.FC<SettingsProps> = (props): ReactElement => {
+    const [mode, updateMode] = useState<Mode>('mainPage');
     const context = {
         ...useContext(UserContext)
     }
@@ -39,8 +44,8 @@ const Settings: React.FC<SettingsProps> = (props): ReactElement => {
             ]
         );
     }
-    return (
-        <View style={styles[`${Settings.displayName}-container`]}>
+    const MainPage = (
+        <>
             <StatusBar />
             <View style={styles[`${Settings.displayName}-img-container`]}>
                 <Image
@@ -74,13 +79,13 @@ const Settings: React.FC<SettingsProps> = (props): ReactElement => {
                     </View>
                 </View>
                 <View style={styles[`${Settings.displayName}-userActions-wrapper`]}>
-                    <TouchableOpacity style={styles[`${Settings.displayName}-userAction`]}>
+                    <TouchableOpacity style={styles[`${Settings.displayName}-userAction`]} onPress={() => updateMode('contactUs')}>
                         <Image source={require('../../assets/images/helpIcon.png')} style={styles[`${Settings.displayName}-userAction-img`]} />
                         <Text style={styles[`${Settings.displayName}-userAction-text`]}>
                             Contact us
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles[`${Settings.displayName}-userAction`]}>                    
+                    <TouchableOpacity style={styles[`${Settings.displayName}-userAction`]} onPress={() => updateMode('about')}>
                         <Image source={require('../../assets/images/aboutIcon.png')} style={styles[`${Settings.displayName}-userAction-img`]} />
                         <Text style={styles[`${Settings.displayName}-userAction-text`]}>
                             About
@@ -94,6 +99,25 @@ const Settings: React.FC<SettingsProps> = (props): ReactElement => {
                     </TouchableOpacity>
                 </View>
             </ScrollView>
+        </>
+    );
+    const renderComponent = () => {
+        switch(mode){
+            case 'mainPage':
+                return MainPage;
+            case 'about':
+                return <Modal onClose={() => updateMode('mainPage')}>
+                    <About onBack={() => updateMode('mainPage')} />
+                </Modal>;
+            case 'contactUs':
+                return <Modal onClose={() => updateMode('mainPage')}>
+                <ContactUs onBack={() => updateMode('mainPage')} />
+            </Modal>;
+        }   
+    }
+    return (
+        <View style={styles[`${Settings.displayName}-container`]}>
+            {renderComponent()}
         </View>
     )
 }
