@@ -5,7 +5,8 @@ export enum APP {
     APP_VERSION = Constants.manifest.extra.VERSION,
     APP_OWNER = Constants.manifest.extra.APP_OWNER,
     ICON_CREDITS = Constants.manifest.extra.ICON_CREDITS,
-    LOGO_CREDITS = Constants.manifest.extra.LOGO_CREDITS
+    LOGO_CREDITS = Constants.manifest.extra.LOGO_CREDITS,
+    EMAIL_SUPPORT = Constants.manifest.extra.EMAIL_SUPPORT
 };
 export enum GOOGLE {
     ANDROID_CLIENT_ID = Constants.manifest.extra.ANDROID_CLIENT_ID,

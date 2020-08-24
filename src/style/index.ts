@@ -690,6 +690,52 @@ const about = {
     'about-credit-text': {
         fontSize: 12,
         color: 'gray'
+    },    
+}
+const contactUs = {
+    'contactUs-container': {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    'contactUs-details-super-container': {
+        flexDirection: 'row',
+        flex: 1,
+        alignItems: 'center',
+        paddingVertical: 20,
+        paddingHorizontal: 20
+    },
+    'contactUs-details-container': {
+        flexDirection: 'row',
+        flex: 1,
+        alignItems: 'center',
+        borderTopColor: 'gray',
+        borderTopWidth: 0.25,
+        paddingTop: 15
+    },
+    'contactUs-details-text': {
+        paddingHorizontal: 10,
+        fontSize: 15,
+        color: 'gray',
+    },
+    'contactUs-details-copy': {
+        paddingHorizontal: 10,
+        fontSize: 15,
+        textAlign: 'right',
+        borderWidth: 1,
+        borderRadius: 3,
+        borderColor: 'gray',
+        color: 'gray'
+    },
+    'contactUs-details-label': {
+        position: 'absolute',
+        bottom: 28,
+        backgroundColor: 'white',
+        fontWeight: 'bold',
+        fontSize: 12,
+        textTransform: 'uppercase',
+        paddingRight: 3
     },
 }
 export const styles = StyleSheet.create<any>({
@@ -708,5 +754,6 @@ export const styles = StyleSheet.create<any>({
     ...textInputContainer,
     ...settings,
     ...settingsModalChildrenPage,
-    ...about
+    ...about,
+    ...contactUs
 });

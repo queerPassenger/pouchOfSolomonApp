@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { styles } from '../style';
-import AppImage from './appImage';
 import { APP } from '../constants';
 
 interface AboutProps {

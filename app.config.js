@@ -1,5 +1,5 @@
 module.exports = function ({ config, mode }) {
-    const { APP_NAME, SLUG, VERSION, APP_OWNER, ICON_CREDITS, LOGO_CREDITS, ANDROID_PACKAGE, GOOGLE_API_KEY, GOOGLE_CERTIFICATE_HASH, API_URL, ANDROID_CLIENT_ID, ANDROID_STANDALONE_APP_CLIENT_ID } = process.env;
+    const { APP_NAME, SLUG, VERSION, APP_OWNER, ICON_CREDITS, LOGO_CREDITS, EMAIL_SUPPORT, ANDROID_PACKAGE, GOOGLE_API_KEY, GOOGLE_CERTIFICATE_HASH, API_URL, ANDROID_CLIENT_ID, ANDROID_STANDALONE_APP_CLIENT_ID } = process.env;
     const expoConfig = {
         "name": APP_NAME,
         "slug": SLUG,
@@ -33,7 +33,8 @@ module.exports = function ({ config, mode }) {
             VERSION,
             APP_OWNER,
             ICON_CREDITS,
-            LOGO_CREDITS
+            LOGO_CREDITS,
+            EMAIL_SUPPORT            
         }
     }
     return expoConfig;
