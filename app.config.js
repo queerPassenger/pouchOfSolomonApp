@@ -14,7 +14,7 @@ module.exports = function ({ config, mode }) {
         ],
         "android": {
             "package": ANDROID_PACKAGE,
-            "versionCode": VERSION_CODE,
+            "versionCode": Number(VERSION_CODE),
             "config": {
                 "googleSignIn": {
                     "apiKey": GOOGLE_API_KEY,
