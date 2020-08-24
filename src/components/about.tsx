@@ -25,10 +25,32 @@ const About: React.FC<AboutProps> = (props) => {
             </View>
     );
     return (
-        <View style={styles[`${commonDisplayName}-container`]}>
+        <View style={styles[`${About.displayName}-container`]}>
             {/* {Header} */}
-            <Image source={require('../../assets/images/pos-splash.png')} style={styles[`${About.displayName}-logo`]} />
-            <Text>{APP.APP_NAME}</Text>
+            <View style={styles[`${About.displayName}-sub-container`]}>
+                <Text style={styles[`${About.displayName}-appName`]}>{APP.APP_NAME}</Text>
+                <Text style={styles[`${About.displayName}-appVersion`]}>{`V ${APP.APP_VERSION}`}</Text>
+                <Image source={require('../../assets/images/pos-splash.png')} style={styles[`${About.displayName}-logo`]} />
+                <Text style={styles[`${About.displayName}-appOwner`]}>&#169;{` ${APP.APP_OWNER}`}</Text>
+                <View style={styles[`${About.displayName}-credits`]}>
+                    <View style={styles[`${About.displayName}-credit`]}>
+                        <Text style={styles[`${About.displayName}-credit-title`]}>
+                            Icons
+                        </Text>
+                        <Text style={styles[`${About.displayName}-credit-text`]}>
+                            {APP.ICON_CREDITS}
+                        </Text>
+                    </View>
+                    <View style={styles[`${About.displayName}-credit`]}>
+                        <Text style={styles[`${About.displayName}-credit-title`]}>
+                            Logo
+                        </Text>
+                        <Text style={styles[`${About.displayName}-credit-text`]}>
+                        {APP.LOGO_CREDITS}
+                        </Text>
+                    </View>
+                </View>
+            </View>
         </View>
     )
 }

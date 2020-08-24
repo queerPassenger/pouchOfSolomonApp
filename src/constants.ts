@@ -2,7 +2,10 @@ import Constants from 'expo-constants';
 
 export enum APP {
     APP_NAME= Constants.manifest.extra.APP_NAME,
-    APP_VERSION = Constants.manifest.extra.VERSION
+    APP_VERSION = Constants.manifest.extra.VERSION,
+    APP_OWNER = Constants.manifest.extra.APP_OWNER,
+    ICON_CREDITS = Constants.manifest.extra.ICON_CREDITS,
+    LOGO_CREDITS = Constants.manifest.extra.LOGO_CREDITS
 };
 export enum GOOGLE {
     ANDROID_CLIENT_ID = Constants.manifest.extra.ANDROID_CLIENT_ID,

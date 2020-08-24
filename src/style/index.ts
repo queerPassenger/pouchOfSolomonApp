@@ -643,8 +643,54 @@ const settingsModalChildrenPage = {
         bottom: 2,
     },
 };
-const about = {
-    
+const about = {    
+    'about-container': {
+        flex: 1,
+        flexDirection: 'column'
+    },
+    'about-sub-container': {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    'about-appName': {
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    'about-appVersion': {
+        fontSize: 16,
+        fontWeight: 'bold'
+    },
+    'about-logo': {
+        width: 150,
+        height: 200,
+        marginVertical: 10
+    },
+    'about-appOwner': {
+        fontSize: 16,
+        color: 'gray'
+    },
+    'about-credits': {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    'about-credit': {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    'about-credit-title': {
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: 'gray'
+    },
+    'about-credit-text': {
+        fontSize: 12,
+        color: 'gray'
+    },
 }
 export const styles = StyleSheet.create<any>({
     ...application,
@@ -661,5 +707,6 @@ export const styles = StyleSheet.create<any>({
     ...modalChildrenPage,
     ...textInputContainer,
     ...settings,
-    ...settingsModalChildrenPage
+    ...settingsModalChildrenPage,
+    ...about
 });
