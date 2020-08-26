@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, ReactElement, Fragment } from 'react';
-import { View, Text, TouchableOpacity, Image, FlatList, Alert, AlertButton } from 'react-native';
+import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { URL, API_PATH, APP_DEFAULT_COLORS, ALERT_TITLE, ALERT_MSG, ALERT_BUTTON } from '../constants';
 import UserContext from '../context/userContext';
 import AppContext from '../context/appContext';
@@ -47,12 +48,14 @@ const TransactionPage: React.FC = (): ReactElement => {
         let newState;
         switch (state) {
             case 'filterParams':
+                let { filter } = context.userActions.transaction;
                 newState = {
-                    fromDate: new Date(new Date().getFullYear(), 0, 1),
-                    toDate: new Date(),
-                    types: context.transactionTypes.map(x => x),
-                    subTypes: context.transactionTypeList.map(x => x.transactionTypeId)
+                    fromDate: filter && filter.fromDate ? new Date(filter.fromDate): new Date(new Date().getFullYear(), 0, 1),
+                    toDate: filter && filter.toDate ? new Date(filter.toDate): new Date(),
+                    types: filter && filter.types ? filter.types: context.transactionTypes.map(x => x),
+                    subTypes: filter && filter.subTypes ? filter.subTypes:  context.transactionTypeList.map(x => x.transactionTypeId)
                 };
+
                 break;
             case 'list':
                 newState = [];
@@ -139,6 +142,10 @@ const TransactionPage: React.FC = (): ReactElement => {
     const onFilter = async (filterParams: FilterParamsType): Promise<any> => {
         closeModal();
         updateTriggerLoadData(true);
+        let _userActions = context.userActions;
+        _userActions['transaction']['filter'] = filterParams;
+        AsyncStorage.setItem('user-actions-transaction-filter', JSON.stringify(filterParams));
+        context.updateUserActions(_userActions);
         updateFilterParams(filterParams);
     }
     const onItemSelect = (id: string, longPress: boolean) => {
@@ -204,7 +211,7 @@ const TransactionPage: React.FC = (): ReactElement => {
     const onUpdatePress = () => {
         const selected = list.filter(x => x.selected);
         if (selected.length !== 1) {
-            Alert.alert(
+            showAlert(
                 ALERT_TITLE.WARNING,
                 ALERT_MSG.UNMET_PREREQ_UPDATE_TRANSACTION,
                 [{

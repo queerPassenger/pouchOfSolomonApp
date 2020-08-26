@@ -4,9 +4,9 @@ import { Asset } from 'expo-asset';
 import logger from './utils/logger';
 import AppImage from './components/appImage';
 import GlobalContext from './context';
+import { getAppContextSchema } from './context/appContext';
 import Container from './components/container';
 import { AppLoading } from 'expo';
-import { ImagePropTypes } from 'react-native';
 
 const cacheResourcesAsync = async (): Promise<void> => {
     const images: Array<any>  = [
@@ -26,6 +26,8 @@ const Index: React.FC = (): ReactElement => {
     const [mode, updateMode]= useState<string>('appLoading');
     const [userId, updateUserId] = useState<string>('');
     const [googleUserInfo, updateGoogleUserInfo] = useState<any>({});
+    const [userActions, updateUserActions] = useState<any>(getAppContextSchema().userActions);
+
     const assetsLoaded = (): void => {
         updateMode('appImage');
         setTimeout(loadStoredItems, 3000) 
@@ -34,10 +36,16 @@ const Index: React.FC = (): ReactElement => {
         try{
             let asyncStoredItems = {
                 userId: await AsyncStorage.getItem('app-userId'),
-                googleUserInfo: await AsyncStorage.getItem('google-userInfo')
+                googleUserInfo: await AsyncStorage.getItem('google-userInfo'),
+                userActionsTransactionFilter: await AsyncStorage.getItem('user-actions-transaction-filter'),
+                userActionsTransactionAdd: await AsyncStorage.getItem('user-actions-transaction-add'),                
             }
             updateUserId(asyncStoredItems.userId ? asyncStoredItems.userId : '');
             updateGoogleUserInfo(asyncStoredItems.googleUserInfo ? JSON.parse(asyncStoredItems.googleUserInfo): {});
+            let _userActions = userActions;
+            _userActions['transaction']['filter'] = asyncStoredItems.userActionsTransactionFilter ? JSON.parse(asyncStoredItems.userActionsTransactionFilter): null;
+            _userActions['transaction']['add'] = asyncStoredItems.userActionsTransactionAdd ? JSON.parse(asyncStoredItems.userActionsTransactionAdd): null;
+            updateUserActions(_userActions);
         }
         catch(err){
             logger.info('Failed to load app user details')
@@ -72,6 +80,7 @@ const Index: React.FC = (): ReactElement => {
             <GlobalContext 
                 userId={userId} 
                 googleUserInfo={googleUserInfo}
+                userActions={userActions}
             >
                 <Container 
                     onLogout={onLogout}

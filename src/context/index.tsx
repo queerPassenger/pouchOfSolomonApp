@@ -4,16 +4,17 @@ import AppContext, { getAppContextSchema, Tab as TabType } from './appContext';
 import  logger from '../utils/logger';
 import { request } from '../utils/request';
 import { URL, API_PATH } from '../constants';
-import AppImage from '../components/appImage';
 
 interface ContextProps {
     userId: string,
     children: ReactNode,
-    googleUserInfo: any
+    googleUserInfo: any,
+    userActions: any
 }
 const Context: React.FC<ContextProps> = (props): ReactElement => {
     const [userId, updateUserId] = useState<string>(props.userId);
     const [googleUserInfo, updateGoogleUserInfo] = useState<any>(props.googleUserInfo);
+    const [userActions, updateUserActions] = useState<any>(props.userActions);
     const [loader, updateLoader] = useState<number>(0);    
     const [tabs, updateTabs] = useState<Array<TabType>>([]);
     const [selectedTab, updateSelectedTab] = useState<string>('');
@@ -21,6 +22,7 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
     const [transactionTypeList, updateTransactionTypeList] = useState<Array<any>>([]);
     const [amountTypeList, updateAmountTypeList] = useState<Array<any>>([]);
     
+
     const loadAppContext = async (): Promise<void> => {
         showLoader();
         updateTabsContext(getAppContextSchema().tabs);
@@ -101,6 +103,7 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
                 transactionTypes,
                 transactionTypeList,
                 amountTypeList,
+                userActions,
                 showLoader,
                 hideLoader,
                 updateTabs,
@@ -108,7 +111,8 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
                 updateTransactionTypes,
                 updateTransactionTypeList,
                 updateAmountTypeList,
-                loadAppContext
+                loadAppContext,
+                updateUserActions
             }}>
                 {props.children}
             </AppContext.Provider>

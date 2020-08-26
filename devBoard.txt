@@ -7,8 +7,6 @@ To Do
 
 App level
 To Do
-- About Page
-- Contact us Page
 - Color Pattern
 - Analyse Screen
 - Photo upload both API and UI 
@@ -22,3 +20,6 @@ Done
 - Add
 - APK Generated
 - Uploaded to Google Play
+- About Page
+- Contact us Page
+- Store user chosen values for Filter and update

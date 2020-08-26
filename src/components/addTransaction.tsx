@@ -1,5 +1,6 @@
 import React, { ReactElement, useState, useContext } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { styles } from '../style';
 import logger from '../utils/logger';
 import AppContext from '../context/appContext';
@@ -63,21 +64,22 @@ const AddTransaction: React.FC<AddTransactionProps> = (props): ReactElement => {
     const [types, subTypes, amountTypes] = loadInitialData();
     const getInitialState = (key: string): { state: any } => {
         let state;
+        let { add } = context.userActions.transaction;
         switch (key) {
             case 'transactionDateTime':
                 state = new Date();
                 break;
             case 'type':
-                state = types[0];
+                state = add && add.type ? add.type: types[0];
                 break;
             case 'subTypeId':
-                state = subTypes[0][0].value.toString();
+                state = add && add.subTypeId ? add.subTypeId: subTypes[0][0].value.toString();
                 break;
             case 'amount':
                 state = '';
                 break;
             case 'amountTypeId':
-                state = '49';
+                state = add && add.amountTypeId ? add.amountTypeId: '49';
                 break;
             case 'comment':
                 state = '';
@@ -124,6 +126,15 @@ const AddTransaction: React.FC<AddTransactionProps> = (props): ReactElement => {
             return true;
     }
     const proceedToAdd = async (): Promise<boolean> => {
+        let _userActions = context.userActions;
+        let addParams = {
+            type,
+            subTypeId,
+            amountTypeId
+        };
+        _userActions['transaction']['add'] = addParams;
+        context.updateUserActions(_userActions);
+        AsyncStorage.setItem('user-actions-transaction-add', JSON.stringify(addParams));
         let body: Array<RecordTransactionPayloadType> = [{
             amount: +amount,
             amountTypeId: +amountTypeId,

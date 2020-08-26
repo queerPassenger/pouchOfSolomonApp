@@ -12,6 +12,7 @@ export interface AppContextType {
     transactionTypes: Array<any>,
     transactionTypeList: Array<any>,
     amountTypeList: Array<any>,
+    userActions: any,
     showLoader: () => void,
     hideLoader: (param?: boolean) => void,
     updateTabs: (param: Array<Tab>) => void,
@@ -19,7 +20,8 @@ export interface AppContextType {
     updateTransactionTypes: (param: Array<any>) => void,
     updateTransactionTypeList: (param: Array<any>) => void,
     updateAmountTypeList: (param: Array<any>) => void,
-    loadAppContext: () => Promise<any>
+    loadAppContext: () => Promise<any>,
+    updateUserActions: (param: any) => void
 }
 const appContextSchema: AppContextType = {
     loader: 0,
@@ -39,6 +41,21 @@ const appContextSchema: AppContextType = {
     transactionTypes: [],
     transactionTypeList: [],
     amountTypeList: [],
+    userActions: {
+        transaction: {
+            filter: {
+                fromDate: new Date(new Date().getFullYear(), 0, 1),
+                toDate: new Date(),
+                types: [],
+                subTypes: []
+            },
+            add: {
+                type: '',
+                subTypeId: 0,
+                amountTypeId: 0
+            }
+        }
+    },
 
     showLoader: () => { },
     hideLoader: (boolean) => { },
@@ -47,7 +64,8 @@ const appContextSchema: AppContextType = {
     updateTransactionTypes: list => { },
     updateTransactionTypeList: list => { },
     updateAmountTypeList: list => { },
-    loadAppContext: () => new Promise(resolve => resolve())
+    loadAppContext: () => new Promise(resolve => resolve()),
+    updateUserActions: (param) => {} 
 };
 export const getAppContextSchema = (): AppContextType => {
     return { ...appContextSchema }
