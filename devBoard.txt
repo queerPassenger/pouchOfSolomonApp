@@ -14,6 +14,7 @@ To Do
 - Analyse whether how to reduce time taken to close the popUp after the popUp closes
 
 Done
+- Total Screen
 - Selecting a transaction on long press
 - Edit 
 - Delete

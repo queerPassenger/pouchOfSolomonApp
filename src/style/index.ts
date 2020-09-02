@@ -236,6 +236,45 @@ const transactionPage = {
         fontSize: 14,
         color: 'white'
     },
+    'transactionPage-total-open-container': {
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+    },
+    'transactionPage-total-open-header-container': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingVertical: 10
+    },
+    'transactionPage-total-open-header-text': {
+        fontWeight: 'bold'
+    },
+    'transactionPage-total-open-header-close-container': {
+        position: 'absolute',
+        right: 0
+    },
+    'transactionPage-total-open-header-close-text': {
+        fontSize: 20
+    },
+    'transactionPage-total-open-body-item-container': {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingVertical: 10,
+    },
+    'transactionPage-total-close-container': {
+        position: 'absolute',
+        bottom: 10,
+        left: '40%',
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        width: '20%',
+        backgroundColor:'white',
+        borderRadius: 10,
+        elevation: 3
+    },
+    'transactionPage-total-close-text': {
+        textAlign: 'center',
+        fontWeight: 'bold'
+    },
     'transactionPage-footer-container-sub-container': {
         flex: 1,
         flexDirection: 'row',

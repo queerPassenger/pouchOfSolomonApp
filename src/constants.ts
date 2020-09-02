@@ -52,3 +52,8 @@ export enum ALERT_BUTTON {
     OK = 'Ok',
     CANCEL = 'Cancel'
 };
+export enum COLOR_TRANSACTION_TYPE_CLASSIFICATION {
+    EXPENSE = 'red',
+    SAVING = 'green',
+    DEFAULT = 'gray'
+}

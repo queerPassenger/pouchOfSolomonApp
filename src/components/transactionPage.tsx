@@ -14,6 +14,7 @@ import AddTransaction from './addTransaction';
 import UpdateTransaction from './updateTransaction';
 import logger from '../utils/logger';
 import { showAlert } from '../utils/alert';
+import { getTransactionTypeColor } from '../utils/color';
 
 interface ItemProps {
     transactionId: string,
@@ -26,6 +27,7 @@ interface ItemProps {
 export interface ListItemProps {
     transactionId: string,
     amount: number,
+    amountColor: string,
     amountTypeId: number,
     comment: string,
     transactionTypeId: number,
@@ -37,6 +39,11 @@ export interface ListItemProps {
 interface ModalProps {
     flag: boolean,
     type: string
+}
+interface TotalType {
+    label: string,
+    value: number,
+    valueColor: string
 }
 const TransactionPage: React.FC = (): ReactElement => {
     const context = {
@@ -69,6 +76,18 @@ const TransactionPage: React.FC = (): ReactElement => {
             case 'selectionEnabled':
                 newState = false;
                 break;
+            case 'showTotal':
+                newState = false;
+                break;
+            case 'total':
+                newState = context.transactionTypes.map(x => { 
+                    return {
+                        label:x,
+                        valueColor: getTransactionTypeColor(x),
+                        value: 0
+                    }
+                });
+                break;
             default:
                 break;
         }
@@ -81,6 +100,8 @@ const TransactionPage: React.FC = (): ReactElement => {
     const [list, updateList] = useState<Array<any>>(getInitialState('list').state);
     const [modal, updateModal] = useState<ModalProps>(getInitialState('modal').state);
     const [selectionEnabled, updateSelectionEnabled] = useState<boolean>(getInitialState('selectionEnabled').state);
+    const [showTotal, updateShowTotal] = useState<boolean>(getInitialState('showTotal').state);
+    const [total, updateTotal] = useState<Array<TotalType>>(getInitialState('total').state);
     useEffect(() => {
         if (triggerLoadData) {
             loadData();
@@ -93,6 +114,9 @@ const TransactionPage: React.FC = (): ReactElement => {
             updateTriggerLoadData(false)
         }
     }, [filterParams]);
+    useEffect(() => {
+        calculateTotal();
+    }, [list]);
     const loadData = async (): Promise<void> => {
         context.showLoader();
         await getTransaction();
@@ -104,22 +128,24 @@ const TransactionPage: React.FC = (): ReactElement => {
             fromDate,
             toDate
         };
-        updateList([]);
+        updateList([]);        
         try {
             let response = await request.post(URL.API_URL + API_PATH.GET_TRANSACTION.replace('{id}', context.userId), body, {})
             if (response && response.status && response.type === 'json' && response.data) {
                 if (response.data.status) {
                     let result = response.data.data.map((item: ItemProps) => {
                         let transactionType = context.transactionTypeList.filter(x => x.transactionTypeId === item.transactionTypeId)[0] || {};
+                        
                         return {
                             ...item,
                             amount: +item.amount,
                             transactionTypeName: transactionType.transactionTypeName,
                             transactionClassification: transactionType.transactionClassification,
+                            amountColor: transactionType.amountColor,
                             selected: false
                         }
                     }).filter((x: ListItemProps) => types.indexOf(x.transactionClassification) !== -1 || subTypes.indexOf(x.transactionTypeId) !== -1).reverse();
-                    updateList(result);
+                    updateList(result);                    
                     return true;
                 }
             }
@@ -129,6 +155,19 @@ const TransactionPage: React.FC = (): ReactElement => {
             logger.warn('Error getTransaction' + err.toString())
             return false
         }
+    }
+    const calculateTotal = (): void => {
+        let _total = total.map(x => {
+            return {
+                ...x,
+                value: 0
+            }
+        });
+        list.map(x => {
+            let ind = _total.findIndex(y => x.transactionClassification === y.label);
+            _total[ind]['value'] += x.amount;
+        });
+        updateTotal(_total);
     }
     const openModal = (type: string): void => {
         updateModal({
@@ -307,7 +346,7 @@ const TransactionPage: React.FC = (): ReactElement => {
                             <View>
                                 <Text style={{
                                     ...styles[`${TransactionPage.displayName}-list-item-sub-container3-text2`],
-                                    ...{ color: item.transactionClassification === 'expense' ? 'red' : 'green' }
+                                    ...{ color: item.amountColor }
                                 }} numberOfLines={1}>
                                     {Math.floor(item.amount)}
                                 </Text>
@@ -334,7 +373,7 @@ const TransactionPage: React.FC = (): ReactElement => {
         return (
             <View style={styles[`${TransactionPage.displayName}-norecords-container`]}>
                 <Text style={styles[`${TransactionPage.displayName}-norecords-container-text`]}>
-                    No records available for this filter search
+                    No Records
                 </Text>
             </View>
         )
@@ -343,11 +382,40 @@ const TransactionPage: React.FC = (): ReactElement => {
         return (
             <View style={styles[`${TransactionPage.displayName}-list-container`]}>
                 {context.loader || list.length > 0 ?
-                    <FlatList
-                        data={context.loader ? [...Array(10)] : list}
-                        renderItem={(props) => ListItem(props.item)}
-                        keyExtractor={(item, ind) => item ? ('key' + item.transactionId) : ('key' + ind)}
-                    />
+                    <>
+                        <FlatList
+                            data={context.loader ? [...Array(10)] : list}
+                            renderItem={(props) => ListItem(props.item)}
+                            keyExtractor={(item, ind) => item ? ('key' + item.transactionId) : ('key' + ind)}
+                        />
+                        {showTotal? 
+                            <View  style={styles[`${TransactionPage.displayName}-total-open-container`]}>
+                                <View style={styles[`${TransactionPage.displayName}-total-open-header-container`]}>
+                                    <Text style={styles[`${TransactionPage.displayName}-total-open-header-text`]}>
+                                        TOTAL
+                                    </Text>
+                                    <TouchableOpacity style={styles[`${TransactionPage.displayName}-total-open-header-close-container`]} onPress={() => updateShowTotal(false)}>
+                                        <Text style={styles[`${TransactionPage.displayName}-total-open-header-close-text`]}> &#10006;</Text>
+                                    </TouchableOpacity>                                    
+                                </View>                            
+                                {total.map((x, ind) => {
+                                    return(
+                                        <View key={'total'+ind} style={styles[`${TransactionPage.displayName}-total-open-body-item-container`]}>
+                                            <Text>{x.label.toUpperCase()}</Text>
+                                            <Text style={{color: x.valueColor}}>{x.value.toFixed(2)}</Text>
+                                        </View>
+                                    )
+                                })}
+                            </View>
+                        :
+                            <TouchableOpacity  
+                                style={styles[`${TransactionPage.displayName}-total-close-container`]}
+                                onPress={() => updateShowTotal(true)}
+                            >
+                                <Text style={{textAlign: 'center', fontWeight: 'bold'}}>Total</Text>
+                            </TouchableOpacity>
+                        }
+                    </>
                     :
                     <Fragment>
                         {EmptyList()}
