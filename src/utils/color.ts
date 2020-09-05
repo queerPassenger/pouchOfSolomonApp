@@ -1,12 +1,12 @@
-import { COLOR_TRANSACTION_TYPE_CLASSIFICATION } from '../constants';
+import { APP_DEFAULT_COLORS } from '../constants';
 
 export const getTransactionTypeColor = (transactionClassification: string) => {
     switch (transactionClassification.toUpperCase()) {
         case 'EXPENSE':
-            return COLOR_TRANSACTION_TYPE_CLASSIFICATION.EXPENSE;
+            return APP_DEFAULT_COLORS.EXPENSE;
         case 'SAVING':
-            return COLOR_TRANSACTION_TYPE_CLASSIFICATION.SAVING;
+            return APP_DEFAULT_COLORS.SAVING;
         default:
-            return COLOR_TRANSACTION_TYPE_CLASSIFICATION.DEFAULT;
+            return APP_DEFAULT_COLORS.DEFAULT;
     }
 }

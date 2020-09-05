@@ -7,13 +7,16 @@ To Do
 
 App level
 To Do
-- Color Pattern
-- Analyse Screen
-- Photo upload both API and UI 
-- Refreshing like small popUp
-- Analyse whether how to reduce time taken to close the popUp after the popUp closes
+- Download Excel - Most Critical
+- DB Migration - Most Critical 
+- Toastr instead of Alert for success - Least Critical
+- Analyse Screen - High Charts - Critical
+- Photo upload both API and UI - Critical
+- Refreshing like small popUp - Least Crtical
+- Analyse whether how to reduce time taken to close the popUp after the popUp closes - Least Critical
 
 Done
+- Color Pattern
 - Total Screen
 - Selecting a transaction on long press
 - Edit 

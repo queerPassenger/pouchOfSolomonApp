@@ -65,7 +65,7 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
         return transactionTypes.map(x => {
             return {
                 ...x,
-                amountColor: getTransactionTypeColor(x.transactionClassification)
+                color: getTransactionTypeColor(x.transactionClassification)
             }
         })
     }

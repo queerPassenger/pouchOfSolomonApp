@@ -16,7 +16,7 @@ const Loader: React.FC<LoaderProps> = (props) : ReactElement => {
 }
 Loader.displayName = 'loader';
 Loader.defaultProps = {
-    color: 'blue',
+    color: 'gray',
     size: 'large'
 }
 export default Loader;

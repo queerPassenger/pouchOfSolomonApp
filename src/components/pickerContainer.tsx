@@ -83,7 +83,7 @@ const MultiPicker: React.FC<PickerContainerProps> = (props): ReactElement => {
                     marginRight: 20,
                     flexDirection: 'row',
                     alignItems: 'center',
-                    ...(props.value.indexOf(_props.value.value) !== -1 && { backgroundColor: APP_DEFAULT_COLORS.DARK_COLOR })
+                    ...(props.value.indexOf(_props.value.value) !== -1 && { backgroundColor: APP_DEFAULT_COLORS.APP_COLOR })
                 }}>
 
                 </View>

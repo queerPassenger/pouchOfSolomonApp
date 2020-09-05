@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { APP_DEFAULT_COLORS } from '../constants';
+import { APP_DEFAULT_COLORS, APP } from '../constants';
 
 const application = {
     'application-container': {
@@ -10,14 +10,14 @@ const application = {
 };
 const appHeader = {
     'appHeader-container': {
-        backgroundColor: APP_DEFAULT_COLORS.DARK_COLOR,
+        backgroundColor: APP_DEFAULT_COLORS.APP_COLOR,
         paddingVertical: 15,
         paddingHorizontal: 20,
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
     'appHeader-appName': {
-        color: 'white',
+        color: APP_DEFAULT_COLORS.PRIMIARY_TXT,
         fontSize: 16,
         fontWeight: 'bold'
     },
@@ -51,7 +51,7 @@ const login = {
     'login-btn-container': {
         flexDirection: 'row',
         justifyContent: 'center',
-        backgroundColor: 'white',
+        backgroundColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND,
         paddingVertical: 5,
         marginHorizontal: 50,
         elevation: 3
@@ -63,8 +63,7 @@ const login = {
     },
     'login-gtext': {
         fontSize: 20,
-        fontFamily: 'Roboto',
-        color: 'gray',
+        color: APP_DEFAULT_COLORS.THIRD_TXT,
         paddingTop: 7,
         paddingLeft: 20
     }
@@ -85,7 +84,7 @@ const appTab = {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        backgroundColor: APP_DEFAULT_COLORS.DARK_COLOR,
+        backgroundColor: APP_DEFAULT_COLORS.APP_COLOR,
     },
     'appTab-tab-container': {
         display: 'flex',
@@ -100,26 +99,25 @@ const appTab = {
         flex: 1,
         justifyContent: 'center',
         paddingVertical: 5,
-        borderBottomColor: 'white',
+        borderBottomColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND,
         borderBottomWidth: 2,
         borderStyle: 'solid'
     },
 
     'appTab-tab-text': {
         fontSize: 14,
-        color: 'white'
+        color: APP_DEFAULT_COLORS.PRIMIARY_TXT
     },
     'appTab-tab-text-selected': {
         fontSize: 14,
         fontWeight: 'bold',
-        color: 'white',
+        color: APP_DEFAULT_COLORS.PRIMIARY_TXT
     },
 };
 const appTabView = {
     'appTabView-container': {
         display: 'flex',
-        flex: 1,
-        backgroundColor: 'white'
+        flex: 1
     }
 };
 const transactionPage = {
@@ -127,18 +125,17 @@ const transactionPage = {
         display: 'flex',
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: 'white'
+        backgroundColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND
     },
     'transactionPage-list-container': {
         display: 'flex',
         flex: 9,
         flexDirection: 'column',
-        elevation: 0.5,
-        borderColor: '#cecdd2',
+        elevation: 0.5
     },
     'transactionPage-footer-container': {
         flexDirection: 'row',
-        backgroundColor: 'white',
+        backgroundColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND,
         flex: 1,
         justifyContent: 'space-evenly'
     },
@@ -151,24 +148,33 @@ const transactionPage = {
     'transactionPage-norecords-container-text': {
         fontWeight: 'bold',
         fontSize: 20,
-        color: APP_DEFAULT_COLORS.DARK_COLOR
+        color: APP_DEFAULT_COLORS.APP_COLOR
     },
     'transactionPage-list-item-container': {
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'column',
         marginVertical: 10,
         marginHorizontal: 20,
-        padding: 10,
         height: 80,
-        borderBottomColor: '#cecdd2',
-        borderBottomWidth: 0.25,
         borderRadius: 5,
         borderStyle: 'solid',
-        backgroundColor: 'green'
+        backgroundColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND,
+        elevation: 5
     },
-    'transactionPage-list-item-sub-container1': {
+    'transactionPage-list-item-sub-container': {
         flex: 1,
-        flexDirection: 'column'
+        flexDirection: 'column',
+        paddingHorizontal: 10,
+        paddingVertical: 15
+    },
+    'transactionPage-list-item-wrapper1': {
+        height: 2,
+        marginHorizontal: 5
+    },
+    'transactionPage-list-item-wrapper2': {
+        flex: 1,
+        flexDirection: 'row',
+        paddingHorizontal: 10
     },
     'transactionPage-list-item-sub-container2': {
         display: 'flex',
@@ -183,58 +189,58 @@ const transactionPage = {
         flexDirection: 'column',
         justifyContent: 'center',
     },
-    'transactionPage-list-item-sub-container1-emptyContainer': {
+    'transactionPage-list-item-sub-container-emptyContainer': {
         height: 7,
         marginBottom: 10,
-        backgroundColor: 'lightgray'
+        backgroundColor: APP_DEFAULT_COLORS.APP_COLOR
     },
     'transactionPage-list-item-sub-container2-text1': {
         fontWeight: 'bold',
         fontSize: 14,
-        color: 'white',
+        color: APP_DEFAULT_COLORS.SECONDARY_TXT,
     },
     'transactionPage-list-item-sub-container2-text2': {
         fontWeight: 'bold',
         fontSize: 12,
-        color: 'white',
+        color: APP_DEFAULT_COLORS.SECONDARY_TXT,
         fontStyle: 'italic'
     },
     'transactionPage-list-item-sub-container2-text3': {
         fontWeight: 'bold',
         fontSize: 10,
-        color: 'white',
+        color: APP_DEFAULT_COLORS.SECONDARY_TXT,
         fontStyle: 'italic'
     },
     'transactionPage-list-item-sub-container2-text4': {
         fontWeight: 'bold',
         fontSize: 10,
-        color: 'white',
+        color: APP_DEFAULT_COLORS.SECONDARY_TXT,
         fontStyle: 'italic'
     },
     'transactionPage-list-item-sub-container3-text1': {
         fontWeight: 'bold',
         fontSize: 10,
-        color: 'white',
+        color: APP_DEFAULT_COLORS.SECONDARY_TXT,
         textAlign: 'right',
         fontStyle: 'italic'
     },
     'transactionPage-list-item-sub-container3-text2': {
         fontWeight: 'bold',
         fontSize: 16,
-        color: 'white',
+        color: APP_DEFAULT_COLORS.SECONDARY_TXT,
         textAlign: 'right'
     },
     'transactionPage-list-item-sub-container3-text3': {
         fontWeight: 'bold',
         fontSize: 10,
-        color: 'white',
+        color: APP_DEFAULT_COLORS.SECONDARY_TXT,
         textAlign: 'right',
         fontStyle: 'italic'
     },
     'transactionPage-list-item-sub-container3-text4': {
         textAlign: 'right',
         fontSize: 14,
-        color: 'white'
+        color: APP_DEFAULT_COLORS.SECONDARY_TXT,
     },
     'transactionPage-total-open-container': {
         paddingHorizontal: 10,
@@ -260,6 +266,13 @@ const transactionPage = {
         justifyContent: 'space-between',
         paddingVertical: 10,
     },
+    'transactionPage-total-open-body-item-sub-container': {
+        padding: 5,
+        borderRadius: 3
+    },
+    'transactionPage-total-open-body-item-sub-container-text': {
+        fontWeight: 'bold'        
+    },
     'transactionPage-total-close-container': {
         position: 'absolute',
         bottom: 10,
@@ -267,7 +280,7 @@ const transactionPage = {
         paddingVertical: 10,
         paddingHorizontal: 10,
         width: '20%',
-        backgroundColor:'white',
+        backgroundColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND,
         borderRadius: 10,
         elevation: 3
     },
@@ -292,14 +305,11 @@ const transactionPage = {
 const modalComponent = {
     'modalComponent-container': {
         flex: 1,
-        justifyContent: 'center',
-        //padding: 20
+        justifyContent: 'center'
     },
     'modalComponent-sub-container': {
         flex: 1,
-        backgroundColor: 'white',
-        borderColor: 'gray',
-        borderWidth: 1,
+        backgroundColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND,
         borderRadius: 3
     },
 };
@@ -307,79 +317,7 @@ const filterTransaction = {
     'filterTransaction-container': {
         flexDirection: 'column',
         flex: 1
-    },
-    'filterTransaction-action-container': {
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        paddingVertical: 10,
-        marginBottom: 10
-    },
-    'filterTransaction-btn-container': {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        borderRadius: 3,
-        borderWidth: 0.25,
-        borderColor: APP_DEFAULT_COLORS.DARK_COLOR,
-        elevation: 3,
-        width: 150,
-        height: 40
-    },
-    'filterTransaction-btn-text': {
-        color: 'black',
-        fontWeight: 'bold',
-    },
-    'filterTransaction-date-super-container': {
-        flexDirection: 'column',
-        paddingVertical: 10,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    'filterTransaction-date-container': {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 40
-    },
-    'filterTransaction-datetime-container': {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        borderRadius: 3,
-        borderWidth: 0.25,
-        borderColor: APP_DEFAULT_COLORS.DARK_COLOR,
-        elevation: 3,
-        width: '70%',
-        height: 30
-    },
-    'filterTransaction-datetime-text': {
-        color: 'black',
-        fontWeight: 'bold',
-    },
-    'filterTransaction-text-label': {
-        position: 'absolute',
-        bottom: 22,
-        right: 10,
-        backgroundColor: 'white',
-        color: 'gray',
-        fontWeight: 'bold',
-        fontStyle: 'italic',
-        fontSize: 12
-    },
-    'filterTransaction-datetime-image': {
-        width: 25,
-        height: 25,
-        marginLeft: 10
-    },
-    'filterTransaction-picker-wrapper': {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 40
-    }
+    },    
 };
 const pickerContainer = {
     'pickerContainer-container': {
@@ -387,10 +325,10 @@ const pickerContainer = {
         alignItems: 'center',
         width: '90%',
         height: 40,
-        backgroundColor: 'white',
+        backgroundColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND,
         borderRadius: 3,
         borderWidth: 0.25,
-        borderColor: APP_DEFAULT_COLORS.DARK_COLOR,
+        borderColor: APP_DEFAULT_COLORS.APP_COLOR,
         elevation: 3
     },
     'pickerContainer-simplePicker-picker-container': {
@@ -400,8 +338,8 @@ const pickerContainer = {
         position: 'absolute',
         bottom: 32,
         right: 10,
-        backgroundColor: 'white',
-        color: 'gray',
+        backgroundColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND,
+        color: APP_DEFAULT_COLORS.THIRD_TXT,
         fontWeight: 'bold',
         fontStyle: 'italic',
         fontSize: 12
@@ -411,10 +349,10 @@ const pickerContainer = {
         alignItems: 'center',
         width: '90%',
         height: 40,
-        backgroundColor: 'white',
+        backgroundColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND,
         borderRadius: 3,
         borderWidth: 0.25,
-        borderColor: APP_DEFAULT_COLORS.DARK_COLOR,
+        borderColor: APP_DEFAULT_COLORS.APP_COLOR,
         elevation: 3,
         paddingHorizontal: 8
     },
@@ -509,7 +447,7 @@ const modalChildrenPage = {
     'modalChildrenPage-body-part1-sub-txt': {
         fontSize: 16,
         textTransform: 'capitalize',
-        color: 'gray'
+        color: APP_DEFAULT_COLORS.THIRD_TXT
     },
     'modalChildrenPage-body-part': {
         flexDirection: 'row',
@@ -523,10 +461,10 @@ const modalChildrenPage = {
         alignItems: 'center',
         width: '90%',
         height: 40,
-        backgroundColor: 'white',
+        backgroundColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND,
         borderRadius: 3,
         borderWidth: 0.25,
-        borderColor: APP_DEFAULT_COLORS.DARK_COLOR,
+        borderColor: APP_DEFAULT_COLORS.APP_COLOR,
         elevation: 3,
         paddingHorizontal: 8
     },
@@ -534,8 +472,8 @@ const modalChildrenPage = {
         position: 'absolute',
         bottom: 32,
         right: 10,
-        backgroundColor: 'white',
-        color: 'gray',
+        backgroundColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND,
+        color: APP_DEFAULT_COLORS.THIRD_TXT,
         fontWeight: 'bold',
         fontStyle: 'italic',
         fontSize: 12
@@ -548,10 +486,10 @@ const textInputContainer = {
         alignItems: 'center',
         width: '90%',
         height: 40,
-        backgroundColor: 'white',
+        backgroundColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND,
         borderRadius: 3,
         borderWidth: 0.25,
-        borderColor: APP_DEFAULT_COLORS.DARK_COLOR,
+        borderColor: APP_DEFAULT_COLORS.APP_COLOR,
         elevation: 3,
         paddingHorizontal: 5
     },
@@ -559,8 +497,8 @@ const textInputContainer = {
         position: 'absolute',
         bottom: 32,
         right: 10,
-        backgroundColor: 'white',
-        color: 'gray',
+        backgroundColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND,
+        color: APP_DEFAULT_COLORS.THIRD_TXT,
         fontWeight: 'bold',
         fontStyle: 'italic',
         fontSize: 12
@@ -606,12 +544,13 @@ const settings = {
     'settings-userDetails-text': {
         paddingHorizontal: 10,
         fontSize: 15,
-        color: 'gray',
+        color: APP_DEFAULT_COLORS.THIRD_TXT
     },
     'settings-userDetails-label': {
         position: 'absolute',
         bottom: 28,
-        backgroundColor: 'white',
+        backgroundColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND,
+        color: APP_DEFAULT_COLORS.THIRD_TXT,
         fontWeight: 'bold',
         fontSize: 12,
         textTransform: 'uppercase',
@@ -637,7 +576,7 @@ const settings = {
     },
     'settings-userAction-text': {
         fontSize: 18,
-        color: 'gray'
+        color: APP_DEFAULT_COLORS.THIRD_TXT
     }
 };
 const settingsModalChildrenPage = {
@@ -694,12 +633,14 @@ const about = {
         alignItems: 'center'
     },
     'about-appName': {
-        fontSize: 20,
-        fontWeight: 'bold'
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: APP_DEFAULT_COLORS.THIRD_TXT
     },
     'about-appVersion': {
-        fontSize: 16,
-        fontWeight: 'bold'
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: APP_DEFAULT_COLORS.THIRD_TXT
     },
     'about-logo': {
         width: 150,
@@ -708,7 +649,7 @@ const about = {
     },
     'about-appOwner': {
         fontSize: 16,
-        color: 'gray'
+        color: APP_DEFAULT_COLORS.THIRD_TXT
     },
     'about-credits': {
         flexDirection: 'column',
@@ -724,11 +665,11 @@ const about = {
     'about-credit-title': {
         fontSize: 12,
         fontWeight: 'bold',
-        color: 'gray'
+        color: APP_DEFAULT_COLORS.THIRD_TXT
     },
     'about-credit-text': {
         fontSize: 12,
-        color: 'gray'
+        color: APP_DEFAULT_COLORS.THIRD_TXT
     },    
 }
 const contactUs = {
@@ -756,7 +697,7 @@ const contactUs = {
     'contactUs-details-text': {
         paddingHorizontal: 10,
         fontSize: 15,
-        color: 'gray',
+        color: APP_DEFAULT_COLORS.THIRD_TXT
     },
     'contactUs-details-copy': {
         paddingHorizontal: 10,
@@ -765,12 +706,12 @@ const contactUs = {
         borderWidth: 1,
         borderRadius: 3,
         borderColor: 'gray',
-        color: 'gray'
+        color: APP_DEFAULT_COLORS.THIRD_TXT
     },
     'contactUs-details-label': {
         position: 'absolute',
         bottom: 28,
-        backgroundColor: 'white',
+        backgroundColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND,
         fontWeight: 'bold',
         fontSize: 12,
         textTransform: 'uppercase',

@@ -231,7 +231,7 @@ const AddTransaction: React.FC<AddTransactionProps> = (props): ReactElement => {
                                 style={{
                                     ...styles[`${commonDisplayName}-body-part1-sub`],
                                     ...(selected && {
-                                        borderBottomColor: APP_DEFAULT_COLORS.DARK_COLOR,
+                                        borderBottomColor: APP_DEFAULT_COLORS.APP_COLOR,
                                         borderBottomWidth: 2
                                     })
                                 }}
@@ -243,7 +243,7 @@ const AddTransaction: React.FC<AddTransactionProps> = (props): ReactElement => {
                                 <Text style={{
                                     ...styles[`${commonDisplayName}-body-part1-sub-txt`],
                                     ...(selected && {
-                                        color: APP_DEFAULT_COLORS.DARK_COLOR,
+                                        color: APP_DEFAULT_COLORS.APP_COLOR,
                                         fontWeight: 'bold'
                                     })
                                 }}>{x}</Text>

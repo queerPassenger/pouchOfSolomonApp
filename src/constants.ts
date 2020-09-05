@@ -13,9 +13,14 @@ export enum GOOGLE {
     ANDROID_STANDALONE_APP_CLIENT_ID = Constants.manifest.extra.ANDROID_STANDALONE_APP_CLIENT_ID
 }
 export enum APP_DEFAULT_COLORS {
-    DARK_COLOR = '#88184c',
-    LIGHT_COLOR = '#ac527c',
-    LIGHTEST_COLOR = '#fbe9f1'
+    APP_COLOR = '#88184c',
+    APP_PRIMIARY_BACKGROUND = 'white',
+    PRIMIARY_TXT = 'white',
+    SECONDARY_TXT = '#88184c',
+    THIRD_TXT = 'gray',
+    EXPENSE = 'red',
+    SAVING = 'green',
+    DEFAULT = 'blue'
 };
 export enum URL {
     API_URL = Constants.manifest.extra.API_URL
@@ -52,8 +57,3 @@ export enum ALERT_BUTTON {
     OK = 'Ok',
     CANCEL = 'Cancel'
 };
-export enum COLOR_TRANSACTION_TYPE_CLASSIFICATION {
-    EXPENSE = 'red',
-    SAVING = 'green',
-    DEFAULT = 'gray'
-}

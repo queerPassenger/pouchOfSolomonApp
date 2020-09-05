@@ -27,7 +27,7 @@ interface ItemProps {
 export interface ListItemProps {
     transactionId: string,
     amount: number,
-    amountColor: string,
+    color: string,
     amountTypeId: number,
     comment: string,
     transactionTypeId: number,
@@ -141,7 +141,7 @@ const TransactionPage: React.FC = (): ReactElement => {
                             amount: +item.amount,
                             transactionTypeName: transactionType.transactionTypeName,
                             transactionClassification: transactionType.transactionClassification,
-                            amountColor: transactionType.amountColor,
+                            color: transactionType.color,
                             selected: false
                         }
                     }).filter((x: ListItemProps) => types.indexOf(x.transactionClassification) !== -1 || subTypes.indexOf(x.transactionTypeId) !== -1).reverse();
@@ -298,19 +298,22 @@ const TransactionPage: React.FC = (): ReactElement => {
         if (!item) {
             let totalLayers = 3;
             return (
-                <LinearGradient colors={[APP_DEFAULT_COLORS.DARK_COLOR, APP_DEFAULT_COLORS.DARK_COLOR, 'rgb(88, 62, 78)']} style={styles[`${TransactionPage.displayName}-list-item-container`]}>
-                    <View style={styles[`${TransactionPage.displayName}-list-item-sub-container1`]}>
-                        {[...Array(totalLayers)].map((x, ind) => {
-                            return (
-                                <View key={'empty' + ind} style={{
-                                    ...styles[`${TransactionPage.displayName}-list-item-sub-container1-emptyContainer`],
-                                    width: 100 - (20 * (ind + 1)) + '%'
-                                }}>
-                                </View>
-                            )
-                        })}
-                    </View>
-                </LinearGradient>
+                <View style={{
+                    ...styles[`${TransactionPage.displayName}-list-item-container`],
+                    backgroundColor: APP_DEFAULT_COLORS.APP_PRIMIARY_BACKGROUND
+                }} >
+                <View style={styles[`${TransactionPage.displayName}-list-item-sub-container`]}>
+                    {[...Array(totalLayers)].map((x, ind) => {
+                        return (
+                            <View key={'empty' + ind} style={{
+                                ...styles[`${TransactionPage.displayName}-list-item-sub-container-emptyContainer`],
+                                width: 100 - (20 * (ind + 1)) + '%'
+                            }}>
+                            </View>
+                        )
+                    })}
+                </View>
+                </View>
             )
         }
         else {
@@ -320,9 +323,15 @@ const TransactionPage: React.FC = (): ReactElement => {
                 <TouchableOpacity
                     // onPress={() => selectionEnabled && onItemSelect(item.transactionId, false)} 
                     // onLongPress={() => onItemSelect(item.transactionId, true)}
+                    style={styles[`${TransactionPage.displayName}-list-item-container`]}
                     onPress={() => onItemSelect(item.transactionId, true)}
-                >
-                    <LinearGradient colors={[APP_DEFAULT_COLORS.DARK_COLOR, APP_DEFAULT_COLORS.DARK_COLOR, 'rgb(88, 62, 78)']} style={styles[`${TransactionPage.displayName}-list-item-container`]} >
+                >                    
+                    <View style={{
+                        ...styles[`${TransactionPage.displayName}-list-item-wrapper1`],
+                        backgroundColor: item.color
+                    }}>
+                    </View>   
+                    <View style={styles[`${TransactionPage.displayName}-list-item-wrapper2`]}>        
                         <View style={styles[`${TransactionPage.displayName}-list-item-sub-container2`]}>
                             <Text style={styles[`${TransactionPage.displayName}-list-item-sub-container2-text1`]} numberOfLines={1} >
                                 {item.comment}
@@ -345,8 +354,7 @@ const TransactionPage: React.FC = (): ReactElement => {
                             </View>
                             <View>
                                 <Text style={{
-                                    ...styles[`${TransactionPage.displayName}-list-item-sub-container3-text2`],
-                                    ...{ color: item.amountColor }
+                                    ...styles[`${TransactionPage.displayName}-list-item-sub-container3-text2`]
                                 }} numberOfLines={1}>
                                     {Math.floor(item.amount)}
                                 </Text>
@@ -364,7 +372,7 @@ const TransactionPage: React.FC = (): ReactElement => {
                                 </View>
                             }
                         </View>
-                    </LinearGradient>
+                    </View>                  
                 </TouchableOpacity>
             )
         }
@@ -401,8 +409,22 @@ const TransactionPage: React.FC = (): ReactElement => {
                                 {total.map((x, ind) => {
                                     return(
                                         <View key={'total'+ind} style={styles[`${TransactionPage.displayName}-total-open-body-item-container`]}>
-                                            <Text>{x.label.toUpperCase()}</Text>
-                                            <Text style={{color: x.valueColor}}>{x.value.toFixed(2)}</Text>
+                                            <View style={styles[`${TransactionPage.displayName}-total-open-body-item-sub-container`]}>
+                                                <Text style={styles[`${TransactionPage.displayName}-total-open-body-item-sub-container-text`]}>
+                                                    {x.label.toUpperCase()}
+                                                </Text>
+                                            </View>
+                                            <View style={{
+                                                ...styles[`${TransactionPage.displayName}-total-open-body-item-sub-container`],
+                                                backgroundColor: x.valueColor
+                                            }}>
+                                                <Text style={{
+                                                    ...styles[`${TransactionPage.displayName}-total-open-body-item-sub-container-text`],
+                                                    color: APP_DEFAULT_COLORS.PRIMIARY_TXT
+                                                }}>
+                                                    {x.value.toFixed(2)}
+                                                </Text>
+                                            </View>
                                         </View>
                                     )
                                 })}

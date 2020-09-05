@@ -8,7 +8,7 @@ const StatusBarComponent: React.FC = (): ReactElement => {
     return (
         <View >
             <StatusBar
-                backgroundColor={APP_DEFAULT_COLORS.DARK_COLOR}
+                backgroundColor={APP_DEFAULT_COLORS.APP_COLOR}
                 barStyle="dark-content"
                 hidden={false}
                 translucent={false}
