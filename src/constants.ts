@@ -50,6 +50,7 @@ export enum ALERT_MSG {
     UNMET_UPDATE_TRANSACTION = 'Please fill all the fields before updating',
     SUCCESS_UPDATE_TRANSACTION = 'Updated successfully',
     CONFIRMATION_LOGOUT = 'Are you sure want to logout',
+    UNMET_PREREQ_DOWNLOAD = 'No records available to download'
 };
 export enum ALERT_BUTTON {
     YES = 'Yes',

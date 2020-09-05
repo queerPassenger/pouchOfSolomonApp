@@ -6,7 +6,6 @@ import UserContext from '../context/userContext';
 import AppContext from '../context/appContext';
 import { request } from '../utils/request';
 import { getDate, getTime } from '../utils/calendar';
-import { LinearGradient } from 'expo-linear-gradient';
 import { styles } from '../style';
 import Modal from './modal';
 import FilterTransaction, { FilterParamsType } from './filterTransaction';
@@ -15,6 +14,7 @@ import UpdateTransaction from './updateTransaction';
 import logger from '../utils/logger';
 import { showAlert } from '../utils/alert';
 import { getTransactionTypeColor } from '../utils/color';
+import { downloadExcel } from '../utils/excel';
 
 interface ItemProps {
     transactionId: string,
@@ -26,15 +26,20 @@ interface ItemProps {
 };
 export interface ListItemProps {
     transactionId: string,
-    amount: number,
-    color: string,
-    amountTypeId: number,
-    comment: string,
     transactionTypeId: number,
-    timeStamp: string,
-    transactionTypeName: string,
     transactionClassification: string,
-    selected: boolean
+    amount: number,
+    amountTypeId: number,
+    timeStamp: string,
+    color: string,    
+    selected: boolean,
+    uiDate: string,
+    uiTime: string,
+    uiSubType: string,
+    uiComment: string,
+    uiCurrency: string,
+    uiAmount: string,
+    uiAmountChange: string
 }
 interface ModalProps {
     flag: boolean,
@@ -135,17 +140,27 @@ const TransactionPage: React.FC = (): ReactElement => {
                 if (response.data.status) {
                     let result = response.data.data.map((item: ItemProps) => {
                         let transactionType = context.transactionTypeList.filter(x => x.transactionTypeId === item.transactionTypeId)[0] || {};
-                        
+                        const amountType = context.amountTypeList.filter(x => x.amountTypeId === item.amountTypeId)[0] || {};
+                        const amount = +item.amount;
                         return {
-                            ...item,
-                            amount: +item.amount,
-                            transactionTypeName: transactionType.transactionTypeName,
+                            transactionId: item.transactionId,
+                            transactionTypeId: item.transactionTypeId,
                             transactionClassification: transactionType.transactionClassification,
+                            amount,
+                            amountTypeId: item.amountTypeId,
+                            timeStamp: item.timeStamp,
                             color: transactionType.color,
-                            selected: false
+                            selected: false,
+                            uiDate: getDate(item.timeStamp ? new Date(item.timeStamp) : new Date()),
+                            uiTime: getTime(item.timeStamp ? new Date(item.timeStamp) : new Date()),
+                            uiSubType: transactionType.transactionTypeName,
+                            uiComment: item.comment,
+                            uiCurrency: amountType.amountSymbol ? amountType.amountSymbol : '',
+                            uiAmount: Math.floor(amount),
+                            uiAmountChange: (amount - Math.floor(amount)).toFixed(2).split('.')[1]                                              
                         }
-                    }).filter((x: ListItemProps) => types.indexOf(x.transactionClassification) !== -1 || subTypes.indexOf(x.transactionTypeId) !== -1).reverse();
-                    updateList(result);                    
+                    }).filter((x: ListItemProps) => types.indexOf(x.transactionClassification) !== -1 || subTypes.indexOf(x.transactionTypeId) !== -1).reverse();                    
+                    updateList(result);
                     return true;
                 }
             }
@@ -261,6 +276,30 @@ const TransactionPage: React.FC = (): ReactElement => {
         else
             openModal('update');
     }
+    const onDownloadPress = () => {
+        const excelData = list.map((x: ListItemProps) => {
+            return {
+                'Date': x.uiDate,
+                'Time': x.uiTime,
+                'SubType': x.uiSubType,
+                'Currency': x.uiCurrency,
+                'Amount': x.uiAmount,
+                'AmountChange': x.uiAmountChange,
+                'Comment': x.uiComment                
+            }
+        });
+        if(excelData.length === 0){
+            showAlert(
+                ALERT_TITLE.WARNING,
+                ALERT_MSG.UNMET_PREREQ_DOWNLOAD,
+                [{
+                    text: ALERT_BUTTON.OK
+                }]
+            );
+            return;
+        }
+        downloadExcel(excelData, 'Transaction.xlsx', 'Transaction');
+    }
     const onDeletePress = () => {
         const selectedItems = list.filter(x => x.selected);
         if (selectedItems.length > 0) {
@@ -317,8 +356,6 @@ const TransactionPage: React.FC = (): ReactElement => {
             )
         }
         else {
-            const amountType = context.amountTypeList.filter(x => x.amountTypeId === item.amountTypeId)[0] || {};
-            const change = (item.amount - Math.floor(item.amount)).toFixed(2).split('.')[1];
             return (
                 <TouchableOpacity
                     // onPress={() => selectionEnabled && onItemSelect(item.transactionId, false)} 
@@ -334,34 +371,34 @@ const TransactionPage: React.FC = (): ReactElement => {
                     <View style={styles[`${TransactionPage.displayName}-list-item-wrapper2`]}>        
                         <View style={styles[`${TransactionPage.displayName}-list-item-sub-container2`]}>
                             <Text style={styles[`${TransactionPage.displayName}-list-item-sub-container2-text1`]} numberOfLines={1} >
-                                {item.comment}
+                                {item.uiComment}
                             </Text>
                             <Text style={styles[`${TransactionPage.displayName}-list-item-sub-container2-text2`]} numberOfLines={1}>
-                                {item.transactionTypeName ? item.transactionTypeName : ''}
+                                {item.uiSubType}
                             </Text>
                             <Text style={styles[`${TransactionPage.displayName}-list-item-sub-container2-text3`]} numberOfLines={1}>
-                                {getDate(item.timeStamp ? new Date(item.timeStamp) : new Date())}
+                                {item.uiDate}
                             </Text>
                             <Text style={styles[`${TransactionPage.displayName}-list-item-sub-container2-text4`]} numberOfLines={1}>
-                                {getTime(item.timeStamp ? new Date(item.timeStamp) : new Date())}
+                                {item.uiTime}
                             </Text>
                         </View>
                         <View style={styles[`${TransactionPage.displayName}-list-item-sub-container3`]}>
                             <View>
                                 <Text style={styles[`${TransactionPage.displayName}-list-item-sub-container3-text1`]} numberOfLines={1}>
-                                    {amountType.amountSymbol ? amountType.amountSymbol : ''}
+                                    {item.uiCurrency}
                                 </Text>
                             </View>
                             <View>
                                 <Text style={{
                                     ...styles[`${TransactionPage.displayName}-list-item-sub-container3-text2`]
                                 }} numberOfLines={1}>
-                                    {Math.floor(item.amount)}
+                                    {item.uiAmount}
                                 </Text>
                             </View>
                             <View>
                                 <Text style={styles[`${TransactionPage.displayName}-list-item-sub-container3-text3`]} numberOfLines={1}>
-                                    {`.${change}`}
+                                    {`.${item.uiAmountChange}`}
                                 </Text>
                             </View>
                             {item.selected &&
@@ -472,6 +509,14 @@ const TransactionPage: React.FC = (): ReactElement => {
                         fontSize: 25
                     }}>
                         &#128465;
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles[`${TransactionPage.displayName}-footer-container-sub-container`]} onPress={onDownloadPress}>
+                    <Text style={{
+                        fontSize: 27,
+                        bottom: 2
+                    }}>
+                        &#128194;
                     </Text>
                 </TouchableOpacity>
             </View>

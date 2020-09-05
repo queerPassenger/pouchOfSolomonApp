@@ -84,7 +84,7 @@ const UpdateTransaction: React.FC<UpdateTransactionProps> = (props): ReactElemen
                 state = selected.amountTypeId.toString();
                 break;
             case 'comment':
-                state = selected.comment;
+                state = selected.uiComment;
                 break;
             case 'dateTimeMode':
                 state;
