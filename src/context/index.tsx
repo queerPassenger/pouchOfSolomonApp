@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ReactElement, ReactNode } from 'react';
 import UserContext from './userContext';
 import AppContext, { getAppContextSchema, Tab as TabType } from './appContext';
-import  logger from '../utils/logger';
+import logger from '../utils/logger';
 import { request } from '../utils/request';
 import { getTransactionTypeColor } from '../utils/color';
 import { URL, API_PATH } from '../constants';
@@ -16,7 +16,7 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
     const [userId, updateUserId] = useState<string>(props.userId);
     const [googleUserInfo, updateGoogleUserInfo] = useState<any>(props.googleUserInfo);
     const [userActions, updateUserActions] = useState<any>(props.userActions);
-    const [loader, updateLoader] = useState<number>(0);    
+    const [loader, updateLoader] = useState<number>(0);
     const [tabs, updateTabs] = useState<Array<TabType>>([]);
     const [selectedTab, updateSelectedTab] = useState<string>('');
     const [transactionTypes, updateTransactionTypes] = useState<Array<any>>([]);
@@ -58,18 +58,14 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
             }
         }
         catch (err) {
-            logger.warn('Error getTransactionType' + err.toString());            
+            logger.warn('Error getTransactionType' + err.toString());
         }
     }
-    const modifyTransactionTypeList = (transactionTypes: Array<any>) => {
-        return transactionTypes.map(x => {
-            return {
-                ...x,
-                color: getTransactionTypeColor(x.transactionClassification)
-            }
-        })
-    }
-    
+    const modifyTransactionTypeList = (transactionTypes: Array<any>) => transactionTypes.map(x => ({
+        ...x,
+        color: getTransactionTypeColor(x.transactionClassification)
+    })).sort((next: any, current: any) => next.transactionTypeId < current.transactionTypeId ? -1: 1)
+
     const getAmounType = async (): Promise<void> => {
         try {
             let response = await request.get(URL.API_URL + API_PATH.GET_AMOUNT_TYPE.replace('{id}', userId), {});
@@ -80,7 +76,7 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
             }
         }
         catch (err) {
-            logger.warn('Error getAmounType' + err.toString()); 
+            logger.warn('Error getAmounType' + err.toString());
         }
     }
     const onTabSelect = (key: string) => {
@@ -90,13 +86,13 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
         }));
     }
     const showLoader = (): void => {
-        updateLoader(loader => loader+1);
+        updateLoader(loader => loader + 1);
     }
     const hideLoader = (all = false): void => {
-        if(all)
+        if (all)
             updateLoader(0);
         else
-            updateLoader(loader => loader-1);
+            updateLoader(loader => loader - 1);
     }
     return (
         <UserContext.Provider value={{

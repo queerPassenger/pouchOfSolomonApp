@@ -15,7 +15,8 @@ interface PickerContainerProps {
 }
 export interface OptionProps {
     value: string,
-    label: string
+    label: string,
+    color?: string
 }
 interface OptionMethodProps {
     i: number,
@@ -87,7 +88,12 @@ const MultiPicker: React.FC<PickerContainerProps> = (props): ReactElement => {
                 }}>
 
                 </View>
-                <Text style={styles[`${displayName}-multipicker-option-text`]}>
+                <Text 
+                    style={{
+                        ...styles[`${displayName}-multipicker-option-text`],
+                        ...(_props.value.color && {color: _props.value.color})
+                    }}
+                >
                     {_props.value.label}
                 </Text>
             </TouchableOpacity>

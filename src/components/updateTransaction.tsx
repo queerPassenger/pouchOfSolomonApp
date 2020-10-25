@@ -52,7 +52,7 @@ const UpdateTransaction: React.FC<UpdateTransactionProps> = (props): ReactElemen
 
             subTypes[insertInd] && subTypes[insertInd].push({
                 label: x.transactionTypeName,
-                value: x.transactionTypeId
+                value: x.transactionTypeId.toString()
             });
         });
         amountTypes = context.amountTypeList.map(x => {
@@ -215,6 +215,7 @@ const UpdateTransaction: React.FC<UpdateTransactionProps> = (props): ReactElemen
     }
     const Body = (): ReactElement => {
         let matchInd = types.indexOf(type);
+        console.log('SubTypes',subTypes[matchInd],subTypeId);
         return (
             <View style={styles[`${commonDisplayName}-body`]}>
                 <View style={styles[`${commonDisplayName}-body-part1`]}>

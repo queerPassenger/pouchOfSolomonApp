@@ -129,9 +129,11 @@ const FilterTransaction: React.FC<FilterTransactionProps> = (props): ReactElemen
                         mode='multi'
                         label='SUB TYPE'
                         value={subTypes}
-                        options={context.transactionTypeList.map(x => {
-                            return { label: x.transactionTypeName, value: x.transactionTypeId }
-                        })}
+                        options={context.transactionTypeList.map(x => ({
+                            label: x.transactionTypeName, 
+                            value: x.transactionTypeId,
+                            ...(x.color && {color: x.color})
+                        }))}
                         onChange={value => updateSubTypes(value)}
                     />
                  </View>

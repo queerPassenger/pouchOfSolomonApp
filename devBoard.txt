@@ -7,8 +7,6 @@ To Do
 
 App level
 To Do
-- Download Excel - Most Critical
-- DB Migration - Most Critical 
 - Toastr instead of Alert for success - Least Critical
 - Analyse Screen - High Charts - Critical
 - Photo upload both API and UI - Critical
@@ -16,6 +14,8 @@ To Do
 - Analyse whether how to reduce time taken to close the popUp after the popUp closes - Least Critical
 
 Done
+- Download Excel - Most Critical
+- DB Migration - Most Critical 
 - Color Pattern
 - Total Screen
 - Selecting a transaction on long press
