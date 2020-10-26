@@ -5,6 +5,12 @@ export interface Tab {
     name: string,
     selected: boolean
 }
+export interface ToastrType {
+    id: number,
+    msg: string,
+    color: string,
+    backgroundColor: string
+}
 export interface AppContextType {
     loader: number,
     tabs: Array<Tab>,
@@ -13,6 +19,7 @@ export interface AppContextType {
     transactionTypeList: Array<any>,
     amountTypeList: Array<any>,
     userActions: any,
+    toastr: Array<ToastrType>,
     showLoader: () => void,
     hideLoader: (param?: boolean) => void,
     updateTabs: (param: Array<Tab>) => void,
@@ -21,7 +28,8 @@ export interface AppContextType {
     updateTransactionTypeList: (param: Array<any>) => void,
     updateAmountTypeList: (param: Array<any>) => void,
     loadAppContext: () => Promise<any>,
-    updateUserActions: (param: any) => void
+    updateUserActions: (param: any) => void,
+    updateToastr: (param: any) => void
 }
 const appContextSchema: AppContextType = {
     loader: 0,
@@ -56,7 +64,7 @@ const appContextSchema: AppContextType = {
             }
         }
     },
-
+    toastr: [],
     showLoader: () => { },
     hideLoader: (boolean) => { },
     updateTabs: list => { },
@@ -65,7 +73,8 @@ const appContextSchema: AppContextType = {
     updateTransactionTypeList: list => { },
     updateAmountTypeList: list => { },
     loadAppContext: () => new Promise(resolve => resolve()),
-    updateUserActions: (param) => {} 
+    updateUserActions: (param) => {} ,
+    updateToastr: (param) => []
 };
 export const getAppContextSchema = (): AppContextType => {
     return { ...appContextSchema }

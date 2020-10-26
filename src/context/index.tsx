@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ReactElement, ReactNode } from 'react';
 import UserContext from './userContext';
-import AppContext, { getAppContextSchema, Tab as TabType } from './appContext';
+import AppContext, { getAppContextSchema, Tab as TabType, ToastrType } from './appContext';
 import logger from '../utils/logger';
 import { request } from '../utils/request';
 import { getTransactionTypeColor } from '../utils/color';
@@ -22,6 +22,7 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
     const [transactionTypes, updateTransactionTypes] = useState<Array<any>>([]);
     const [transactionTypeList, updateTransactionTypeList] = useState<Array<any>>([]);
     const [amountTypeList, updateAmountTypeList] = useState<Array<any>>([]);
+    const [toastr, updateToastr] = useState<Array<ToastrType>>([]);
 
     const loadAppContext = async (): Promise<void> => {
         showLoader();
@@ -109,6 +110,7 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
                 transactionTypeList,
                 amountTypeList,
                 userActions,
+                toastr,
                 showLoader,
                 hideLoader,
                 updateTabs,
@@ -117,7 +119,8 @@ const Context: React.FC<ContextProps> = (props): ReactElement => {
                 updateTransactionTypeList,
                 updateAmountTypeList,
                 loadAppContext,
-                updateUserActions
+                updateUserActions,
+                updateToastr
             }}>
                 {props.children}
             </AppContext.Provider>

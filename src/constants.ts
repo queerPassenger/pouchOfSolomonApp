@@ -45,10 +45,10 @@ export enum ALERT_MSG {
     CONFIRMATION_DELETE_TRANSACTION = 'Are you sure want to delete these items',
     UNMET_PREREQ_DELETE_TRANSACTION = 'Please select atleast one item before deleting',
     UNMET_ADD_TRANSACTION = 'Please fill all the fields before adding',
-    SUCCESS_ADD_TRANSACTION = 'Added successfully',
+    SUCCESS_ADD_TRANSACTION = 'Transaction added successfully',
     UNMET_PREREQ_UPDATE_TRANSACTION = 'Please select one item at a time to update',    
     UNMET_UPDATE_TRANSACTION = 'Please fill all the fields before updating',
-    SUCCESS_UPDATE_TRANSACTION = 'Updated successfully',
+    SUCCESS_UPDATE_TRANSACTION = 'Transaction updated successfully',
     CONFIRMATION_LOGOUT = 'Are you sure want to logout',
     UNMET_PREREQ_DOWNLOAD = 'No records available to download'
 };

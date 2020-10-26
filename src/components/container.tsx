@@ -6,6 +6,7 @@ import Login from './login';
 import Loader from './loader';
 import { GoogleResponse } from '../utils/google';
 import Settings from './settings';
+import Toastr from './toastr';
 
 type modeType = ('login' | 'application' | 'settings');
 interface ContainerProps {
@@ -64,6 +65,7 @@ const Container: React.FC<ContainerProps> = (props): ReactElement  => {
                     onLogout={props.onLogout}
                 />
                 {context.loader > 0 && <Loader />}
+                <Toastr />
             </Fragment>
 
         )

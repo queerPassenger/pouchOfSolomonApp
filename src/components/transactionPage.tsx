@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { URL, API_PATH, APP_DEFAULT_COLORS, ALERT_TITLE, ALERT_MSG, ALERT_BUTTON } from '../constants';
 import UserContext from '../context/userContext';
-import AppContext from '../context/appContext';
+import AppContext, { ToastrType } from '../context/appContext';
 import { request } from '../utils/request';
 import { getDate, getTime } from '../utils/calendar';
 import { styles } from '../style';
@@ -240,16 +240,17 @@ const TransactionPage: React.FC = (): ReactElement => {
             let response = await request.delete(URL.API_URL + API_PATH.DELETE_TRANSACTION.replace('{id}', context.userId), body, {})
             if (response && response.status && response.type === 'json' && response.data) {
                 if (response.data.status) {
-                    showAlert(
-                        ALERT_TITLE.SUCCESS,
-                        ALERT_MSG.SUCCESS_DELETE_TRANSACTION,
-                        [
-                            {
-                                text: ALERT_BUTTON.OK,
-                                onPress: loadData
-                            }
-                        ]
-                    );
+                    loadData();
+                    const toastr = {
+                        id: Date.now(),
+                        msg: ALERT_MSG.SUCCESS_DELETE_TRANSACTION,
+                        color: 'white',
+                        backgroundColor: 'green'
+                    };
+                    context.updateToastr((toastrI: Array<ToastrType>) => [...toastrI, toastr]);
+                    setTimeout(() => {
+                        context.updateToastr((toastrI: Array<ToastrType>) => toastrI.filter(x => x.id!== toastr.id));
+                    }, 2000);
                     return;
                 }
             }

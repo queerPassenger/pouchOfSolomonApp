@@ -718,6 +718,20 @@ const contactUs = {
         paddingRight: 3
     },
 }
+const toastr = {
+    'toastr-container' : {
+        position: 'absolute',
+        top: 20,
+        right: 20
+    },
+    'toastr-content-container' : {
+        padding: 7,
+        borderRadius: 3,
+        width: 250,
+        margin: 2,
+        elevation: 5
+    }
+}
 export const styles = StyleSheet.create<any>({
     ...application,
     ...appHeader,
@@ -735,5 +749,6 @@ export const styles = StyleSheet.create<any>({
     ...settings,
     ...settingsModalChildrenPage,
     ...about,
-    ...contactUs
+    ...contactUs,
+    ...toastr
 });

@@ -2,7 +2,7 @@ import React, { ReactElement, useState, useContext, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { styles } from '../style';
 import logger from '../utils/logger';
-import AppContext from '../context/appContext';
+import AppContext, { ToastrType } from '../context/appContext';
 import { URL, API_PATH, APP_DEFAULT_COLORS, ALERT_TITLE, ALERT_MSG, ALERT_BUTTON } from '../constants';
 import PickerContainer, { OptionProps } from './pickerContainer';
 import TextInputContainer from './textInputContainer';
@@ -160,17 +160,17 @@ const UpdateTransaction: React.FC<UpdateTransactionProps> = (props): ReactElemen
             const flag = await proceedToUpdate();
             updateLoader(false);
             if (flag) {
-                showAlert(
-                    ALERT_TITLE.SUCCESS,
-                    ALERT_MSG.SUCCESS_UPDATE_TRANSACTION,
-                    [
-                        {
-                            text: ALERT_BUTTON.OK,
-                            onPress: () => props.onBack(true)
-                        }
-                    ]
-                );
-
+                props.onBack(true);
+                const toastr = {
+                    id: Date.now(),
+                    msg: ALERT_MSG.SUCCESS_UPDATE_TRANSACTION,
+                    color: 'white',
+                    backgroundColor: 'green'
+                };
+                context.updateToastr((toastrI: Array<ToastrType>) => [...toastrI, toastr]);
+                setTimeout(() => {
+                    context.updateToastr((toastrI: Array<ToastrType>) => toastrI.filter(x => x.id!== toastr.id));
+                }, 2000);
             }
             else
                 showAlert(
@@ -215,7 +215,6 @@ const UpdateTransaction: React.FC<UpdateTransactionProps> = (props): ReactElemen
     }
     const Body = (): ReactElement => {
         let matchInd = types.indexOf(type);
-        console.log('SubTypes',subTypes[matchInd],subTypeId);
         return (
             <View style={styles[`${commonDisplayName}-body`]}>
                 <View style={styles[`${commonDisplayName}-body-part1`]}>

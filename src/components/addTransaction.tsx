@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { styles } from '../style';
 import logger from '../utils/logger';
-import AppContext from '../context/appContext';
+import AppContext, { ToastrType } from '../context/appContext';
 import { URL, API_PATH, APP_DEFAULT_COLORS, ALERT_TITLE, ALERT_MSG, ALERT_BUTTON } from '../constants';
 import PickerContainer, { OptionProps } from '../components/pickerContainer';
 import TextInputContainer from './textInputContainer';
@@ -165,17 +165,17 @@ const AddTransaction: React.FC<AddTransactionProps> = (props): ReactElement => {
             const flag = await proceedToAdd();
             updateLoader(false);
             if (flag) {
-                showAlert(
-                    ALERT_TITLE.SUCCESS,
-                    ALERT_MSG.SUCCESS_ADD_TRANSACTION,
-                    [
-                        {
-                            text: ALERT_BUTTON.OK,
-                            onPress: () => props.onBack(true)
-                        }
-                    ]
-                );
-
+                props.onBack(true);
+                const toastr = {
+                    id: Date.now(),
+                    msg: ALERT_MSG.SUCCESS_ADD_TRANSACTION,
+                    color: 'white',
+                    backgroundColor: 'green'
+                };
+                context.updateToastr((toastrI: Array<ToastrType>) => [...toastrI, toastr]);
+                setTimeout(() => {
+                    context.updateToastr((toastrI: Array<ToastrType>) => toastrI.filter(x => x.id!== toastr.id));
+                }, 2000);
             }
             else
                 showAlert(
