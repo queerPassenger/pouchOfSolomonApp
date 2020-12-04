@@ -19,7 +19,7 @@ const SwipeWrapper: React.FC<SwipeWrapperProps> = (props): ReactElement => {
             directionalOffsetThreshold: 80
         }}
         style={{
-            flex: 1,
+            flex: 1
         }}
     >
         {props.children}

@@ -271,7 +271,7 @@ const transactionPage = {
         borderRadius: 3
     },
     'transactionPage-total-open-body-item-sub-container-text': {
-        fontWeight: 'bold'        
+        fontWeight: 'bold'
     },
     'transactionPage-total-close-container': {
         position: 'absolute',
@@ -317,7 +317,7 @@ const filterTransaction = {
     'filterTransaction-container': {
         flexDirection: 'column',
         flex: 1
-    },    
+    },
 };
 const pickerContainer = {
     'pickerContainer-container': {
@@ -566,7 +566,7 @@ const settings = {
         justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: 20,
-        textAlign:'left'
+        textAlign: 'left'
     },
     'settings-userAction-img': {
         width: 14,
@@ -621,7 +621,7 @@ const settingsModalChildrenPage = {
         bottom: 2,
     },
 };
-const about = {    
+const about = {
     'about-container': {
         flex: 1,
         flexDirection: 'column'
@@ -670,7 +670,7 @@ const about = {
     'about-credit-text': {
         fontSize: 12,
         color: APP_DEFAULT_COLORS.THIRD_TXT
-    },    
+    },
 }
 const contactUs = {
     'contactUs-container': {
@@ -719,17 +719,67 @@ const contactUs = {
     },
 }
 const toastr = {
-    'toastr-container' : {
+    'toastr-container': {
         position: 'absolute',
         top: 20,
         right: 20
     },
-    'toastr-content-container' : {
+    'toastr-content-container': {
         padding: 7,
         borderRadius: 3,
         width: 250,
         margin: 2,
         elevation: 5
+    }
+}
+const transactionCharts = {
+    'transactionCharts-carousel-container': {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginHorizontal: 10
+    },
+    'transactionCharts-carousel-item-container': {
+        flex: 1
+    },
+    'transactionCharts-carousel-indicator-container': {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20
+    },
+    'transactionCharts-carousel-dots': {
+        width: 10,
+        height: 10,
+        borderRadius: 25,
+        marginHorizontal: 5,
+        backgroundColor: 'gray'
+    }
+}
+const pieChartComponent = {
+    'pieChartComponent-chart': {
+        flex: 4,
+        flexDirection: 'column',
+        alignContent: 'center'
+    },
+    'pieChartComponent-label-container': {
+        flex: 1
+    },
+    'pieChartComponent-label-item-container': {
+        flex: 1,
+        flexDirection: 'row',
+        marginVertical: 5
+    },
+    'pieChartComponent-label-item-indicator': {
+        borderRadius: 2,
+        width: 20,
+        height: 20,
+        marginHorizontal: 2
+    },
+    'pieChartComponent-label-item-text': {
+        textTransform: 'capitalize',
+        fontWeight: 'bold',
+        fontStyle: 'italic'
     }
 }
 export const styles = StyleSheet.create<any>({
@@ -741,6 +791,8 @@ export const styles = StyleSheet.create<any>({
     ...appTab,
     ...appTabView,
     ...transactionPage,
+    ...transactionCharts,
+    ...pieChartComponent,
     ...modalComponent,
     ...filterTransaction,
     ...pickerContainer,

@@ -15,6 +15,7 @@ import logger from '../utils/logger';
 import { showAlert } from '../utils/alert';
 import { getTransactionTypeColor } from '../utils/color';
 import { downloadExcel } from '../utils/excel';
+import TransactionCharts from './transactionCharts';
 
 interface ItemProps {
     transactionId: string,
@@ -45,7 +46,7 @@ interface ModalProps {
     flag: boolean,
     type: string
 }
-interface TotalType {
+export interface TotalType {
     label: string,
     value: number,
     valueColor: string
@@ -511,6 +512,14 @@ const TransactionPage: React.FC = (): ReactElement => {
                     }}>
                         &#128465;
                     </Text>
+                </TouchableOpacity>                
+                <TouchableOpacity style={styles[`${TransactionPage.displayName}-footer-container-sub-container`]} onPress={() => openModal('charts')}>
+                    <Text style={{
+                        fontSize: 27,
+                        bottom: 2
+                    }}>
+                       &#128202;
+                    </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles[`${TransactionPage.displayName}-footer-container-sub-container`]} onPress={onDownloadPress}>
                     <Text style={{
@@ -519,7 +528,7 @@ const TransactionPage: React.FC = (): ReactElement => {
                     }}>
                         &#128194;
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity>                
             </View>
         )
     }
@@ -562,6 +571,15 @@ const TransactionPage: React.FC = (): ReactElement => {
                         }}
                     />
                 );
+            case 'charts':
+                return (
+                    <TransactionCharts
+                        total={total}
+                        list={list}
+                        transactionTypeList={context.transactionTypeList}
+                        onBack={closeModal}
+                    />
+                )
             default:
                 return (null)
         }
